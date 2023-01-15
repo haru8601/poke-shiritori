@@ -1,5 +1,5 @@
 import { Poke } from "@/types/Poke";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 import TopPresenter from "./presenter";
 
 type Props = {
@@ -7,6 +7,16 @@ type Props = {
 };
 
 export default function Top({ pokedex }: Props) {
+  const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key != "Enter") {
+      return;
+    }
+    /* keyCodeは非推奨だが代替案があまりない(isComposing等は挙動が微妙)のでこのまま使用 */
+    if (e.keyCode == 13) {
+      handleSubmitPoke();
+    }
+  };
+
   const [sentPoke, setSentPoke] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
   const [myPokeList, setMyPokeList] = useState<string[]>([]);
@@ -57,12 +67,12 @@ export default function Top({ pokedex }: Props) {
   };
   return (
     <TopPresenter
-      pokedex={pokedex}
       targetPoke={sentPoke}
       pokeErr={pokeErr}
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
       onChangePoke={handleChangePoke}
+      onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
     />
   );
@@ -100,11 +110,3 @@ const getShiritoriWord = (pokeName: string): string => {
   }
   return "";
 };
-
-if (typeof window !== "undefined") {
-  const form = document && document.querySelector("#form");
-  form?.addEventListener("submit", (event) => {
-    event.stopPropagation();
-    event.preventDefault();
-  });
-}

@@ -1,22 +1,22 @@
-import { ChangeEvent, ComponentProps, Fragment } from "react";
-import Top from "./contaniner";
+import { ChangeEvent, KeyboardEvent } from "react";
 
-type Props = ComponentProps<typeof Top> & {
+type Props = {
   targetPoke: string;
   pokeErr: string;
   myPokeList: string[];
   enermyPokeList: string[];
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
 };
 
 export default function TopPresenter({
-  pokedex,
   targetPoke,
   pokeErr,
   myPokeList,
   enermyPokeList,
   onChangePoke,
+  onKeydown,
   onSubmitPoke,
 }: Props) {
   return (
@@ -25,8 +25,10 @@ export default function TopPresenter({
       <div className="text-center m-3">
         <p className="text-red-400 h-10">{pokeErr}</p>
         <input
+          id="poke-input"
           value={targetPoke}
           onChange={onChangePoke}
+          onKeyDown={onKeydown}
           placeholder="ポケモンを入力してください"
         />
         <input type="submit" onClick={onSubmitPoke} />
