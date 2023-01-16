@@ -1,6 +1,6 @@
 import { useSleep } from "@/hook/useTimer";
 import { Poke } from "@/types/Poke";
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import TopPresenter from "./presenter";
 
 type Props = {
@@ -8,6 +8,13 @@ type Props = {
 };
 
 export default function Top({ pokedex }: Props) {
+  const [targetPoke, setTargetPoke] = useState<string>("");
+  const [sentPoke, setSentPoke] = useState<string>("");
+  const [pokeErr, setPokeErr] = useState<string>("");
+  const [myPokeList, setMyPokeList] = useState<string[]>([]);
+  const [enermyPokeList, setEnermyPokeList] = useState<string[]>([]);
+  const { sleep } = useSleep();
+
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
       return;
@@ -18,29 +25,29 @@ export default function Top({ pokedex }: Props) {
     }
   };
 
-  const [targetPoke, setTargetPoke] = useState<string>("");
-  const [sentPoke, setSentPoke] = useState<string>("");
-  const [pokeErr, setPokeErr] = useState<string>("");
-  const [myPokeList, setMyPokeList] = useState<string[]>([]);
-  const [enermyPokeList, setEnermyPokeList] = useState<string[]>([]);
-  const { sleep } = useSleep();
+  useEffect(() => {
+    /* 最初のワード設定 */
+    setTargetPoke(
+      pokedex[Math.floor(Math.random() * pokedex.length)].name.japanese
+    );
+    // 初回のみ実行
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChangePoke = (e: ChangeEvent<HTMLInputElement>) => {
     setSentPoke(e.target.value);
   };
   const handleSubmitPoke = () => {
-    const candidateNameList: string[] = [];
     /* しりとりになっているかのチェック */
-    if (enermyPokeList.length) {
-      const enermyLastWord = getShiritoriWord(
-        enermyPokeList[enermyPokeList.length - 1]
-      );
-      if (!sentPoke.startsWith(enermyLastWord)) {
-        setPokeErr(`${enermyLastWord}から始まる名前にしてください`);
-        return;
-      }
+    const target =
+      (enermyPokeList.length && enermyPokeList[enermyPokeList.length - 1]) ||
+      targetPoke;
+    const enermyLastWord = getShiritoriWord(target);
+    if (!sentPoke.startsWith(enermyLastWord)) {
+      setPokeErr(`${enermyLastWord}から始まる名前にしてください`);
+      return;
     }
-    /* 存在するかチェック */
+    /* 一覧に存在するかチェック */
     if (!pokedex.find((poke) => poke.name.japanese == sentPoke)) {
       setPokeErr("存在しないポケモンです");
       return;
@@ -56,11 +63,9 @@ export default function Top({ pokedex }: Props) {
 
     const lastWord = getShiritoriWord(sentPoke);
     /* ポケ一覧からアンサーの候補を取得 */
-    pokedex.forEach((poke) => {
-      if (poke.name.japanese.startsWith(lastWord)) {
-        candidateNameList.push(poke.name.japanese);
-      }
-    });
+    const candidateNameList = pokedex
+      .filter((poke) => poke.name.japanese.startsWith(lastWord))
+      .map((poke) => poke.name.japanese);
     const tmpEnermyPokeList = Array.from(enermyPokeList);
     /* 候補からランダムに選択 */
     const tmpTarget =
@@ -70,6 +75,7 @@ export default function Top({ pokedex }: Props) {
     setSentPoke("");
     (async () => {
       await sleep(3000);
+      /* 一定時間後に返答 */
       setTargetPoke(tmpTarget);
       setEnermyPokeList(tmpEnermyPokeList);
     })();
