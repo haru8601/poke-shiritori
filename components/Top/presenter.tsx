@@ -2,7 +2,7 @@ import { Poke } from "@/types/Poke";
 import { ChangeEvent, KeyboardEvent } from "react";
 
 type Props = {
-  pokedex: Poke[];
+  pokeList: Poke[];
   sentPoke: string;
   targetPoke: string;
   pokeErr: string;
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function TopPresenter({
-  pokedex,
+  pokeList,
   sentPoke,
   targetPoke,
   pokeErr,
@@ -40,7 +40,7 @@ export default function TopPresenter({
           placeholder="ポケモンを入力してください"
         />
         <datalist id="poke-list">
-          {pokedex.map((poke) => {
+          {pokeList.map((poke) => {
             return <option key={poke.id}>{poke.name.japanese}</option>;
           })}
         </datalist>

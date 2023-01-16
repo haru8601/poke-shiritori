@@ -4,16 +4,28 @@ import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import TopPresenter from "./presenter";
 
 type Props = {
-  pokedex: Poke[];
+  pokeList: Poke[];
 };
 
-export default function Top({ pokedex }: Props) {
+export default function Top({ pokeList }: Props) {
   const [targetPoke, setTargetPoke] = useState<string>("");
   const [sentPoke, setSentPoke] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
   const [myPokeList, setMyPokeList] = useState<string[]>([]);
   const [enermyPokeList, setEnermyPokeList] = useState<string[]>([]);
   const { sleep } = useSleep();
+
+  useEffect(() => {
+    /* 最初のワード設定 */
+    let firstPokeName = "";
+    while (!firstPokeName.length || firstPokeName.endsWith("ン")) {
+      firstPokeName =
+        pokeList[Math.floor(Math.random() * pokeList.length)].name.japanese;
+    }
+    setTargetPoke(firstPokeName);
+    // 初回のみ実行
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
@@ -24,15 +36,6 @@ export default function Top({ pokedex }: Props) {
       handleSubmitPoke();
     }
   };
-
-  useEffect(() => {
-    /* 最初のワード設定 */
-    setTargetPoke(
-      pokedex[Math.floor(Math.random() * pokedex.length)].name.japanese
-    );
-    // 初回のみ実行
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleChangePoke = (e: ChangeEvent<HTMLInputElement>) => {
     setSentPoke(e.target.value);
@@ -48,7 +51,7 @@ export default function Top({ pokedex }: Props) {
       return;
     }
     /* 一覧に存在するかチェック */
-    if (!pokedex.find((poke) => poke.name.japanese == sentPoke)) {
+    if (!pokeList.find((poke) => poke.name.japanese == sentPoke)) {
       setPokeErr("存在しないポケモンです");
       return;
     }
@@ -63,7 +66,7 @@ export default function Top({ pokedex }: Props) {
 
     const lastWord = getShiritoriWord(sentPoke);
     /* ポケ一覧からアンサーの候補を取得 */
-    const candidateNameList = pokedex
+    const candidateNameList = pokeList
       .filter((poke) => poke.name.japanese.startsWith(lastWord))
       .map((poke) => poke.name.japanese);
     const tmpEnermyPokeList = Array.from(enermyPokeList);
@@ -82,7 +85,7 @@ export default function Top({ pokedex }: Props) {
   };
   return (
     <TopPresenter
-      pokedex={pokedex}
+      pokeList={pokeList}
       targetPoke={targetPoke}
       sentPoke={sentPoke}
       pokeErr={pokeErr}
