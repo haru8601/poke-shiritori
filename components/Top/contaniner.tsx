@@ -13,6 +13,7 @@ export default function Top({ pokeList }: Props) {
   const [pokeErr, setPokeErr] = useState<string>("");
   const [myPokeList, setMyPokeList] = useState<string[]>([]);
   const [enermyPokeList, setEnermyPokeList] = useState<string[]>([]);
+  const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const { sleep } = useSleep();
 
   useEffect(() => {
@@ -40,12 +41,14 @@ export default function Top({ pokeList }: Props) {
   const handleChangePoke = (e: ChangeEvent<HTMLInputElement>) => {
     setSentPoke(e.target.value);
   };
+
   const handleSubmitPoke = () => {
+    /******** バリデーション ********/
     /* しりとりになっているかのチェック */
-    const target =
+    const enermyLastWord = getShiritoriWord(
       (enermyPokeList.length && enermyPokeList[enermyPokeList.length - 1]) ||
-      targetPoke;
-    const enermyLastWord = getShiritoriWord(target);
+        targetPoke
+    );
     if (!sentPoke.startsWith(enermyLastWord)) {
       setPokeErr(`${enermyLastWord}から始まる名前にしてください`);
       return;
@@ -55,11 +58,13 @@ export default function Top({ pokeList }: Props) {
       setPokeErr("存在しないポケモンです");
       return;
     }
+    /****************/
 
+    setMyTurn(false);
     setPokeErr("");
     setTargetPoke(sentPoke);
 
-    /* 記録として配列に格納 */
+    /* 履歴を配列に格納 */
     const tmpMyPokeList = Array.from(myPokeList);
     tmpMyPokeList.push(sentPoke);
     setMyPokeList(tmpMyPokeList);
@@ -76,16 +81,19 @@ export default function Top({ pokeList }: Props) {
     tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
     setSentPoke("");
+
     (async () => {
       await sleep(3000);
       /* 一定時間後に返答 */
       setTargetPoke(tmpTarget);
       setEnermyPokeList(tmpEnermyPokeList);
+      setMyTurn(true);
     })();
   };
   return (
     <TopPresenter
       pokeList={pokeList}
+      isMyTurn={isMyTurn}
       targetPoke={targetPoke}
       sentPoke={sentPoke}
       pokeErr={pokeErr}
