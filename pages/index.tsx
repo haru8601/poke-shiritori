@@ -3,7 +3,7 @@ import { Poke } from "@/types/Poke";
 import fs from "fs";
 
 export default function TopPage(props: { pokedex: Poke[] }) {
-  return <Top pokedex={props.pokedex}/>;
+  return <Top pokedex={props.pokedex} />;
 }
 
 export async function getServerSideProps() {

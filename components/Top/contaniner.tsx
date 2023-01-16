@@ -1,3 +1,4 @@
+import { useSleep } from "@/hook/useTimer";
 import { Poke } from "@/types/Poke";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import TopPresenter from "./presenter";
@@ -17,10 +18,13 @@ export default function Top({ pokedex }: Props) {
     }
   };
 
+  const [targetPoke, setTargetPoke] = useState<string>("");
   const [sentPoke, setSentPoke] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
   const [myPokeList, setMyPokeList] = useState<string[]>([]);
   const [enermyPokeList, setEnermyPokeList] = useState<string[]>([]);
+  const { sleep } = useSleep();
+
   const handleChangePoke = (e: ChangeEvent<HTMLInputElement>) => {
     setSentPoke(e.target.value);
   };
@@ -43,31 +47,38 @@ export default function Top({ pokedex }: Props) {
     }
 
     setPokeErr("");
+    setTargetPoke(sentPoke);
+
     /* 記録として配列に格納 */
-    const tmpMyPokeList = myPokeList;
+    const tmpMyPokeList = Array.from(myPokeList);
     tmpMyPokeList.push(sentPoke);
     setMyPokeList(tmpMyPokeList);
 
     const lastWord = getShiritoriWord(sentPoke);
-    console.log(lastWord);
     /* ポケ一覧からアンサーの候補を取得 */
     pokedex.forEach((poke) => {
       if (poke.name.japanese.startsWith(lastWord)) {
         candidateNameList.push(poke.name.japanese);
       }
     });
-    const tmpEnermyPokeList = enermyPokeList;
+    const tmpEnermyPokeList = Array.from(enermyPokeList);
     /* 候補からランダムに選択 */
-    tmpEnermyPokeList.push(
-      candidateNameList[Math.floor(Math.random() * candidateNameList.length)]
-    );
-    setEnermyPokeList(tmpEnermyPokeList);
+    const tmpTarget =
+      candidateNameList[Math.floor(Math.random() * candidateNameList.length)];
+    tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
     setSentPoke("");
+    (async () => {
+      await sleep(3000);
+      setTargetPoke(tmpTarget);
+      setEnermyPokeList(tmpEnermyPokeList);
+    })();
   };
   return (
     <TopPresenter
-      targetPoke={sentPoke}
+      pokedex={pokedex}
+      targetPoke={targetPoke}
+      sentPoke={sentPoke}
       pokeErr={pokeErr}
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
