@@ -58,6 +58,12 @@ export default function Top({ pokeList }: Props) {
       setPokeErr("存在しないポケモンです");
       return;
     }
+
+    /* 使用済みかのチェック */
+    if (myPokeList.concat(enermyPokeList).find((poke) => poke == sentPoke)) {
+      setPokeErr("このポケモンは使用済みです");
+      return;
+    }
     /****************/
 
     setMyTurn(false);
