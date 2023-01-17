@@ -1,3 +1,4 @@
+import { usePokeApi } from "@/hook/usePokeApi";
 import { useSleep } from "@/hook/useTimer";
 import { Poke } from "@/types/Poke";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
@@ -8,22 +9,22 @@ type Props = {
 };
 
 export default function Top({ pokeList }: Props) {
-  const [targetPoke, setTargetPoke] = useState<string>("");
-  const [sentPoke, setSentPoke] = useState<string>("");
+  const [targetPoke, setTargetPoke] = useState<Poke>();
+  const [sentPokeName, setSentPokeName] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
-  const [myPokeList, setMyPokeList] = useState<string[]>([]);
-  const [enermyPokeList, setEnermyPokeList] = useState<string[]>([]);
+  const [myPokeList, setMyPokeList] = useState<Poke[]>([]);
+  const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const { sleep } = useSleep();
+  const { fetchPoke } = usePokeApi();
 
   useEffect(() => {
     /* 最初のワード設定 */
-    let firstPokeName = "";
-    while (!firstPokeName.length || firstPokeName.endsWith("ン")) {
-      firstPokeName =
-        pokeList[Math.floor(Math.random() * pokeList.length)].name.japanese;
+    let firstPoke: Poke | undefined = void 0;
+    while (!firstPoke || firstPoke.name.japanese.endsWith("ン")) {
+      firstPoke = pokeList[Math.floor(Math.random() * pokeList.length)];
     }
-    setTargetPoke(firstPokeName);
+    firstPoke && setTargetPoke(firstPoke);
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -39,28 +40,34 @@ export default function Top({ pokeList }: Props) {
   };
 
   const handleChangePoke = (e: ChangeEvent<HTMLInputElement>) => {
-    setSentPoke(e.target.value);
+    setSentPokeName(e.target.value);
   };
 
   const handleSubmitPoke = () => {
     /******** バリデーション ********/
     /* しりとりになっているかのチェック */
     const enermyLastWord = getShiritoriWord(
-      (enermyPokeList.length && enermyPokeList[enermyPokeList.length - 1]) ||
-        targetPoke
+      (enermyPokeList.length &&
+        enermyPokeList[enermyPokeList.length - 1].name.japanese) ||
+        targetPoke?.name.japanese ||
+        ""
     );
-    if (!sentPoke.startsWith(enermyLastWord)) {
+    if (!sentPokeName.startsWith(enermyLastWord)) {
       setPokeErr(`${enermyLastWord}から始まる名前にしてください`);
       return;
     }
     /* 一覧に存在するかチェック */
-    if (!pokeList.find((poke) => poke.name.japanese == sentPoke)) {
+    if (!pokeList.find((poke) => poke.name.japanese == sentPokeName)) {
       setPokeErr("存在しないポケモンです");
       return;
     }
 
     /* 使用済みかのチェック */
-    if (myPokeList.concat(enermyPokeList).find((poke) => poke == sentPoke)) {
+    if (
+      myPokeList
+        .concat(enermyPokeList)
+        .find((poke) => poke.name.japanese == sentPokeName)
+    ) {
       setPokeErr("このポケモンは使用済みです");
       return;
     }
@@ -68,25 +75,42 @@ export default function Top({ pokeList }: Props) {
 
     setMyTurn(false);
     setPokeErr("");
-    setTargetPoke(sentPoke);
+    const sentPoke = pokeList.find(
+      (poke) => poke.name.japanese == sentPokeName
+    )!;
+    (async () => {
+      const sentPokeResponse = await fetchPoke(sentPoke.id);
+      console.log(sentPokeResponse);
+      const imgPath =
+        sentPokeResponse.sprites.other["official-artwork"].front_default;
+      sentPoke.imgPath = imgPath || "";
+
+      setTargetPoke(sentPoke);
+    })();
 
     /* 履歴を配列に格納 */
     const tmpMyPokeList = Array.from(myPokeList);
     tmpMyPokeList.push(sentPoke);
     setMyPokeList(tmpMyPokeList);
 
-    const lastWord = getShiritoriWord(sentPoke);
+    const lastWord = getShiritoriWord(sentPokeName);
     /* ポケ一覧からアンサーの候補を取得 */
-    const candidateNameList = pokeList
-      .filter((poke) => poke.name.japanese.startsWith(lastWord))
-      .map((poke) => poke.name.japanese);
+    const candidateList = pokeList.filter((poke) =>
+      poke.name.japanese.startsWith(lastWord)
+    );
     const tmpEnermyPokeList = Array.from(enermyPokeList);
     /* 候補からランダムに選択 */
     const tmpTarget =
-      candidateNameList[Math.floor(Math.random() * candidateNameList.length)];
+      candidateList[Math.floor(Math.random() * candidateList.length)];
+    (async () => {
+      const tmpTargetResponse = await fetchPoke(tmpTarget.id);
+      const imgPath =
+        tmpTargetResponse.sprites.other["official-artwork"].front_default;
+      tmpTarget.imgPath = imgPath || "";
+    })();
     tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
-    setSentPoke("");
+    setSentPokeName("");
 
     (async () => {
       await sleep(3000);
@@ -101,7 +125,7 @@ export default function Top({ pokeList }: Props) {
       pokeList={pokeList}
       isMyTurn={isMyTurn}
       targetPoke={targetPoke}
-      sentPoke={sentPoke}
+      sentPokeName={sentPokeName}
       pokeErr={pokeErr}
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}

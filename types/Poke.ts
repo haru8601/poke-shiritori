@@ -4,6 +4,7 @@ export type Poke = {
   name: PokeName;
   type: PokeType[];
   base: PokeBase;
+  imgPath: string;
 };
 
 /* 言語別の名前 */
@@ -34,7 +35,6 @@ type PokeType =
   | "Dark"
   | "Steel"
   | "Fairy";
-
 
 /* 種族値 */
 type PokeBase = {
