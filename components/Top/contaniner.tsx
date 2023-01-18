@@ -1,14 +1,13 @@
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useSleep } from "@/hook/useTimer";
+import TopPage from "@/pages";
 import { Poke } from "@/types/Poke";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import TopPresenter from "./presenter";
 
-type Props = {
-  pokeList: Poke[];
-};
+type Props = React.ComponentProps<typeof TopPage>;
 
-export default function Top({ pokeList }: Props) {
+export default function Top({ pokeList, firstPoke }: Props) {
   const [targetPoke, setTargetPoke] = useState<Poke>();
   const [sentPokeName, setSentPokeName] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
@@ -22,10 +21,6 @@ export default function Top({ pokeList }: Props) {
   useEffect(() => {
     (async () => {
       /* 最初のポケ設定 */
-      let firstPoke: Poke | undefined = void 0;
-      while (!firstPoke || firstPoke.name.japanese.endsWith("ン")) {
-        firstPoke = pokeList[Math.floor(Math.random() * pokeList.length)];
-      }
       const tmpTargetResponse = await fetchPoke(firstPoke.id);
       const imgPath =
         tmpTargetResponse.sprites.other["official-artwork"].front_default;
@@ -54,7 +49,7 @@ export default function Top({ pokeList }: Props) {
     setSentPokeName(e.target.value);
   };
 
-  const handleSubmitPoke = () => {
+  const handleSubmitPoke = async () => {
     /******** バリデーション ********/
     /* しりとりになっているかのチェック */
     const enermyLastWord = getShiritoriWord(
@@ -89,18 +84,16 @@ export default function Top({ pokeList }: Props) {
     const sentPoke = pokeList.find(
       (poke) => poke.name.japanese == sentPokeName
     )!;
-    (async () => {
-      const sentPokeResponse = await fetchPoke(sentPoke.id);
-      const imgPath =
-        sentPokeResponse.sprites.other["official-artwork"].front_default;
-      sentPoke.imgPath = imgPath || "";
-      // tmp
-      if (!sentPoke.type) {
-        sentPoke.type = ["Bug"];
-      }
+    const sentPokeResponse = await fetchPoke(sentPoke.id);
+    const imgPath =
+      sentPokeResponse.sprites.other["official-artwork"].front_default;
+    sentPoke.imgPath = imgPath || "";
+    // tmp
+    if (!sentPoke.type) {
+      sentPoke.type = ["Bug"];
+    }
 
-      setTargetPoke(sentPoke);
-    })();
+    setTargetPoke(sentPoke);
 
     /* 履歴を配列に格納 */
     const tmpMyPokeList = Array.from(myPokeList);
@@ -116,26 +109,22 @@ export default function Top({ pokeList }: Props) {
     /* 候補からランダムに選択 */
     const tmpTarget =
       candidateList[Math.floor(Math.random() * candidateList.length)];
-    (async () => {
-      const tmpTargetResponse = await fetchPoke(tmpTarget.id);
-      const imgPath =
-        tmpTargetResponse.sprites.other["official-artwork"].front_default;
-      tmpTarget.imgPath = imgPath || "";
-      if (!tmpTarget.type) {
-        tmpTarget.type = ["Bug"];
-      }
-    })();
+    const tmpTargetResponse = await fetchPoke(tmpTarget.id);
+    const enermyImgPath =
+      tmpTargetResponse.sprites.other["official-artwork"].front_default;
+    tmpTarget.imgPath = enermyImgPath || "";
+    if (!tmpTarget.type) {
+      tmpTarget.type = ["Bug"];
+    }
     tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
     setSentPokeName("");
 
-    (async () => {
-      await sleep(3000);
-      /* 一定時間後に返答 */
-      setTargetPoke(tmpTarget);
-      setEnermyPokeList(tmpEnermyPokeList);
-      setMyTurn(true);
-    })();
+    await sleep(3000);
+    /* 一定時間後に返答 */
+    setTargetPoke(tmpTarget);
+    setEnermyPokeList(tmpEnermyPokeList);
+    setMyTurn(true);
   };
   return (
     <TopPresenter

@@ -85,8 +85,8 @@ export default function TopPresenter({
       >
         <Stack
           style={{ width: "40%" }}
-          className={`text-center ${
-            isMyTurn ? "border border-3 border-primary rounded" : ""
+          className={`text-center border border-3 rounded ${
+            isMyTurn ? "border-primary" : ""
           }`}
         >
           {myPokeList
@@ -94,13 +94,15 @@ export default function TopPresenter({
               return (
                 <Fragment key={index}>
                   <div
-                    className="border-bottom"
+                    className="border-bottom d-flex justify-content-center"
                     style={{
-                      height: "50px",
-                      backgroundColor: pokeColorMap[myPoke?.type[0]],
+                      height: "40px",
+                      backgroundColor: pokeColorMap[myPoke.type[0]],
                     }}
                   >
-                    <span>{myPoke.name.japanese}</span>
+                    <span style={{ lineHeight: "40px" }}>
+                      {myPoke.name.japanese}
+                    </span>
                     {myPoke.imgPath && (
                       <Image
                         className="inline-block"
@@ -118,8 +120,8 @@ export default function TopPresenter({
         </Stack>
         <Stack
           style={{ width: "40%" }}
-          className={`text-center ${
-            isMyTurn ? "" : "border border-primary rounded"
+          className={`text-center border border-3 rounded ${
+            isMyTurn ? "" : "border-primary "
           }`}
         >
           {enermyPokeList
@@ -129,11 +131,13 @@ export default function TopPresenter({
                   <div
                     className="border-bottom"
                     style={{
-                      height: "50px",
-                      backgroundColor: pokeColorMap[enermyPoke?.type[0]],
+                      height: "40px",
+                      backgroundColor: pokeColorMap[enermyPoke.type[0]],
                     }}
                   >
-                    <span>{enermyPoke.name.japanese}</span>
+                    <span style={{ lineHeight: "40px" }}>
+                      {enermyPoke.name.japanese}
+                    </span>
                     {enermyPoke.imgPath && (
                       <Image
                         className="inline-block"

@@ -3,7 +3,12 @@ import Top from "@/components/Top/contaniner";
 import { Poke } from "@/types/Poke";
 import fs from "fs";
 
-export default function TopPage(props: { pokeList: Poke[] }) {
+type Props = {
+  pokeList: Poke[];
+  firstPoke: Poke;
+};
+
+export default function TopPage(props: Props) {
   return (
     <>
       <Head>
@@ -16,19 +21,22 @@ export default function TopPage(props: { pokeList: Poke[] }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main style={{ height: "100vh" }} className="m-4">
-        <Top pokeList={props.pokeList} />
+        <Top pokeList={props.pokeList} firstPoke={props.firstPoke} />
       </main>
     </>
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(): Promise<{ props: Props }> {
   /* ポケ一覧取得 */
   const pokeList = JSON.parse(
     fs.readFileSync("const/pokedex.json").toString()
   ) as Poke[];
+  /* 最初のポケ設定 */
+  let firstPoke: Poke | undefined = void 0;
+  while (!firstPoke || firstPoke.name.japanese.endsWith("ン")) {
+    firstPoke = pokeList[Math.floor(Math.random() * pokeList.length)];
+  }
 
-  return {
-    props: { pokeList },
-  };
+  return { props: { pokeList, firstPoke } };
 }
