@@ -16,7 +16,7 @@ type PokeName = {
 };
 
 /* タイプ */
-type PokeType =
+export type PokeType =
   | "Normal"
   | "Fire"
   | "Water"

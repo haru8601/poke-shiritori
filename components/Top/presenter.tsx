@@ -91,8 +91,8 @@ export default function TopPresenter({
                     {enermyPoke.imgPath && (
                       <Image
                         className="inline-block"
-                        height={30}
-                        width={30}
+                        height={50}
+                        width={50}
                         src={enermyPoke.imgPath}
                         alt=""
                       />

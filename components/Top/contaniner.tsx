@@ -80,7 +80,6 @@ export default function Top({ pokeList }: Props) {
     )!;
     (async () => {
       const sentPokeResponse = await fetchPoke(sentPoke.id);
-      console.log(sentPokeResponse);
       const imgPath =
         sentPokeResponse.sprites.other["official-artwork"].front_default;
       sentPoke.imgPath = imgPath || "";
