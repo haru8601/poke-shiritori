@@ -15,7 +15,7 @@ export default function TopPage(props: { pokeList: Poke[] }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="p-8 h-screen flex flex-col">
+      <main style={{ height: "100vh" }} className="m-4">
         <Top pokeList={props.pokeList} />
       </main>
     </>
@@ -27,6 +27,7 @@ export async function getServerSideProps() {
   const pokeList = JSON.parse(
     fs.readFileSync("const/pokedex.json").toString()
   ) as Poke[];
+
   return {
     props: { pokeList },
   };

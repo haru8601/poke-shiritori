@@ -18,13 +18,24 @@ export default function Top({ pokeList }: Props) {
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
 
+  /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
-    /* 最初のワード設定 */
-    let firstPoke: Poke | undefined = void 0;
-    while (!firstPoke || firstPoke.name.japanese.endsWith("ン")) {
-      firstPoke = pokeList[Math.floor(Math.random() * pokeList.length)];
-    }
-    firstPoke && setTargetPoke(firstPoke);
+    (async () => {
+      /* 最初のポケ設定 */
+      let firstPoke: Poke | undefined = void 0;
+      while (!firstPoke || firstPoke.name.japanese.endsWith("ン")) {
+        firstPoke = pokeList[Math.floor(Math.random() * pokeList.length)];
+      }
+      const tmpTargetResponse = await fetchPoke(firstPoke.id);
+      const imgPath =
+        tmpTargetResponse.sprites.other["official-artwork"].front_default;
+      firstPoke.imgPath = imgPath || "";
+      // tmp
+      if (!firstPoke.type) {
+        firstPoke.type = ["Bug"];
+      }
+      setTargetPoke(firstPoke);
+    })();
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -83,6 +94,10 @@ export default function Top({ pokeList }: Props) {
       const imgPath =
         sentPokeResponse.sprites.other["official-artwork"].front_default;
       sentPoke.imgPath = imgPath || "";
+      // tmp
+      if (!sentPoke.type) {
+        sentPoke.type = ["Bug"];
+      }
 
       setTargetPoke(sentPoke);
     })();
@@ -106,6 +121,9 @@ export default function Top({ pokeList }: Props) {
       const imgPath =
         tmpTargetResponse.sprites.other["official-artwork"].front_default;
       tmpTarget.imgPath = imgPath || "";
+      if (!tmpTarget.type) {
+        tmpTarget.type = ["Bug"];
+      }
     })();
     tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
@@ -123,7 +141,7 @@ export default function Top({ pokeList }: Props) {
     <TopPresenter
       pokeList={pokeList}
       isMyTurn={isMyTurn}
-      targetPoke={targetPoke}
+      targetPoke={targetPoke!}
       sentPokeName={sentPokeName}
       pokeErr={pokeErr}
       myPokeList={myPokeList}
