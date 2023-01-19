@@ -8,10 +8,11 @@ type Props = {
   pokeList: Poke[];
   isMyTurn: boolean;
   sentPokeName: string;
-  targetPoke: Poke | undefined;
+  targetPoke: Poke;
   pokeErr: string;
   myPokeList: Poke[];
   enermyPokeList: Poke[];
+  finishType: "" | "win" | "lose";
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
@@ -25,6 +26,7 @@ export default function TopPresenter({
   pokeErr,
   myPokeList,
   enermyPokeList,
+  finishType,
   onChangePoke,
   onKeydown,
   onSubmitPoke,
@@ -54,6 +56,8 @@ export default function TopPresenter({
         </div>
       )}
       <p className="text-danger">{pokeErr}</p>
+      {finishType != "" &&
+        (finishType == "win" ? <p>You Win!</p> : <p>You Lose</p>)}
       <InputGroup>
         <Form.Control
           id="poke-input"
@@ -62,7 +66,7 @@ export default function TopPresenter({
           onChange={onChangePoke}
           onKeyDown={onKeydown}
           placeholder="ポケモンを入力してください"
-          disabled={!isMyTurn}
+          disabled={!isMyTurn || finishType != ""}
         />
         <datalist id="poke-list">
           {pokeList.map((poke) => {
@@ -73,7 +77,7 @@ export default function TopPresenter({
           variant="primary"
           type="submit"
           onClick={onSubmitPoke}
-          disabled={!isMyTurn}
+          disabled={!isMyTurn || finishType != ""}
         >
           送信
         </Button>
@@ -97,7 +101,8 @@ export default function TopPresenter({
                     className="border-bottom d-flex justify-content-center"
                     style={{
                       height: "40px",
-                      backgroundColor: pokeColorMap[myPoke.type[0]],
+                      backgroundColor:
+                        myPoke.type && pokeColorMap[myPoke.type[0]],
                     }}
                   >
                     <span style={{ lineHeight: "40px" }}>
@@ -132,7 +137,8 @@ export default function TopPresenter({
                     className="border-bottom"
                     style={{
                       height: "40px",
-                      backgroundColor: pokeColorMap[enermyPoke.type[0]],
+                      backgroundColor:
+                        enermyPoke.type && pokeColorMap[enermyPoke.type[0]],
                     }}
                   >
                     <span style={{ lineHeight: "40px" }}>

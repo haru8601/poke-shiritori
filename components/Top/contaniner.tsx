@@ -14,13 +14,15 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [myPokeList, setMyPokeList] = useState<Poke[]>([]);
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
+  const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
+  const usedPokeNameList: string[] = [firstPoke.name.japanese];
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
     (async () => {
-      /* 最初のポケ設定 */
+      /* 最初のポケ画像取得 */
       const tmpTargetResponse = await fetchPoke(firstPoke.id);
       const imgPath =
         tmpTargetResponse.sprites.other["official-artwork"].front_default;
@@ -29,6 +31,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       if (!firstPoke.type) {
         firstPoke.type = ["Bug"];
       }
+      console.log(firstPoke.imgPath);
       setTargetPoke(firstPoke);
     })();
     // 初回のみ実行
@@ -55,8 +58,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const enermyLastWord = getShiritoriWord(
       (enermyPokeList.length &&
         enermyPokeList[enermyPokeList.length - 1].name.japanese) ||
-        targetPoke?.name.japanese ||
-        ""
+        firstPoke.name.japanese
     );
     if (!sentPokeName.startsWith(enermyLastWord)) {
       setPokeErr(`${enermyLastWord}から始まる名前にしてください`);
@@ -69,11 +71,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     }
 
     /* 使用済みかのチェック */
-    if (
-      myPokeList
-        .concat(enermyPokeList)
-        .find((poke) => poke.name.japanese == sentPokeName)
-    ) {
+    if (usedPokeNameList.find((pokeName) => pokeName == sentPokeName)) {
       setPokeErr("このポケモンは使用済みです");
       return;
     }
@@ -84,6 +82,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const sentPoke = pokeList.find(
       (poke) => poke.name.japanese == sentPokeName
     )!;
+    usedPokeNameList.push(sentPoke.name.japanese);
     const sentPokeResponse = await fetchPoke(sentPoke.id);
     const imgPath =
       sentPokeResponse.sprites.other["official-artwork"].front_default;
@@ -99,29 +98,48 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const tmpMyPokeList = Array.from(myPokeList);
     tmpMyPokeList.push(sentPoke);
     setMyPokeList(tmpMyPokeList);
+    if (sentPoke.name.japanese.endsWith("ン")) {
+      setFinishType("lose");
+      return;
+    }
 
     const lastWord = getShiritoriWord(sentPokeName);
     /* ポケ一覧からアンサーの候補を取得 */
-    const candidateList = pokeList.filter((poke) =>
-      poke.name.japanese.startsWith(lastWord)
+    const candidateList = pokeList.filter(
+      (poke) =>
+        poke.name.japanese.startsWith(lastWord) &&
+        !usedPokeNameList.includes(poke.name.japanese)
     );
     const tmpEnermyPokeList = Array.from(enermyPokeList);
     /* 候補からランダムに選択 */
     const tmpTarget =
-      candidateList[Math.floor(Math.random() * candidateList.length)];
+      (candidateList.length &&
+        candidateList[Math.floor(Math.random() * candidateList.length)]) ||
+      void 0;
+    if (!tmpTarget) {
+      setFinishType("win");
+      return;
+    }
     const tmpTargetResponse = await fetchPoke(tmpTarget.id);
     const enermyImgPath =
       tmpTargetResponse.sprites.other["official-artwork"].front_default;
     tmpTarget.imgPath = enermyImgPath || "";
+    // tmp
     if (!tmpTarget.type) {
       tmpTarget.type = ["Bug"];
     }
+    usedPokeNameList.push(tmpTarget.name.japanese);
     tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
     setSentPokeName("");
 
-    await sleep(3000);
-    /* 一定時間後に返答 */
+    /* 終了処理 */
+    if (tmpTarget.name.japanese.endsWith("ン")) {
+      setFinishType("win");
+    } else {
+      /* 一定時間後に返答 */
+      await sleep(3000);
+    }
     setTargetPoke(tmpTarget);
     setEnermyPokeList(tmpEnermyPokeList);
     setMyTurn(true);
@@ -135,6 +153,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       pokeErr={pokeErr}
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
+      finishType={finishType}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
