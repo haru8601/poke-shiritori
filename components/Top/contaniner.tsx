@@ -133,12 +133,11 @@ export default function Top({ pokeList, firstPoke }: Props) {
     /* 自分のポケリセット */
     setSentPokeName("");
 
+    /* 一定時間後に返答 */
+    await sleep(3000);
     /* 終了処理 */
     if (tmpTarget.name.japanese.endsWith("ン")) {
       setFinishType("win");
-    } else {
-      /* 一定時間後に返答 */
-      await sleep(3000);
     }
     setTargetPoke(tmpTarget);
     setEnermyPokeList(tmpEnermyPokeList);
