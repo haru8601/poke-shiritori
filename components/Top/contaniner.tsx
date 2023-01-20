@@ -148,6 +148,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     <TopPresenter
       pokeList={pokeList}
       isMyTurn={isMyTurn}
+      firstPoke={firstPoke}
       targetPoke={targetPoke!}
       sentPokeName={sentPokeName}
       pokeErr={pokeErr}

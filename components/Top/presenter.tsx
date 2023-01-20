@@ -7,8 +7,9 @@ import { Button, Card, Form, InputGroup, Stack } from "react-bootstrap";
 type Props = {
   pokeList: Poke[];
   isMyTurn: boolean;
-  sentPokeName: string;
+  firstPoke: Poke;
   targetPoke: Poke;
+  sentPokeName: string;
   pokeErr: string;
   myPokeList: Poke[];
   enermyPokeList: Poke[];
@@ -21,8 +22,9 @@ type Props = {
 export default function TopPresenter({
   pokeList,
   isMyTurn,
-  sentPokeName,
+  firstPoke,
   targetPoke,
+  sentPokeName,
   pokeErr,
   myPokeList,
   enermyPokeList,
@@ -34,11 +36,11 @@ export default function TopPresenter({
   return (
     <Stack className="justify-content-around">
       <Card.Header className="m-3">
-        <Card.Title>ポケモンしりとり</Card.Title>
+        <Card.Title className="fs-1 fw-bold">ポケモンしりとり</Card.Title>
       </Card.Header>
       {targetPoke && (
         <div
-          className="border-bottom text-center"
+          className="text-center mx-auto"
           style={{
             height: "50px",
           }}
@@ -55,6 +57,33 @@ export default function TopPresenter({
           )}
         </div>
       )}
+      <div
+        style={{ width: "90%" }}
+        className="d-flex justify-content-end text-center"
+      >
+        <span style={{ lineHeight: "40px" }} className="mx-2">
+          最初のお題:
+        </span>
+        <div
+          className="px-2 rounded d-flex justify-content-center"
+          style={{
+            height: "40px",
+            backgroundColor: firstPoke.type && pokeColorMap[firstPoke.type[0]],
+          }}
+        >
+          <span style={{ lineHeight: "40px" }}>{firstPoke.name.japanese}</span>
+          {firstPoke.imgPath && (
+            <Image
+              style={{ zIndex: 100 }}
+              className="inline-block float-start"
+              height={50}
+              width={50}
+              src={firstPoke.imgPath}
+              alt=""
+            />
+          )}
+        </div>
+      </div>
       <p className="text-danger">{pokeErr}</p>
       {finishType != "" &&
         (finishType == "win" ? <p>You Win!</p> : <p>You Lose</p>)}
@@ -84,7 +113,7 @@ export default function TopPresenter({
       </InputGroup>
       <Stack
         style={{ height: "50vh", overflow: "scroll" }}
-        className="justify-content-around m-3 "
+        className="justify-content-around mt-3"
         direction="horizontal"
       >
         <Stack
@@ -110,7 +139,8 @@ export default function TopPresenter({
                     </span>
                     {myPoke.imgPath && (
                       <Image
-                        className="inline-block"
+                        style={{ zIndex: index }}
+                        className="inline-block float-start"
                         height={50}
                         width={50}
                         src={myPoke.imgPath}
@@ -134,7 +164,7 @@ export default function TopPresenter({
               return (
                 <Fragment key={index}>
                   <div
-                    className="border-bottom"
+                    className="border-bottom d-flex justify-content-center"
                     style={{
                       height: "40px",
                       backgroundColor:
@@ -146,7 +176,8 @@ export default function TopPresenter({
                     </span>
                     {enermyPoke.imgPath && (
                       <Image
-                        className="inline-block"
+                        style={{ zIndex: index }}
+                        className="inline-block float-start"
                         height={50}
                         width={50}
                         src={enermyPoke.imgPath}
