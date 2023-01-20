@@ -5,11 +5,12 @@ import Image from "next/image";
 import { ChangeEvent, Fragment, KeyboardEvent } from "react";
 import {
   Button,
-  Card,
   Form,
   InputGroup,
+  OverlayTrigger,
   Spinner,
   Stack,
+  Tooltip,
 } from "react-bootstrap";
 
 type Props = {
@@ -45,21 +46,26 @@ export default function TopPresenter({
 }: Props) {
   return (
     <Stack className="justify-content-around">
-      <Card.Header className="m-3 mb-5 d-flex justify-content-between">
+      <header className="m-3 mb-5 d-flex justify-content-between">
         <div className="d-inline-flex border-2 border-bottom border-dark">
-          <Card.Title className="fs-1 fw-bold">ポケモンしりとり</Card.Title>
-          <Image
-            className="inline-block"
-            height={40}
-            width={40}
-            src={PATH.defaultImg}
-            alt=""
-          />
+          <h1 className="text-dark fs-1 fw-bold">ポケモンしりとり</h1>
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>made by haroot</Tooltip>}
+          >
+            <Image
+              className="inline-block"
+              height={40}
+              width={40}
+              src={PATH.defaultImg}
+              alt=""
+            />
+          </OverlayTrigger>
         </div>
         <Button variant="dark" type="submit" onClick={onReload}>
           目の前を真っ暗にする
         </Button>
-      </Card.Header>
+      </header>
       {targetPoke && (
         <div
           className="px-2 rounded d-flex justify-content-center mx-auto"
@@ -222,6 +228,11 @@ export default function TopPresenter({
             .reverse()}
         </Stack>
       </Stack>
+      <footer className="m-3 d-flex justify-content-end">
+        <Button href={PATH.homePage} variant="link" target="blank">
+          作者のHP
+        </Button>
+      </footer>
     </Stack>
   );
 }
