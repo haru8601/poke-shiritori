@@ -20,7 +20,7 @@ export default function TopPage(props: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main style={{ height: "100vh" }} className="m-4">
+      <main style={{ height: "100vh" }} className="mt-2 mx-4">
         <Top pokeList={props.pokeList} firstPoke={props.firstPoke} />
       </main>
     </>

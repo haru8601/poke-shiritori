@@ -3,6 +3,7 @@ import { usePokeApi } from "@/hook/usePokeApi";
 import { useSleep } from "@/hook/useTimer";
 import TopPage from "@/pages";
 import { Poke } from "@/types/Poke";
+import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import TopPresenter from "./presenter";
 
@@ -16,6 +17,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
+  const router = useRouter();
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
 
@@ -145,6 +147,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
     setEnermyPokeList(tmpEnermyPokeList);
     setMyTurn(true);
   };
+  const handleReload = () => {
+    router.reload();
+  };
   return (
     <TopPresenter
       pokeList={pokeList}
@@ -159,6 +164,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
+      onReload={handleReload}
     />
   );
 }
