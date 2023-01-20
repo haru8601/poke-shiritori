@@ -18,6 +18,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
   const router = useRouter();
+  const [animating, setAnimating] = useState<boolean>(false);
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
 
@@ -31,16 +32,25 @@ export default function Top({ pokeList, firstPoke }: Props) {
       const imgPath =
         tmpTargetResponse.sprites.other["official-artwork"].front_default;
       firstPoke.imgPath = imgPath || PATH.defaultImg;
-      // tmp
-      if (!firstPoke.type) {
-        firstPoke.type = ["Bug"];
-      }
-      console.log(firstPoke.imgPath);
+      console.log(firstPoke);
       setTargetPoke(firstPoke);
     })();
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (finishType == "") return;
+    const delay = 500;
+    const interval = 3000;
+    /* しりとり終わったらアニメーション開始、指定時間後アニメーション終了 */
+    setTimeout(() => {
+      setAnimating(true);
+      setTimeout(() => {
+        setAnimating(false);
+      }, interval);
+    }, delay);
+  }, [finishType]);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
@@ -91,10 +101,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const imgPath =
       sentPokeResponse.sprites.other["official-artwork"].front_default;
     sentPoke.imgPath = imgPath || PATH.defaultImg;
-    // tmp
-    if (!sentPoke.type) {
-      sentPoke.type = ["Bug"];
-    }
 
     setTargetPoke(sentPoke);
 
@@ -128,10 +134,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const enermyImgPath =
       tmpTargetResponse.sprites.other["official-artwork"].front_default;
     tmpTarget.imgPath = enermyImgPath || PATH.defaultImg;
-    // tmp
-    if (!tmpTarget.type) {
-      tmpTarget.type = ["Bug"];
-    }
+
     usedPokeNameList.push(tmpTarget.name.japanese);
     tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
@@ -150,6 +153,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const handleReload = () => {
     router.reload();
   };
+  const spaceBasis = 50;
   return (
     <TopPresenter
       pokeList={pokeList}
@@ -161,10 +165,12 @@ export default function Top({ pokeList, firstPoke }: Props) {
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
       finishType={finishType}
+      spaceBasis={spaceBasis}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
       onReload={handleReload}
+      animating={animating}
     />
   );
 }
