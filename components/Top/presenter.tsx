@@ -46,15 +46,13 @@ export default function TopPresenter({
           }}
         >
           <span>{targetPoke.name.japanese}</span>
-          {targetPoke.imgPath && (
-            <Image
-              className="inline-block"
-              height={50}
-              width={50}
-              src={targetPoke.imgPath}
-              alt=""
-            />
-          )}
+          <Image
+            className="inline-block"
+            height={50}
+            width={50}
+            src={targetPoke.imgPath ?? "/pikachu.png"}
+            alt=""
+          />
         </div>
       )}
       <div
@@ -72,16 +70,14 @@ export default function TopPresenter({
           }}
         >
           <span style={{ lineHeight: "40px" }}>{firstPoke.name.japanese}</span>
-          {firstPoke.imgPath && (
-            <Image
-              style={{ zIndex: 100 }}
-              className="inline-block float-start"
-              height={50}
-              width={50}
-              src={firstPoke.imgPath}
-              alt=""
-            />
-          )}
+          <Image
+            style={{ zIndex: 100 }}
+            className="inline-block float-start"
+            height={50}
+            width={50}
+            src={firstPoke.imgPath ?? "/pikachu.png"}
+            alt=""
+          />
         </div>
       </div>
       <p className="text-danger">{pokeErr}</p>
@@ -137,16 +133,14 @@ export default function TopPresenter({
                     <span style={{ lineHeight: "40px" }}>
                       {myPoke.name.japanese}
                     </span>
-                    {myPoke.imgPath && (
-                      <Image
-                        style={{ zIndex: index }}
-                        className="inline-block float-start"
-                        height={50}
-                        width={50}
-                        src={myPoke.imgPath}
-                        alt=""
-                      />
-                    )}
+                    <Image
+                      style={{ zIndex: index }}
+                      className="inline-block float-start"
+                      height={50}
+                      width={50}
+                      src={myPoke.imgPath ?? "/pikachu.png"}
+                      alt=""
+                    />
                   </div>
                 </Fragment>
               );
@@ -174,16 +168,14 @@ export default function TopPresenter({
                     <span style={{ lineHeight: "40px" }}>
                       {enermyPoke.name.japanese}
                     </span>
-                    {enermyPoke.imgPath && (
-                      <Image
-                        style={{ zIndex: index }}
-                        className="inline-block float-start"
-                        height={50}
-                        width={50}
-                        src={enermyPoke.imgPath}
-                        alt=""
-                      />
-                    )}
+                    <Image
+                      style={{ zIndex: index }}
+                      className="inline-block float-start"
+                      height={50}
+                      width={50}
+                      src={enermyPoke.imgPath ?? "/pikachu.png"}
+                      alt=""
+                    />
                   </div>
                 </Fragment>
               );

@@ -1,3 +1,4 @@
+import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useSleep } from "@/hook/useTimer";
 import TopPage from "@/pages";
@@ -17,6 +18,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
+
   const usedPokeNameList: string[] = [firstPoke.name.japanese];
 
   /* strictModeで2回レンダリングされることに注意 */
@@ -26,7 +28,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       const tmpTargetResponse = await fetchPoke(firstPoke.id);
       const imgPath =
         tmpTargetResponse.sprites.other["official-artwork"].front_default;
-      firstPoke.imgPath = imgPath || "";
+      firstPoke.imgPath = imgPath || PATH.defaultImg;
       // tmp
       if (!firstPoke.type) {
         firstPoke.type = ["Bug"];
@@ -86,7 +88,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const sentPokeResponse = await fetchPoke(sentPoke.id);
     const imgPath =
       sentPokeResponse.sprites.other["official-artwork"].front_default;
-    sentPoke.imgPath = imgPath || "";
+    sentPoke.imgPath = imgPath || PATH.defaultImg;
     // tmp
     if (!sentPoke.type) {
       sentPoke.type = ["Bug"];
@@ -123,7 +125,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const tmpTargetResponse = await fetchPoke(tmpTarget.id);
     const enermyImgPath =
       tmpTargetResponse.sprites.other["official-artwork"].front_default;
-    tmpTarget.imgPath = enermyImgPath || "";
+    tmpTarget.imgPath = enermyImgPath || PATH.defaultImg;
     // tmp
     if (!tmpTarget.type) {
       tmpTarget.type = ["Bug"];
