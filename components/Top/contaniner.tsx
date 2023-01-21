@@ -3,21 +3,19 @@ import { usePokeApi } from "@/hook/usePokeApi";
 import { useSleep } from "@/hook/useTimer";
 import TopPage from "@/pages";
 import { Poke } from "@/types/Poke";
-import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import TopPresenter from "./presenter";
 
 type Props = React.ComponentProps<typeof TopPage>;
 
 export default function Top({ pokeList, firstPoke }: Props) {
-  const [targetPoke, setTargetPoke] = useState<Poke>();
+  const [targetPoke, setTargetPoke] = useState<Poke>(firstPoke);
   const [sentPokeName, setSentPokeName] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
   const [myPokeList, setMyPokeList] = useState<Poke[]>([]);
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
-  const router = useRouter();
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
 
@@ -32,7 +30,8 @@ export default function Top({ pokeList, firstPoke }: Props) {
         tmpTargetResponse.sprites.other["official-artwork"].front_default;
       firstPoke.imgPath = imgPath || PATH.defaultImg;
       console.log(firstPoke);
-      setTargetPoke(firstPoke);
+      /* レンダリングさせる(変更を伝える)ためディープコピー */
+      setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
     })();
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -136,9 +135,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     setEnermyPokeList(tmpEnermyPokeList);
     setMyTurn(true);
   };
-  const handleReload = () => {
-    router.reload();
-  };
+
   const spaceBasis = 50;
   return (
     <TopPresenter
@@ -155,7 +152,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
-      onReload={handleReload}
     />
   );
 }
