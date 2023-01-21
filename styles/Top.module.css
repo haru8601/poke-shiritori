@@ -1,5 +1,6 @@
 .header{
   flex-direction: row;
+  align-items: center;
 }
 
 .pokeImage:hover{
@@ -201,6 +202,7 @@
   .header{
     flex-direction: column;
     position: relative;
+    align-items: initial;
   }
 
   .finishLogo{
