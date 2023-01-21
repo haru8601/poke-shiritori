@@ -12,6 +12,7 @@ export default function PokeTargetPresenter({ targetPoke, spaceBasis }: Props) {
       style={{
         height: `${spaceBasis}px`,
         width: "20%",
+        minWidth: "200px",
         backgroundColor: targetPoke.type && pokeColorMap[targetPoke.type[0]],
       }}
     >

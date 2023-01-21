@@ -1,5 +1,9 @@
+.header{
+  flex-direction: row;
+}
+
 .pokeImage:hover{
-  animation: jump 0.6s ease 0.1s 1 forwards;
+  animation: jump 0.6s ease 0.1s forwards;
 }
 
 @keyframes jump {
@@ -194,6 +198,21 @@
 
 /* Mobile */
 @media (max-width: 700px) {
+  .header{
+    flex-direction: column;
+    position: relative;
+  }
+
+  .finishLogo{
+    position:absolute;
+    top: 100%;
+    left:0;
+  }
+
+  .resetBtn{
+    margin-top: 2vh
+  }
+
   .content {
     padding: 4rem;
   }

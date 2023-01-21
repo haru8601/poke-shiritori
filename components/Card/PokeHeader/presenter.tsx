@@ -14,9 +14,13 @@ export default function PokeHeaderPresenter({
   onReload,
 }: Props) {
   return (
-    <header className="m-3 mb-5 d-flex justify-content-between">
-      <div className="d-inline-flex border-2 border-bottom border-dark">
-        <h1 className="text-dark fs-1 fw-bold">ポケモンしりとり</h1>
+    <header
+      className={`m-3 mb-5 d-flex justify-content-between ${styles.header}`}
+    >
+      <div className="d-inline-flex justify-content-between border-2 border-bottom border-dark">
+        <h1 className="d-inline-block align-self-center my-0 text-dark fs-1 fw-bold">
+          ポケモンしりとり
+        </h1>
         <OverlayTrigger
           placement="right"
           overlay={<Tooltip>made by haroot</Tooltip>}
@@ -31,11 +35,16 @@ export default function PokeHeaderPresenter({
         </OverlayTrigger>
       </div>
       {finishType != "" && (
-        <h3 className="my-0 text-success text-uppercase">
+        <h3 className={`my-0 text-success text-uppercase ${styles.finishLogo}`}>
           you {finishType} {finishType == "win" ? "!!" : "..."}
         </h3>
       )}
-      <Button variant="dark" type="submit" onClick={onReload}>
+      <Button
+        className={styles.resetBtn}
+        variant="dark"
+        type="submit"
+        onClick={onReload}
+      >
         目の前を真っ暗にする
       </Button>
     </header>

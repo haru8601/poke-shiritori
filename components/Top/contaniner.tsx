@@ -20,8 +20,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [usedPokeCount, setUsedPokeCount] = useState<number>(0);
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
-
-  const usedPokeNameList: string[] = [firstPoke.name.japanese];
+  const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([
+    firstPoke.name.japanese,
+  ]);
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
@@ -84,8 +85,12 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const sentPoke = pokeList.find(
       (poke) => poke.name.japanese == sentPokeName
     )!;
-    usedPokeNameList.push(sentPoke.name.japanese);
-    setUsedPokeCount(usedPokeNameList.length);
+
+    /* 使用済みリスト更新 */
+    const tmpUsedPokeNameList = Array.from(usedPokeNameList);
+    tmpUsedPokeNameList.push(sentPoke.name.japanese);
+    setUsedPokeNameList(tmpUsedPokeNameList);
+    setUsedPokeCount(tmpUsedPokeNameList.length);
 
     const sentPokeResponse = await fetchPoke(sentPoke.id);
     const imgPath =
@@ -125,8 +130,10 @@ export default function Top({ pokeList, firstPoke }: Props) {
       tmpTargetResponse.sprites.other["official-artwork"].front_default;
     tmpTarget.imgPath = enermyImgPath || PATH.defaultImg;
 
-    usedPokeNameList.push(tmpTarget.name.japanese);
-    setUsedPokeCount(usedPokeNameList.length);
+    /* 使用済みリスト更新 */
+    tmpUsedPokeNameList.push(tmpTarget.name.japanese);
+    setUsedPokeNameList(tmpUsedPokeNameList);
+    setUsedPokeCount(tmpUsedPokeNameList.length);
 
     tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
