@@ -2,6 +2,7 @@ import { PATH } from "@/const/path";
 import { ComponentProps } from "react";
 import { Button, Image, OverlayTrigger, Tooltip } from "react-bootstrap";
 import PokeHeader from "./container";
+import styles from "@/styles/Top.module.css";
 
 type Props = ComponentProps<typeof PokeHeader> & {
   onReload: () => void;
@@ -21,12 +22,11 @@ export default function PokeHeaderPresenter({
           overlay={<Tooltip>made by haroot</Tooltip>}
         >
           <Image
-            className="inline-block"
+            className={styles.pokeImage}
             height={spaceBasis}
             width={spaceBasis}
             src={PATH.defaultImg}
             alt=""
-            style={{ animation: "" }}
           />
         </OverlayTrigger>
       </div>

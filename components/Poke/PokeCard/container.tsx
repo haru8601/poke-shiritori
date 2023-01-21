@@ -7,18 +7,21 @@ type Props = Pick<
   "targetPoke" | "spaceBasis"
 > & {
   small?: boolean;
+  zIndex?: number;
 };
 
 export default function PokeCard({
   targetPoke,
   spaceBasis,
   small = false,
+  zIndex = 0,
 }: Props) {
   return (
     <PokeCardPresenter
       targetPoke={targetPoke}
       spaceBasis={spaceBasis}
       small={small}
+      zIndex={zIndex}
     />
   );
 }

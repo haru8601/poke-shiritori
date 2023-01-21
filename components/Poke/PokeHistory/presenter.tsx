@@ -32,6 +32,7 @@ export default function PokeHistoryPresenter({
                 <PokeCard
                   targetPoke={myPoke}
                   spaceBasis={spaceBasis}
+                  zIndex={index + 100}
                 ></PokeCard>
               </div>
             </Fragment>
