@@ -4,7 +4,12 @@ import PokeInputPresenter from "./presenter";
 
 type Props = Omit<
   ComponentProps<typeof TopPresenter>,
-  "firstPoke" | "targetPoke" | "myPokeList" | "enermyPokeList" | "spaceBasis"
+  | "firstPoke"
+  | "targetPoke"
+  | "myPokeList"
+  | "enermyPokeList"
+  | "spaceBasis"
+  | "usedPokeCount"
 >;
 
 export default function PokeInput({

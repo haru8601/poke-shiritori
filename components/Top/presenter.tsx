@@ -21,6 +21,7 @@ type Props = {
   spaceBasis: number;
   isMyTurn: boolean;
   finishType: "" | "win" | "lose";
+  usedPokeCount: number;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
@@ -37,6 +38,7 @@ export default function TopPresenter({
   enermyPokeList,
   finishType,
   spaceBasis,
+  usedPokeCount,
   onChangePoke,
   onKeydown,
   onSubmitPoke,
@@ -77,7 +79,7 @@ export default function TopPresenter({
           isMyTurn={isMyTurn}
           spaceBasis={spaceBasis}
         />
-        <PokeFooter />
+        <PokeFooter usedPokeCount={usedPokeCount} />
       </Stack>
     </>
   );

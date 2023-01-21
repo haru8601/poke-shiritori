@@ -3,6 +3,7 @@ import { usePokeApi } from "@/hook/usePokeApi";
 import { useSleep } from "@/hook/useTimer";
 import TopPage from "@/pages";
 import { Poke } from "@/types/Poke";
+import { PokeApi } from "@/types/PokeApi";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import TopPresenter from "./presenter";
 
@@ -16,6 +17,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
+  const [usedPokeCount, setUsedPokeCount] = useState<number>(0);
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
 
@@ -23,11 +25,12 @@ export default function Top({ pokeList, firstPoke }: Props) {
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
+    let tmpTargetResponse: PokeApi | undefined = void 0;
     (async () => {
       /* 最初のポケ画像取得 */
-      const tmpTargetResponse = await fetchPoke(firstPoke.id);
+      tmpTargetResponse = await fetchPoke(firstPoke.id);
       const imgPath =
-        tmpTargetResponse.sprites.other["official-artwork"].front_default;
+        tmpTargetResponse!.sprites.other["official-artwork"].front_default;
       firstPoke.imgPath = imgPath || PATH.defaultImg;
       console.log(firstPoke);
       /* レンダリングさせる(変更を伝える)ためディープコピー */
@@ -82,6 +85,8 @@ export default function Top({ pokeList, firstPoke }: Props) {
       (poke) => poke.name.japanese == sentPokeName
     )!;
     usedPokeNameList.push(sentPoke.name.japanese);
+    setUsedPokeCount(usedPokeNameList.length);
+
     const sentPokeResponse = await fetchPoke(sentPoke.id);
     const imgPath =
       sentPokeResponse.sprites.other["official-artwork"].front_default;
@@ -121,6 +126,8 @@ export default function Top({ pokeList, firstPoke }: Props) {
     tmpTarget.imgPath = enermyImgPath || PATH.defaultImg;
 
     usedPokeNameList.push(tmpTarget.name.japanese);
+    setUsedPokeCount(usedPokeNameList.length);
+
     tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
     setSentPokeName("");
@@ -149,6 +156,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       enermyPokeList={enermyPokeList}
       finishType={finishType}
       spaceBasis={spaceBasis}
+      usedPokeCount={usedPokeCount}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}

@@ -1,11 +1,27 @@
 import { PATH } from "@/const/path";
+import { ComponentProps } from "react";
 import { Button } from "react-bootstrap";
+import PokeFooter from "./container";
 
-export default function PokeFooterPresenter() {
+type Props = ComponentProps<typeof PokeFooter>;
+
+export default function PokeFooterPresenter({ usedPokeCount }: Props) {
   return (
-    <footer className="m-3 d-flex justify-content-end">
+    <footer className="m-3 d-flex align-items-center justify-content-end">
       <Button href={PATH.homePage} variant="link" target="blank">
-        作者のHP
+        <i className="bi bi-box-arrow-up-right">作者のHP</i>
+      </Button>
+      {/* TODO: URL修正 */}
+      <Button
+        href={`https://twitter.com/share?text=ポケモンしりとりが ${usedPokeCount} 回続いた!&url=https://haroot.net&via=haroot_net`}
+        variant="link"
+        data-show-count="false"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <i className="bi bi-twitter" style={{ color: "royalblue" }}>
+          結果をツイート
+        </i>
       </Button>
     </footer>
   );
