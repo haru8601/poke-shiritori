@@ -8,14 +8,14 @@ type Props = ComponentProps<typeof PokeTarget>;
 export default function PokeTargetPresenter({ targetPoke, spaceBasis }: Props) {
   return (
     <div
-      className="px-2 rounded d-flex align-items-center justify-content-center mx-auto"
+      className="px-2 rounded d-flex mx-auto justify-content-center"
       style={{
         height: `${spaceBasis}px`,
         width: "20%",
         backgroundColor: targetPoke.type && pokeColorMap[targetPoke.type[0]],
       }}
     >
-      <PokeCard targetPoke={targetPoke} spaceBasis={spaceBasis} />
+      <PokeCard targetPoke={targetPoke} spaceBasis={spaceBasis} small />
     </div>
   );
 }

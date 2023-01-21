@@ -1,6 +1,7 @@
 import { pokeColorMap } from "@/const/pokeColorMap";
 import { ComponentProps, Fragment } from "react";
-import { Image, Stack } from "react-bootstrap";
+import { Stack } from "react-bootstrap";
+import PokeCard from "../PokeCard/container";
 import PokeHistory from "./container";
 
 type Props = ComponentProps<typeof PokeHistory>;
@@ -28,17 +29,10 @@ export default function PokeHistoryPresenter({
                   backgroundColor: myPoke.type && pokeColorMap[myPoke.type[0]],
                 }}
               >
-                <span className="align-self-center">
-                  {myPoke.name.japanese}
-                </span>
-                <Image
-                  style={{ zIndex: index + 100 }}
-                  className="inline-block float-start"
-                  height={spaceBasis * 1.2}
-                  width={spaceBasis * 1.2}
-                  src={myPoke.imgPath ?? "/pikachu.png"}
-                  alt=""
-                />
+                <PokeCard
+                  targetPoke={myPoke}
+                  spaceBasis={spaceBasis}
+                ></PokeCard>
               </div>
             </Fragment>
           );
