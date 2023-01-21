@@ -18,7 +18,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
   const router = useRouter();
-  const [animating, setAnimating] = useState<boolean>(false);
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
 
@@ -38,19 +37,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (finishType == "") return;
-    const delay = 500;
-    const interval = 3000;
-    /* しりとり終わったらアニメーション開始、指定時間後アニメーション終了 */
-    setTimeout(() => {
-      setAnimating(true);
-      setTimeout(() => {
-        setAnimating(false);
-      }, interval);
-    }, delay);
-  }, [finishType]);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
@@ -170,7 +156,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
       onReload={handleReload}
-      animating={animating}
     />
   );
 }

@@ -28,7 +28,6 @@ type Props = {
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
   onReload: () => void;
-  animating: boolean;
 };
 
 export default function TopPresenter({
@@ -46,7 +45,6 @@ export default function TopPresenter({
   onKeydown,
   onSubmitPoke,
   onReload,
-  animating,
 }: Props) {
   return (
     <>
@@ -55,8 +53,8 @@ export default function TopPresenter({
           style={{
             fontSize: "5rem",
             zIndex: 1000,
-            opacity: animating ? 1 : 0,
-            transition: "1.5s opacity ease",
+            opacity: 0,
+            animation: "fade-keyframe 5s ease 0.5s 1 forwards",
           }}
           className="text-success text-uppercase position-fixed top-50 start-50 translate-middle text-nowrap"
         >
@@ -65,8 +63,8 @@ export default function TopPresenter({
       )}
       <Stack
         style={{
-          opacity: animating ? 0.5 : 1,
-          transition: "1.5s opacity ease",
+          animation:
+            finishType != "" ? "fade-keyframe-bg 5s ease 0.5s 1 forwards" : "",
         }}
         className="justify-content-around"
       >
