@@ -14,10 +14,10 @@ export default function LoadingPresenter({ isMyTurn, finishType }: Props) {
       {!isMyTurn && finishType == "" && (
         <Spinner
           animation="border"
-          variant="secondary"
           role="status"
           size={innerWidth < 700 ? "sm" : void 0}
           className="align-self-center"
+          style={{ color: "limegreen" }}
         >
           <span className="visually-hidden">Loading...</span>
         </Spinner>
