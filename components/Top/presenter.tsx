@@ -10,6 +10,7 @@ import PokeInput from "../Poke/PokeInput/container";
 import PokeTarget from "../Poke/PokeTarget/container";
 import PokeFooter from "../Card/PokeFooter/container";
 import styles from "@/styles/Top.module.css";
+import { CONFIG } from "@/const/config";
 
 type Props = {
   pokeList: Poke[];
@@ -19,13 +20,14 @@ type Props = {
   pokeErr: string;
   myPokeList: Poke[];
   enermyPokeList: Poke[];
-  spaceBasis: number;
   isMyTurn: boolean;
   finishType: "" | "win" | "lose";
   usedPokeCount: number;
+  diff: typeof CONFIG.diff[number];
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
+  onChangeDiff: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function TopPresenter({
@@ -38,11 +40,12 @@ export default function TopPresenter({
   myPokeList,
   enermyPokeList,
   finishType,
-  spaceBasis,
   usedPokeCount,
+  diff,
   onChangePoke,
   onKeydown,
   onSubmitPoke,
+  onChangeDiff,
 }: Props) {
   return (
     <>
@@ -52,29 +55,29 @@ export default function TopPresenter({
           finishType != "" && styles.fadeBg
         }`}
       >
-        <PokeHeader spaceBasis={spaceBasis} finishType={finishType} />
-        <PokeTarget targetPoke={targetPoke} spaceBasis={spaceBasis} />
-        <PokeFirst firstPoke={firstPoke} spaceBasis={spaceBasis} />
+        <PokeHeader
+          finishType={finishType}
+          diff={diff}
+          onChangeDiff={onChangeDiff}
+        />
+        <PokeTarget targetPoke={targetPoke} />
+        <PokeFirst firstPoke={firstPoke} />
         <PokeInput
           pokeList={pokeList}
           sentPokeName={sentPokeName}
           pokeErr={pokeErr}
           finishType={finishType}
           isMyTurn={isMyTurn}
+          diff={diff}
           onKeydown={onKeydown}
           onChangePoke={onChangePoke}
           onSubmitPoke={onSubmitPoke}
         />
-        <Loading
-          isMyTurn={isMyTurn}
-          finishType={finishType}
-          spaceBasis={spaceBasis}
-        />
+        <Loading isMyTurn={isMyTurn} finishType={finishType} />
         <PokeHistoryList
           myPokeList={myPokeList}
           enermyPokeList={enermyPokeList}
           isMyTurn={isMyTurn}
-          spaceBasis={spaceBasis}
         />
         <PokeFooter usedPokeCount={usedPokeCount} />
       </Stack>

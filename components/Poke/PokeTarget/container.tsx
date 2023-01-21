@@ -2,13 +2,8 @@ import TopPresenter from "@/components/Top/presenter";
 import { ComponentProps } from "react";
 import PokeTargetPresenter from "./presenter";
 
-type Props = Pick<
-  ComponentProps<typeof TopPresenter>,
-  "targetPoke" | "spaceBasis"
->;
+type Props = Pick<ComponentProps<typeof TopPresenter>, "targetPoke">;
 
-export default function PokeTarget({ targetPoke, spaceBasis }: Props) {
-  return (
-    <PokeTargetPresenter targetPoke={targetPoke} spaceBasis={spaceBasis} />
-  );
+export default function PokeTarget({ targetPoke }: Props) {
+  return <PokeTargetPresenter targetPoke={targetPoke} />;
 }

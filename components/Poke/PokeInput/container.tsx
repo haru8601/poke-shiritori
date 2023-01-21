@@ -2,14 +2,17 @@ import TopPresenter from "@/components/Top/presenter";
 import { ComponentProps } from "react";
 import PokeInputPresenter from "./presenter";
 
-type Props = Omit<
+type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  | "firstPoke"
-  | "targetPoke"
-  | "myPokeList"
-  | "enermyPokeList"
-  | "spaceBasis"
-  | "usedPokeCount"
+  | "pokeList"
+  | "sentPokeName"
+  | "pokeErr"
+  | "isMyTurn"
+  | "finishType"
+  | "onKeydown"
+  | "onChangePoke"
+  | "onSubmitPoke"
+  | "diff"
 >;
 
 export default function PokeInput({
@@ -18,6 +21,7 @@ export default function PokeInput({
   pokeErr,
   isMyTurn,
   finishType,
+  diff,
   onKeydown,
   onChangePoke,
   onSubmitPoke,
@@ -29,6 +33,7 @@ export default function PokeInput({
       pokeErr={pokeErr}
       isMyTurn={isMyTurn}
       finishType={finishType}
+      diff={diff}
       onKeydown={onKeydown}
       onChangePoke={onChangePoke}
       onSubmitPoke={onSubmitPoke}

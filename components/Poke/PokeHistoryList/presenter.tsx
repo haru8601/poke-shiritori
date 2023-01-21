@@ -9,7 +9,6 @@ export default function PokeHistoryListPresenter({
   myPokeList,
   enermyPokeList,
   isMyTurn,
-  spaceBasis,
 }: Props) {
   return (
     <Stack
@@ -17,16 +16,8 @@ export default function PokeHistoryListPresenter({
       className="justify-content-around"
       direction="horizontal"
     >
-      <PokeHistory
-        myPokeList={myPokeList}
-        isMyTurn={isMyTurn}
-        spaceBasis={spaceBasis}
-      />
-      <PokeHistory
-        myPokeList={enermyPokeList}
-        isMyTurn={!isMyTurn}
-        spaceBasis={spaceBasis}
-      />
+      <PokeHistory myPokeList={myPokeList} isMyTurn={isMyTurn} />
+      <PokeHistory myPokeList={enermyPokeList} isMyTurn={!isMyTurn} />
     </Stack>
   );
 }

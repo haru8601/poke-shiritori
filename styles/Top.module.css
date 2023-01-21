@@ -1,6 +1,25 @@
+.pokeImage:hover{
+  animation: jump 0.6s ease 0.1s forwards;
+}
+
+@keyframes jump {
+  0%{
+    transform: none;
+  }
+  30%{
+    transform: scale(0.98, 1.05) translateY(-10px) rotate(3deg);
+  }
+  83%{
+    transform: scale(1.06, 0.94) translateY(5px)
+  }
+  100%{
+    transform: none;
+  }
+}
+
 .main {
   height: 100vh;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-left: 1.5rem;
   margin-right: 1.5rem;
 }
@@ -23,26 +42,27 @@
 
 .header{
   flex-direction: row;
-  align-items: center;
+  position: relative;
 }
 
-.pokeImage:hover{
-  animation: jump 0.6s ease 0.1s forwards;
+.headerTitle{
+  font-size: 30px;
 }
 
-@keyframes jump {
-  0%{
-    transform: none;
-  }
-  30%{
-    transform: scale(0.98, 1.05) translateY(-10px) rotate(3deg);
-  }
-  83%{
-    transform: scale(1.06, 0.94) translateY(5px)
-  }
-  100%{
-    transform: none;
-  }
+.finishLogo{
+  position:absolute;
+  top: 100%;
+  left:0;
+}
+
+.configBtn{
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.configCanvas{
+  width: 300px !important;
+  transition: transform 0.5s ease;
 }
 
 .finishLogoCenter{
@@ -234,28 +254,22 @@
 /* Mobile */
 @media (max-width: 700px) {
   .main{
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 
   .header{
     flex-direction: column;
-    position: relative;
     align-items: initial;
   }
 
-  .finishLogo{
-    position:absolute;
-    top: 100%;
-    left:0;
+  .headerTitle{
+    font-size: 20px;
   }
 
-  .resetBtn{
-    margin-top: 2vh
+  .configCanvas{
+    width: 100vw !important;
   }
-
-
-
 
   .content {
     padding: 4rem;

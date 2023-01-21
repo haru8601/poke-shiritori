@@ -10,6 +10,7 @@ export default function PokeInputPresenter({
   pokeErr,
   isMyTurn,
   finishType,
+  diff,
   onKeydown,
   onChangePoke,
   onSubmitPoke,
@@ -25,12 +26,15 @@ export default function PokeInputPresenter({
         placeholder="ポケモンを入力してください"
         disabled={!isMyTurn || finishType != ""}
         isInvalid={pokeErr != ""}
+        autoComplete="off"
       />
-      <datalist id="poke-list">
-        {pokeList.map((poke) => {
-          return <option key={poke.id}>{poke.name.japanese}</option>;
-        })}
-      </datalist>
+      {diff == "easy" && (
+        <datalist id="poke-list">
+          {pokeList.map((poke) => {
+            return <option key={poke.id}>{poke.name.japanese}</option>;
+          })}
+        </datalist>
+      )}
       <Button
         variant="primary"
         className="rounded-end"

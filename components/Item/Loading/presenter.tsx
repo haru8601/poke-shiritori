@@ -1,17 +1,14 @@
+import { CONFIG } from "@/const/config";
 import { ComponentProps } from "react";
 import { Spinner } from "react-bootstrap";
 import Loading from "./container";
 
 type Props = ComponentProps<typeof Loading>;
 
-export default function LoadingPresenter({
-  isMyTurn,
-  finishType,
-  spaceBasis,
-}: Props) {
+export default function LoadingPresenter({ isMyTurn, finishType }: Props) {
   return (
     <div
-      style={{ width: "90%", height: `${spaceBasis}px` }}
+      style={{ width: "90%", height: `${CONFIG.spaceBasis}px` }}
       className="d-inline-flex mx-auto justify-content-end"
     >
       {!isMyTurn && finishType == "" && (

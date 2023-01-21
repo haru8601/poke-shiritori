@@ -4,15 +4,8 @@ import LoadingPresenter from "./presenter";
 
 type Props = Pick<ComponentProps<typeof TopPresenter>, "finishType"> & {
   isMyTurn: boolean;
-  spaceBasis: number;
 };
 
-export default function Loading({ isMyTurn, finishType, spaceBasis }: Props) {
-  return (
-    <LoadingPresenter
-      isMyTurn={isMyTurn}
-      finishType={finishType}
-      spaceBasis={spaceBasis}
-    />
-  );
+export default function Loading({ isMyTurn, finishType }: Props) {
+  return <LoadingPresenter isMyTurn={isMyTurn} finishType={finishType} />;
 }

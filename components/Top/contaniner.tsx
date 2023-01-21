@@ -2,6 +2,7 @@ import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useSleep } from "@/hook/useTimer";
 import TopPage from "@/pages";
+import { Diff } from "@/types/Diff";
 import { Poke } from "@/types/Poke";
 import { PokeApi } from "@/types/PokeApi";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
@@ -23,6 +24,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([
     firstPoke.name.japanese,
   ]);
+  const [diff, setDiff] = useState<Diff>("normal");
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
@@ -37,6 +39,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
       /* レンダリングさせる(変更を伝える)ためディープコピー */
       setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
     })();
+
+    /* 難易度をセッションから取得 */
+    setDiff((sessionStorage.getItem("diff") as Diff) || "normal");
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -109,48 +114,57 @@ export default function Top({ pokeList, firstPoke }: Props) {
     }
 
     const lastWord = getShiritoriWord(sentPokeName);
-    /* ポケ一覧からアンサーの候補を取得 */
-    const candidateList = pokeList.filter(
-      (poke) =>
-        poke.name.japanese.startsWith(lastWord) &&
-        !usedPokeNameList.includes(poke.name.japanese)
-    );
-    const tmpEnermyPokeList = Array.from(enermyPokeList);
-    /* 候補からランダムに選択 */
-    const tmpTarget =
-      (candidateList.length &&
-        candidateList[Math.floor(Math.random() * candidateList.length)]) ||
-      void 0;
-    if (!tmpTarget) {
-      setFinishType("win");
-      return;
-    }
-    const tmpTargetResponse = await fetchPoke(tmpTarget.id);
-    const enermyImgPath =
-      tmpTargetResponse.sprites.other["official-artwork"].front_default;
-    tmpTarget.imgPath = enermyImgPath || PATH.defaultImg;
-
-    /* 使用済みリスト更新 */
-    tmpUsedPokeNameList.push(tmpTarget.name.japanese);
-    setUsedPokeNameList(tmpUsedPokeNameList);
-    setUsedPokeCount(tmpUsedPokeNameList.length);
-
-    tmpEnermyPokeList.push(tmpTarget);
     /* 自分のポケリセット */
     setSentPokeName("");
 
     /* 一定時間後に返答 */
     await sleep(3000);
-    /* 終了処理 */
-    if (tmpTarget.name.japanese.endsWith("ン")) {
+
+    /* ポケ一覧からアンサーの候補を取得 */
+    let tmpTarget = getAnswer(pokeList, lastWord, tmpUsedPokeNameList, diff);
+
+    /* CPUの負け */
+    if (!tmpTarget || tmpTarget.name.japanese.endsWith("ン")) {
       setFinishType("win");
     }
+    if (!tmpTarget) {
+      /* 解答なし */
+      tmpTarget = {
+        id: -1,
+        base: { h: 0, a: 0, b: 0, c: 0, d: 0, s: 0 },
+        name: { japanese: "見つかりませんでした。。" },
+        type: ["Normal"],
+        imgPath: "",
+      };
+    } else {
+      /* 解答あり */
+
+      /* 画像パス取得 */
+      const tmpTargetResponse = await fetchPoke(tmpTarget.id);
+      const enermyImgPath =
+        tmpTargetResponse.sprites.other["official-artwork"].front_default;
+      tmpTarget.imgPath = enermyImgPath || PATH.defaultImg;
+
+      /* 使用済みリスト更新 */
+      tmpUsedPokeNameList.push(tmpTarget.name.japanese);
+      setUsedPokeNameList(tmpUsedPokeNameList);
+      setUsedPokeCount(tmpUsedPokeNameList.length);
+
+      const tmpEnermyPokeList = Array.from(enermyPokeList);
+      tmpEnermyPokeList.push(tmpTarget);
+      setEnermyPokeList(tmpEnermyPokeList);
+    }
+
     setTargetPoke(tmpTarget);
-    setEnermyPokeList(tmpEnermyPokeList);
     setMyTurn(true);
   };
 
-  const spaceBasis = 50;
+  const handleChangeDiff = (event: ChangeEvent<HTMLInputElement>) => {
+    const checkedDiff = event.currentTarget.value as Diff;
+    sessionStorage.setItem("diff", checkedDiff);
+    setDiff(checkedDiff);
+  };
+
   return (
     <TopPresenter
       pokeList={pokeList}
@@ -162,11 +176,12 @@ export default function Top({ pokeList, firstPoke }: Props) {
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
       finishType={finishType}
-      spaceBasis={spaceBasis}
       usedPokeCount={usedPokeCount}
+      diff={diff}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
+      onChangeDiff={handleChangeDiff}
     />
   );
 }
@@ -202,4 +217,34 @@ const getShiritoriWord = (pokeName: string): string => {
     }
   }
   return "";
+};
+
+const getAnswer = (
+  pokeList: Poke[],
+  lastWord: string,
+  usedPokeNameList: string[],
+  diff: Diff
+): Poke | undefined => {
+  /* ポケ一覧からアンサーの候補を取得 */
+  let candidateList = pokeList.filter(
+    (poke) =>
+      poke.name.japanese.startsWith(lastWord) &&
+      !usedPokeNameList.includes(poke.name.japanese)
+  );
+  /* hardの場合はなるべく負けない選択 */
+  if (diff == "hard") {
+    const tmpCandidateList = candidateList.filter(
+      (poke) => !poke.name.japanese.endsWith("ン")
+    );
+    if (tmpCandidateList.length) {
+      candidateList = tmpCandidateList;
+    }
+  }
+
+  /* 候補からランダムに選択 */
+  const tmpTarget =
+    (candidateList.length &&
+      candidateList[Math.floor(Math.random() * candidateList.length)]) ||
+    void 0;
+  return tmpTarget;
 };

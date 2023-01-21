@@ -1,3 +1,4 @@
+import { CONFIG } from "@/const/config";
 import { pokeColorMap } from "@/const/pokeColorMap";
 import { ComponentProps, Fragment } from "react";
 import { Stack } from "react-bootstrap";
@@ -6,11 +7,7 @@ import PokeHistory from "./container";
 
 type Props = ComponentProps<typeof PokeHistory>;
 
-export default function PokeHistoryPresenter({
-  myPokeList,
-  isMyTurn,
-  spaceBasis,
-}: Props) {
+export default function PokeHistoryPresenter({ myPokeList, isMyTurn }: Props) {
   return (
     <Stack
       style={{ width: "40%" }}
@@ -25,15 +22,11 @@ export default function PokeHistoryPresenter({
               <div
                 className="border-bottom d-flex justify-content-center"
                 style={{
-                  height: `${spaceBasis}px`,
+                  height: `${CONFIG.spaceBasis}px`,
                   backgroundColor: myPoke.type && pokeColorMap[myPoke.type[0]],
                 }}
               >
-                <PokeCard
-                  targetPoke={myPoke}
-                  spaceBasis={spaceBasis}
-                  zIndex={index + 100}
-                ></PokeCard>
+                <PokeCard targetPoke={myPoke} zIndex={index + 100}></PokeCard>
               </div>
             </Fragment>
           );
