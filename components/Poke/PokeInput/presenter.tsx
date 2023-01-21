@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import PokeInput from "./container";
+import styles from "@/styles/Top.module.css";
 
 type Props = ComponentProps<typeof PokeInput>;
 
@@ -27,6 +28,7 @@ export default function PokeInputPresenter({
         disabled={!isMyTurn || finishType != ""}
         isInvalid={pokeErr != ""}
         autoComplete="off"
+        className={styles.pokeInput}
       />
       {diff == "easy" && (
         <datalist id="poke-list">

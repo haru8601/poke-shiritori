@@ -65,6 +65,15 @@
   transition: transform 0.5s ease;
 }
 
+/* Accordion.Headerの中にbutton要素があるはずなので勝手に書き換え */
+.tipHeader > button{
+  background-color: rgb(232, 232, 232);
+}
+
+.tipBody > *{
+  font-size: 0.8rem;
+}
+
 .finishLogoCenter{
   font-size: 5rem;
   z-index: 1000;
@@ -83,6 +92,10 @@
   100%{
     opacity: 0;
   }
+}
+
+.pokeInput:focus{
+  box-shadow: 0 0 0 0.1rem rgb(13 110 253 / 25%);
 }
 
 .description {

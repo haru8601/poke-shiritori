@@ -137,7 +137,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
         base: { h: 0, a: 0, b: 0, c: 0, d: 0, s: 0 },
         name: { japanese: "見つかりませんでした。。" },
         type: ["Normal"],
-        imgPath: "",
+        imgPath: PATH.defaultImg,
       };
     } else {
       /* 解答あり */
@@ -222,6 +222,14 @@ const getShiritoriWord = (pokeName: string): string => {
   return "";
 };
 
+/**
+ * CPU側のアンサー取得
+ * @param pokeList ポケリスト
+ * @param lastWord ユーザー側の最後の文字
+ * @param usedPokeNameList 使用済みポケリスト
+ * @param diff 難易度
+ * @returns アンサーポケ
+ */
 const getAnswer = (
   pokeList: Poke[],
   lastWord: string,
@@ -234,6 +242,7 @@ const getAnswer = (
       poke.name.japanese.startsWith(lastWord) &&
       !usedPokeNameList.includes(poke.name.japanese)
   );
+
   /* hardの場合はなるべく負けない選択 */
   if (diff == "hard") {
     const tmpCandidateList = candidateList.filter(
@@ -252,6 +261,11 @@ const getAnswer = (
   return tmpTarget;
 };
 
+/**
+ * ひらがなをカタカナに変換
+ * @param hira ひらがな
+ * @returns カタカナ
+ */
 const hira2kata = (hira: string): string => {
   return hira.replaceAll(/[ぁ-ん]/g, (word) =>
     String.fromCharCode(
