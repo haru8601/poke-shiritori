@@ -9,6 +9,7 @@ import PokeHistoryList from "../Poke/PokeHistoryList/container";
 import PokeInput from "../Poke/PokeInput/container";
 import PokeTarget from "../Poke/PokeTarget/container";
 import PokeFooter from "../Card/PokeFooter/container";
+import styles from "@/styles/Top.module.css";
 
 type Props = {
   pokeList: Poke[];
@@ -47,13 +48,9 @@ export default function TopPresenter({
     <>
       {finishType != "" && <PokeFinishLogo finishType={finishType} />}
       <Stack
-        style={{
-          animation:
-            finishType != ""
-              ? "fade-keyframe-bg 5s ease 0.5s 1 forwards"
-              : "null",
-        }}
-        className="justify-content-around"
+        className={`justify-content-around ${
+          finishType != "" && styles.fadeBg
+        }`}
       >
         <PokeHeader spaceBasis={spaceBasis} finishType={finishType} />
         <PokeTarget targetPoke={targetPoke} spaceBasis={spaceBasis} />

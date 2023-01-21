@@ -1,3 +1,26 @@
+.main {
+  height: 100vh;
+  margin-top: 0.5rem;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.fadeBg{
+    animation: fade-bg 5s ease 0.5s 1 forwards;
+}
+
+@keyframes fade-bg {
+  0%{
+    opacity: 1;
+  }
+  30%{
+    opacity: 0.5;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
 .header{
   flex-direction: row;
   align-items: center;
@@ -22,13 +45,24 @@
   }
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6rem;
-  min-height: 100vh;
+.finishLogoCenter{
+  font-size: 5rem;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  animation: fade 5s ease 0.5s 1 forwards;
+}
+
+@keyframes fade{
+  0%{
+    opacity: 0;
+  }
+  30%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
 }
 
 .description {
@@ -199,6 +233,11 @@
 
 /* Mobile */
 @media (max-width: 700px) {
+  .main{
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
   .header{
     flex-direction: column;
     position: relative;
@@ -214,6 +253,9 @@
   .resetBtn{
     margin-top: 2vh
   }
+
+
+
 
   .content {
     padding: 4rem;

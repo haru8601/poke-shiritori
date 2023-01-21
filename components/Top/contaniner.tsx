@@ -17,7 +17,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
-  const [usedPokeCount, setUsedPokeCount] = useState<number>(0);
+  const [usedPokeCount, setUsedPokeCount] = useState<number>(1);
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
   const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([

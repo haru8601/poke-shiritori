@@ -2,6 +2,7 @@ import Head from "next/head";
 import Top from "@/components/Top/contaniner";
 import { Poke } from "@/types/Poke";
 import fs from "fs";
+import styles from "@/styles/Top.module.css";
 
 type Props = {
   pokeList: Poke[];
@@ -20,7 +21,7 @@ export default function TopPage(props: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main style={{ height: "100vh" }} className="mt-2 mx-4">
+      <main className={styles.main}>
         <Top pokeList={props.pokeList} firstPoke={props.firstPoke} />
       </main>
     </>

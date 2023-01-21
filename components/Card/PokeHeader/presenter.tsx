@@ -17,7 +17,7 @@ export default function PokeHeaderPresenter({
     <header
       className={`m-3 mb-5 d-flex justify-content-between ${styles.header}`}
     >
-      <div className="d-inline-flex justify-content-between border-2 border-bottom border-dark">
+      <div className="d-inline-flex border-2 border-bottom border-dark">
         <h1 className="d-inline-block align-self-center my-0 text-dark fs-1 fw-bold">
           ポケモンしりとり
         </h1>

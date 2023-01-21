@@ -16,8 +16,8 @@ export default function PokeHeader({ spaceBasis, finishType }: Props) {
   };
   return (
     <PokeHeaderPresenter
-      spaceBasis={spaceBasis}
       finishType={finishType}
+      spaceBasis={spaceBasis}
       onReload={handleReload}
     />
   );
