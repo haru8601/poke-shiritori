@@ -61,6 +61,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
   };
 
   const handleSubmitPoke = async () => {
+    /* カタカナに変換 */
+    const kataPokeName = hira2kata(sentPokeName);
+
     /******** バリデーション ********/
     /* しりとりになっているかのチェック */
     const enermyLastWord = getShiritoriWord(
@@ -68,18 +71,18 @@ export default function Top({ pokeList, firstPoke }: Props) {
         enermyPokeList[enermyPokeList.length - 1].name.japanese) ||
         firstPoke.name.japanese
     );
-    if (!sentPokeName.startsWith(enermyLastWord)) {
+    if (!kataPokeName.startsWith(enermyLastWord)) {
       setPokeErr(`${enermyLastWord}から始まる名前にしてください`);
       return;
     }
     /* 一覧に存在するかチェック */
-    if (!pokeList.find((poke) => poke.name.japanese == sentPokeName)) {
+    if (!pokeList.find((poke) => poke.name.japanese == kataPokeName)) {
       setPokeErr("存在しないポケモンです");
       return;
     }
 
     /* 使用済みかのチェック */
-    if (usedPokeNameList.find((pokeName) => pokeName == sentPokeName)) {
+    if (usedPokeNameList.find((pokeName) => pokeName == kataPokeName)) {
       setPokeErr("このポケモンは使用済みです");
       return;
     }
@@ -88,7 +91,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     setMyTurn(false);
     setPokeErr("");
     const sentPoke = pokeList.find(
-      (poke) => poke.name.japanese == sentPokeName
+      (poke) => poke.name.japanese == kataPokeName
     )!;
 
     /* 使用済みリスト更新 */
@@ -113,7 +116,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       return;
     }
 
-    const lastWord = getShiritoriWord(sentPokeName);
+    const lastWord = getShiritoriWord(kataPokeName);
     /* 自分のポケリセット */
     setSentPokeName("");
 
@@ -247,4 +250,12 @@ const getAnswer = (
       candidateList[Math.floor(Math.random() * candidateList.length)]) ||
     void 0;
   return tmpTarget;
+};
+
+const hira2kata = (hira: string): string => {
+  return hira.replaceAll(/[ぁ-ん]/g, (word) =>
+    String.fromCharCode(
+      ...word.split("").map((char) => char.charCodeAt(0) + 96)
+    )
+  );
 };

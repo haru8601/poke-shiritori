@@ -12,6 +12,7 @@ import {
 import PokeHeader from "./container";
 import styles from "@/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
+import { Diff } from "@/types/Diff";
 
 type Props = ComponentProps<typeof PokeHeader> & {
   showSide: boolean;
@@ -72,19 +73,26 @@ export default function PokeHeaderPresenter({
         <Offcanvas.Body className="d-flex flex-column">
           <div>難易度</div>
           <ButtonGroup>
-            {CONFIG.diff.map((type, index) => (
-              <ToggleButton
+            {Object.keys(CONFIG.diff).map((type, index) => (
+              <OverlayTrigger
                 key={index}
-                id={`${index}`}
-                type="radio"
-                value={type}
-                checked={type == diff}
-                variant="outline-primary"
-                onClick={async () => console.log(localStorage.getItem("diff"))}
-                onChange={onChangeDiff}
+                placement="bottom"
+                overlay={<Tooltip>{CONFIG.diff[type as Diff]}</Tooltip>}
               >
-                {type}
-              </ToggleButton>
+                <ToggleButton
+                  id={`${index}`}
+                  type="radio"
+                  value={type}
+                  checked={type == diff}
+                  variant="outline-primary"
+                  onClick={async () =>
+                    console.log(localStorage.getItem("diff"))
+                  }
+                  onChange={onChangeDiff}
+                >
+                  {type}
+                </ToggleButton>
+              </OverlayTrigger>
             ))}
           </ButtonGroup>
         </Offcanvas.Body>

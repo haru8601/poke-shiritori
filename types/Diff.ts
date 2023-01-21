@@ -1,3 +1,3 @@
 import { CONFIG } from "@/const/config";
 
-export type Diff = typeof CONFIG.diff[number];
+export type Diff = keyof typeof CONFIG.diff;

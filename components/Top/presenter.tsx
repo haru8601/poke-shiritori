@@ -10,7 +10,7 @@ import PokeInput from "../Poke/PokeInput/container";
 import PokeTarget from "../Poke/PokeTarget/container";
 import PokeFooter from "../Card/PokeFooter/container";
 import styles from "@/styles/Top.module.css";
-import { CONFIG } from "@/const/config";
+import { Diff } from "@/types/Diff";
 
 type Props = {
   pokeList: Poke[];
@@ -23,7 +23,7 @@ type Props = {
   isMyTurn: boolean;
   finishType: "" | "win" | "lose";
   usedPokeCount: number;
-  diff: typeof CONFIG.diff[number];
+  diff: Diff;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;

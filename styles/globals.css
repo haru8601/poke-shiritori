@@ -67,3 +67,12 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* react-bootstrapのButtonコンポーネントにはbtnクラスが付く */
+.btn{
+  cursor: pointer;
+}
+
+.btn *{
+  cursor: pointer;
+}
