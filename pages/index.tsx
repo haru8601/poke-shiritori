@@ -8,6 +8,7 @@ import limitChecker from "@/lib/limitChecher";
 import requestIp from "request-ip";
 import { CONFIG } from "@/const/config";
 import Error from "next/error";
+import path from "path";
 
 type Props = {
   err?: {
@@ -94,7 +95,9 @@ export async function getServerSideProps({
 
   /* ポケ一覧取得 */
   const pokeList = JSON.parse(
-    fs.readFileSync("const/pokedex.json").toString()
+    fs
+      .readFileSync(path.join(process.cwd(), "const", "pokedex.json"))
+      .toString()
   ) as Poke[];
   /* 最初のポケ設定 */
   let firstPoke: Poke | undefined = void 0;
