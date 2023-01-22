@@ -1,12 +1,13 @@
-import { CONFIG } from "@/const/config";
 import { pokeColorMap } from "@/const/pokeColorMap";
 import { ComponentProps } from "react";
 import PokeCard from "../PokeCard/container";
 import PokeFirst from "./container";
 
-type Props = ComponentProps<typeof PokeFirst>;
+type Props = ComponentProps<typeof PokeFirst> & {
+  imgBase: number;
+};
 
-export default function PokeFirstPresenter({ firstPoke }: Props) {
+export default function PokeFirstPresenter({ firstPoke, imgBase }: Props) {
   return (
     <div
       style={{ width: "90%" }}
@@ -16,11 +17,11 @@ export default function PokeFirstPresenter({ firstPoke }: Props) {
       <div
         className="px-2 rounded d-flex justify-content-center"
         style={{
-          height: `${CONFIG.spaceBasis * 0.8}px`,
+          height: `${imgBase}px`,
           backgroundColor: firstPoke.type && pokeColorMap[firstPoke.type[0]],
         }}
       >
-        <PokeCard targetPoke={firstPoke} small />
+        <PokeCard targetPoke={firstPoke} small imgBase={imgBase} />
       </div>
     </div>
   );

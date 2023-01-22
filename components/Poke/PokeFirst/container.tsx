@@ -1,9 +1,11 @@
 import TopPresenter from "@/components/Top/presenter";
+import { CONFIG } from "@/const/config";
 import { ComponentProps } from "react";
 import PokeFirstPresenter from "./presenter";
 
 type Props = Pick<ComponentProps<typeof TopPresenter>, "firstPoke">;
 
 export default function PokeFirst({ firstPoke }: Props) {
-  return <PokeFirstPresenter firstPoke={firstPoke} />;
+  const imgBase = CONFIG.spaceBasis * 0.8;
+  return <PokeFirstPresenter firstPoke={firstPoke} imgBase={imgBase} />;
 }
