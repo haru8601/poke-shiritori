@@ -27,7 +27,6 @@
     "typescript": "4.9.4"
   },
   "devDependencies": {
-    "@types/lru-cache": "^7.10.10",
     "@types/request-ip": "^0.0.37",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
