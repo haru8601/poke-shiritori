@@ -3,13 +3,27 @@ import Top from "@/components/Top/contaniner";
 import { Poke } from "@/types/Poke";
 import fs from "fs";
 import styles from "@/styles/Top.module.css";
+import { NextApiRequest } from "next";
+import limitChecker from "@/lib/limitChecher";
+import requestIp from "request-ip";
+import { CONFIG } from "@/const/config";
+import Error from "next/error";
 
 type Props = {
-  pokeList: Poke[];
-  firstPoke: Poke;
+  err?: {
+    code: number;
+    message: string;
+  };
+  data?: {
+    pokeList: Poke[];
+    firstPoke: Poke;
+  };
 };
 
 export default function TopPage(props: Props) {
+  if (props.err) {
+    return <Error statusCode={props.err.code} title={props.err.message} />;
+  }
   return (
     <>
       <Head>
@@ -22,13 +36,39 @@ export default function TopPage(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Top pokeList={props.pokeList} firstPoke={props.firstPoke} />
+        <Top
+          pokeList={props.data!.pokeList}
+          firstPoke={props.data!.firstPoke}
+        />
       </main>
     </>
   );
 }
 
-export async function getServerSideProps(): Promise<{ props: Props }> {
+export async function getServerSideProps({
+  req,
+}: {
+  req: NextApiRequest;
+}): Promise<{ props: Props }> {
+  /* Poke Apiに負荷をかけない為リクエスト上限を設ける */
+  const clientIp = requestIp.getClientIp(req) || "IP_NOT_FOUND";
+  try {
+    // 上限はポケモン数
+    await limitChecker().check(clientIp);
+  } catch (err) {
+    console.log(err);
+    return {
+      props: {
+        err: {
+          code: 429,
+          message: `Too many requests. Try again after ${
+            CONFIG.requestLimit.expired / 1000
+          } seconds`,
+        },
+      },
+    };
+  }
+
   /* ポケ一覧取得 */
   const pokeList = JSON.parse(
     fs.readFileSync("const/pokedex.json").toString()
@@ -39,5 +79,5 @@ export async function getServerSideProps(): Promise<{ props: Props }> {
     firstPoke = pokeList[Math.floor(Math.random() * pokeList.length)];
   }
 
-  return { props: { pokeList, firstPoke } };
+  return { props: { data: { pokeList, firstPoke } } };
 }

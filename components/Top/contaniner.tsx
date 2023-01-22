@@ -5,10 +5,16 @@ import TopPage from "@/pages";
 import { Diff } from "@/types/Diff";
 import { Poke } from "@/types/Poke";
 import { PokeApi } from "@/types/PokeApi";
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  ComponentProps,
+  KeyboardEvent,
+  useEffect,
+  useState,
+} from "react";
 import TopPresenter from "./presenter";
 
-type Props = React.ComponentProps<typeof TopPage>;
+type Props = Required<ComponentProps<typeof TopPage>>["data"];
 
 export default function Top({ pokeList, firstPoke }: Props) {
   const [targetPoke, setTargetPoke] = useState<Poke>(firstPoke);

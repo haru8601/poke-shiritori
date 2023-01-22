@@ -5,4 +5,9 @@ export const CONFIG = {
     hard: 'CPUは可能な限り"ン"で終わらせません',
   },
   spaceBasis: 50,
+  requestLimit: {
+    expired: 1 * 60 * 60 * 1000, // mill sec
+    requestCount: 1000, // per {expired}
+    maxUserCount: 1000, // per {expired}
+  },
 } as const;
