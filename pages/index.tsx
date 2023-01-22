@@ -34,6 +34,29 @@ export default function TopPage(props: Props) {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="description"
+          content="ポケモンしりとり用サイトです。公式とは一切関係ありません。"
+        />
+        {/* Twitterカード用 */}
+        {/* twitter以外でも使えるやつ */}
+        <meta property="og:type" content="website" />
+        <meta id="share-title" property="og:title" content="ポケモンしりとり" />
+        <meta
+          id="share-detail"
+          property="og:description"
+          content="ポケモンの名前でしりとりが出来るサイトです。"
+        />
+        {/* TODO: URL更新 */}
+        {/* <meta id="share-url" property="og:url" content="https://haroot.net" /> */}
+        {/* <meta property="og:site_name" content="haroot.net" /> */}
+        {/* <meta
+          property="og:image"
+          content="https://haroot.net/images/homePage.png"
+        /> */}
+        {/* <!--twitter特有の設定--> */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@haroot_net" />
       </Head>
       <main className={styles.main}>
         <Top
