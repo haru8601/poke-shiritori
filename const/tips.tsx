@@ -29,7 +29,7 @@ export const TIPS = [
       <Button
         variant="link"
         href="https://www.youtube.com/watch?v=uvOfXoQxT2o"
-        target="blank"
+        target="_blank"
       >
         <i style={{ color: "red" }} className="bi bi-youtube"></i>
         【公式】「ポケモンしりとり（ピカチュウ→ミュウVer.）」
