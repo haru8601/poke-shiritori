@@ -9,6 +9,7 @@ import requestIp from "request-ip";
 import { CONFIG } from "@/const/config";
 import Error from "next/error";
 import path from "path";
+import { PATH } from "@/const/path";
 
 type Props = {
   err?: {
@@ -48,13 +49,9 @@ export default function TopPage(props: Props) {
           property="og:description"
           content="ポケモンの名前でしりとりが出来るサイトです。"
         />
-        {/* TODO: URL更新 */}
-        {/* <meta id="share-url" property="og:url" content="https://haroot.net" /> */}
-        {/* <meta property="og:site_name" content="haroot.net" /> */}
-        {/* <meta
-          property="og:image"
-          content="https://haroot.net/images/homePage.png"
-        /> */}
+        <meta id="share-url" property="og:url" content={PATH.site} />
+        <meta property="og:site_name" content="haroot.net" />
+        <meta property="og:image" content={PATH.site + PATH.defaultImg} />
         {/* <!--twitter特有の設定--> */}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@haroot_net" />

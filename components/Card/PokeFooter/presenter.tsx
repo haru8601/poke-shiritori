@@ -11,9 +11,8 @@ export default function PokeFooterPresenter({ usedPokeCount }: Props) {
       <Button href={PATH.homePage} variant="link" target="blank">
         <i className="bi bi-box-arrow-up-right">作者のHP</i>
       </Button>
-      {/* TODO: URL修正 */}
       <Button
-        href={`https://twitter.com/share?text=ポケモンしりとりが ${usedPokeCount} 回続いた!&url=https://haroot.net&via=haroot_net`}
+        href={`https://twitter.com/share?text=ポケモンしりとりが ${usedPokeCount} 回続いた!&url=${PATH.site}&via=haroot_net`}
         variant="link"
         data-show-count="false"
         rel="noreferrer"
