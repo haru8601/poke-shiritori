@@ -1,6 +1,6 @@
 import TopPresenter from "@/components/Top/presenter";
 import { useRouter } from "next/router";
-import { ComponentProps, useState } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 import PokeHeaderPresenter from "./presenter";
 
 type Props = Pick<
@@ -11,6 +11,19 @@ type Props = Pick<
 export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
   const router = useRouter();
   const [showSide, setShowSide] = useState<boolean>(false);
+  const [innerWidth, setInnerWidth] = useState<number>(0);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      /* 初期値 */
+      setInnerWidth(window.innerWidth);
+
+      /* リサイズ処理追加 */
+      window.addEventListener("resize", () => {
+        setInnerWidth(window.innerWidth);
+      });
+    }
+  }, []);
 
   const handleReload = () => {
     router.reload();
@@ -26,6 +39,7 @@ export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
       finishType={finishType}
       showSide={showSide}
       diff={diff}
+      innerWidth={innerWidth}
       onReload={handleReload}
       onOpenSide={handleOpenSide}
       onCloseSide={handleCloseSide}

@@ -11,7 +11,7 @@ export default function PokeFirstPresenter({ firstPoke, imgBase }: Props) {
   return (
     <div
       style={{ width: "90%" }}
-      className="d-flex mt-3 mb-2 justify-content-end"
+      className="d-flex my-2 mx-auto justify-content-end"
     >
       <span className="mx-2 align-self-center">最初のポケモン:</span>
       <div

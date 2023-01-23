@@ -18,6 +18,7 @@ import { TIPS } from "@/const/tips";
 
 type Props = ComponentProps<typeof PokeHeader> & {
   showSide: boolean;
+  innerWidth: number;
   onReload: () => void;
   onOpenSide: () => void;
   onCloseSide: () => void;
@@ -28,14 +29,17 @@ export default function PokeHeaderPresenter({
   showSide,
   finishType,
   diff,
+  innerWidth,
   onReload,
   onOpenSide,
   onCloseSide,
   onChangeDiff,
 }: Props) {
   return (
-    <header className={`mb-5 d-flex justify-content-between ${styles.header}`}>
-      <div className="d-inline-flex mb-2 border-2 border-bottom border-dark">
+    <header
+      className={`mt-1 mb-3 d-flex justify-content-between ${styles.header}`}
+    >
+      <div className="d-inline-flex me-auto border-2 border-bottom border-dark ">
         <h1
           className={`d-inline-block align-self-center my-0 text-dark fw-bold ${styles.headerTitle}`}
         >
@@ -54,14 +58,13 @@ export default function PokeHeaderPresenter({
           />
         </OverlayTrigger>
       </div>
-      <Button variant="dark" type="submit" onClick={onReload}>
-        目の前を真っ暗にする
+      <Button className="mx-3" variant="dark" type="submit" onClick={onReload}>
+        {(innerWidth >= 700 && "目の前を真っ暗にする") || (
+          <i className={`bi bi-arrow-clockwise ${styles.btnIcon}`}></i>
+        )}
       </Button>
       <Button variant="secondary" onClick={onOpenSide}>
-        <i
-          style={{ fontSize: "30px" }}
-          className={`bi bi-gear-fill ${styles.configBtn}`}
-        ></i>
+        <i className={`bi bi-gear-fill ${styles.btnIcon}`}></i>
       </Button>
       <Offcanvas
         className={styles.configCanvas}

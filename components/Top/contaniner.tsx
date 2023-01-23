@@ -1,4 +1,5 @@
 import { PATH } from "@/const/path";
+import { SPECIAL_WORDS } from "@/const/specialWords";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useSleep } from "@/hook/useTimer";
 import TopPage from "@/pages";
@@ -67,8 +68,8 @@ export default function Top({ pokeList, firstPoke }: Props) {
   };
 
   const handleSubmitPoke = async () => {
-    /* カタカナに変換 */
-    const kataPokeName = hira2kata(sentPokeName);
+    /* カタカナに変換後、特殊記号変換 */
+    const kataPokeName = replaceSpecial(hira2kata(sentPokeName));
 
     /******** バリデーション ********/
     /* しりとりになっているかのチェック */
@@ -196,36 +197,22 @@ export default function Top({ pokeList, firstPoke }: Props) {
 }
 
 const getShiritoriWord = (pokeName: string): string => {
-  const notLastList = ["ー", "：", "・", "ッ"];
-  const specialCharMap: { [key: string]: string } = {
-    "２": "ツー",
-    Ｚ: "ゼット",
-    "♂": "オス",
-    "♀": "メス",
-    ァ: "ア",
-    ィ: "イ",
-    ゥ: "ウ",
-    ェ: "エ",
-    ォ: "オ",
-    ャ: "ヤ",
-    ュ: "ユ",
-    ョ: "ヨ",
-    ヮ: "ワ",
-  };
-  const specialCharReg = new RegExp(Object.keys(specialCharMap).join("|"), "g");
+  const specialCharReg = new RegExp(
+    Object.keys(SPECIAL_WORDS.shiritoriPronunciationMap).join("|"),
+    "g"
+  );
   /* 特殊文字の変換処理 */
   const replacedPokeName = pokeName.replaceAll(
     specialCharReg,
-    (str) => specialCharMap[str]
+    (str) => SPECIAL_WORDS.shiritoriPronunciationMap[str]
   );
-  for (let i = 0; i < replacedPokeName.length; i++) {
-    const targetChar = replacedPokeName.charAt(replacedPokeName.length - 1 - i);
-    /* 文字がしりとり出来ない文字でなければ */
-    if (!notLastList.includes(targetChar)) {
-      return targetChar.toUpperCase();
-    }
-  }
-  return "";
+  /* 文字を逆順にしてしりとり可能な単語を見つけ次第返却 */
+  return (
+    replacedPokeName
+      .split("")
+      .reverse()
+      .find((char) => !SPECIAL_WORDS.notLastWordList.includes(char)) || ""
+  );
 };
 
 /**
@@ -278,4 +265,16 @@ const hira2kata = (hira: string): string => {
       ...word.split("").map((char) => char.charCodeAt(0) + 96)
     )
   );
+};
+
+/**
+ * 特殊文字の表記揺れを置換して統一
+ * @param kata カタカナ
+ * @returns 置換後のカタカナ
+ */
+const replaceSpecial = (kata: string): string => {
+  Object.entries(SPECIAL_WORDS.spellingFixMap).forEach((entry) => {
+    kata = kata.replace(new RegExp(entry[0]), entry[1]);
+  });
+  return kata;
 };

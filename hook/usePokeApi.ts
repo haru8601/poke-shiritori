@@ -1,5 +1,5 @@
 import { PokeApi } from "@/types/PokeApi";
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance } from "axios";
 
 export const usePokeApi = () => {
   const createBase = (): AxiosInstance => {
@@ -14,7 +14,11 @@ export const usePokeApi = () => {
     const instance = createBase();
     return await instance
       .get(`pokemon/${id}`)
-      .then((response) => response.data);
+      .then((response) => response.data)
+      .catch((err: AxiosError) => {
+        console.log(err);
+        return;
+      });
   };
   return { fetchPoke } as const;
 };

@@ -17,7 +17,10 @@ export default function PokeInputPresenter({
   onSubmitPoke,
 }: Props) {
   return (
-    <InputGroup style={{ width: "40%", minWidth: "300px" }} className="mx-auto">
+    <InputGroup
+      style={{ width: "40%", minWidth: "300px" }}
+      className="mx-auto my-1"
+    >
       <Form.Control
         id="poke-input"
         list="poke-list"
