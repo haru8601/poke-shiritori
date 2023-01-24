@@ -1,5 +1,15 @@
-.hoverImg{
-  animation: jump 0.6s ease 0.1s forwards;
+/* hoverがある場合(PC) */
+@media (hover:hover) {
+  .pokeImg:hover{
+    animation: jump 0.6s ease 0.1s forwards;
+  }
+}
+
+/* hoverがない場合(Mobile)はjsで動的クラス追加 */
+@media (hover:none){
+  .hoverImg{
+    animation: jump 0.6s ease 0.1s forwards;
+  }
 }
 
 @keyframes jump {

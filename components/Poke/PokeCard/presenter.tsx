@@ -21,8 +21,8 @@ export default function PokeCardPresenter({
     <>
       <span className="align-self-center">{targetPoke.name.japanese}</span>
       <Image
-        /* mobileのhover制御もあるためjsで動的クラス追加 */
-        className={isHover ? styles.hoverImg : ""}
+        /* mobileのhoverはjsで動的クラス追加で制御 */
+        className={`${styles.pokeImg} ${isHover ? styles.hoverImg : ""}`}
         height={small ? imgBase : imgBase * 1.2}
         width={small ? imgBase : imgBase * 1.2}
         src={targetPoke.imgPath ?? PATH.defaultImg}

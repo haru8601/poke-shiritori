@@ -54,8 +54,8 @@ export default function PokeHeaderPresenter({
           overlay={<Tooltip>made by haroot</Tooltip>}
         >
           <Image
-            /* mobileのhover制御もあるためjsで動的クラス追加 */
-            className={isHover ? styles.hoverImg : ""}
+            /* mobileのhoverはjsで動的クラス追加で制御 */
+            className={`${styles.pokeImg} ${isHover ? styles.hoverImg : ""}`}
             height={CONFIG.spaceBasis}
             width={CONFIG.spaceBasis}
             src={PATH.defaultImg}
