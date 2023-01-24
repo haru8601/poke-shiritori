@@ -19,10 +19,12 @@ import { TIPS } from "@/const/tips";
 type Props = ComponentProps<typeof PokeHeader> & {
   showSide: boolean;
   innerWidth: number;
+  isHover: boolean;
   onReload: () => void;
   onOpenSide: () => void;
   onCloseSide: () => void;
   onChangeDiff: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClickPokeImg: () => void;
 };
 
 export default function PokeHeaderPresenter({
@@ -30,10 +32,12 @@ export default function PokeHeaderPresenter({
   finishType,
   diff,
   innerWidth,
+  isHover,
   onReload,
   onOpenSide,
   onCloseSide,
   onChangeDiff,
+  onClickPokeImg,
 }: Props) {
   return (
     <header
@@ -50,11 +54,13 @@ export default function PokeHeaderPresenter({
           overlay={<Tooltip>made by haroot</Tooltip>}
         >
           <Image
-            className={styles.pokeImage}
+            /* mobileのhover制御もあるためjsで動的クラス追加 */
+            className={isHover ? styles.hoverImg : ""}
             height={CONFIG.spaceBasis}
             width={CONFIG.spaceBasis}
             src={PATH.defaultImg}
-            alt=""
+            alt="ピカチュウの尻尾の画像です"
+            onClick={onClickPokeImg}
           />
         </OverlayTrigger>
       </div>

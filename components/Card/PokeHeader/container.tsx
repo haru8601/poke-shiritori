@@ -12,6 +12,7 @@ export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
   const router = useRouter();
   const [showSide, setShowSide] = useState<boolean>(false);
   const [innerWidth, setInnerWidth] = useState<number>(0);
+  const [isHover, setIsHover] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -34,16 +35,24 @@ export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
   const handleCloseSide = () => {
     setShowSide(false);
   };
+  const handleClickPokeImg = () => {
+    setIsHover(true);
+    setTimeout(() => {
+      setIsHover(false);
+    }, 700);
+  };
   return (
     <PokeHeaderPresenter
       finishType={finishType}
       showSide={showSide}
       diff={diff}
       innerWidth={innerWidth}
+      isHover={isHover}
       onReload={handleReload}
       onOpenSide={handleOpenSide}
       onCloseSide={handleCloseSide}
       onChangeDiff={onChangeDiff}
+      onClickPokeImg={handleClickPokeImg}
     />
   );
 }

@@ -1,4 +1,4 @@
-.pokeImage:hover{
+.hoverImg{
   animation: jump 0.6s ease 0.1s forwards;
 }
 
