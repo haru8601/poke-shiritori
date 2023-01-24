@@ -64,12 +64,21 @@ export default function PokeHeaderPresenter({
           />
         </OverlayTrigger>
       </div>
-      <Button className="mx-3" variant="dark" type="submit" onClick={onReload}>
+      <Button
+        className={`mx-3 ${styles.clickBtn}`}
+        variant="dark"
+        type="submit"
+        onClick={onReload}
+      >
         {(innerWidth >= 700 && "目の前を真っ暗にする") || (
           <i className={`bi bi-arrow-clockwise ${styles.btnIcon}`}></i>
         )}
       </Button>
-      <Button variant="secondary" onClick={onOpenSide}>
+      <Button
+        variant="secondary"
+        className={`mx-3 ${styles.clickBtn}`}
+        onClick={onOpenSide}
+      >
         <i className={`bi bi-gear-fill ${styles.btnIcon}`}></i>
       </Button>
       <Offcanvas

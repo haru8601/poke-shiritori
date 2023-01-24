@@ -17,11 +17,9 @@ export default function PokeInputPresenter({
   onSubmitPoke,
 }: Props) {
   return (
-    <InputGroup
-      style={{ width: "40%", minWidth: "300px" }}
-      className="mx-auto my-1"
-    >
+    <InputGroup className="mx-auto my-1 justify-content-center">
       <Form.Control
+        style={{ maxWidth: "300px" }}
         id="poke-input"
         list="poke-list"
         value={sentPokeName}

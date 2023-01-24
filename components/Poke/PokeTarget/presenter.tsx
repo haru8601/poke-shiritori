@@ -10,7 +10,7 @@ type Props = ComponentProps<typeof PokeTarget> & {
 export default function PokeTargetPresenter({ targetPoke, imgBase }: Props) {
   return (
     <div
-      className="px-2 mb-1 rounded d-flex mx-auto justify-content-center"
+      className="px-2 mb-1 rounded d-flex mx-auto border border-dark border-1 justify-content-center"
       style={{
         height: `${imgBase}px`,
         width: "20%",

@@ -15,7 +15,7 @@ export default function PokeFirstPresenter({ firstPoke, imgBase }: Props) {
     >
       <span className="mx-2 align-self-center">最初のポケモン:</span>
       <div
-        className="px-2 rounded d-flex justify-content-center"
+        className="px-2 rounded d-flex border border-dark border-1  justify-content-center"
         style={{
           height: `${imgBase}px`,
           backgroundColor: firstPoke.type && pokeColorMap[firstPoke.type[0]],
