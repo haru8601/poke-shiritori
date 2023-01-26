@@ -29,7 +29,7 @@ export default function TopPage(props: Props) {
   return (
     <>
       <Head>
-        <title>ポケモンしりとり</title>
+        <title>ポケモンしりとり by haroot</title>
         <meta
           name="description"
           content="ポケモンしりとりオンラインの専用サイトです。"
@@ -47,7 +47,7 @@ export default function TopPage(props: Props) {
         <meta
           id="share-detail"
           property="og:description"
-          content="ポケモンの名前でしりとりが出来るサイトです。"
+          content="harootが作成したポケモンの名前でしりとりが出来るサイトです。"
         />
         <meta id="share-url" property="og:url" content={PATH.site} />
         <meta property="og:site_name" content="haroot.net" />
