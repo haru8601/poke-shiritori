@@ -38,7 +38,7 @@ export default function TopPage(props: Props) {
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="ポケモンしりとり用サイトです。公式とは一切関係ありません。"
+          content="harootが作成したポケモンしりとり用サイトです。"
         />
         {/* Twitterカード用 */}
         {/* twitter以外でも使えるやつ */}
