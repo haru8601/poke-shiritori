@@ -42,7 +42,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
       const imgPath =
         tmpTargetResponse!.sprites.other["official-artwork"].front_default;
       firstPoke.imgPath = imgPath || PATH.defaultImg;
-      console.log(firstPoke);
       /* レンダリングさせる(変更を伝える)ためディープコピー */
       setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
     })();
