@@ -12,13 +12,17 @@ export default function connectMysql() {
   const pool: Promise<any> = mysql.createConnection(dbConfig);
 
   /* クエリ実行関数 */
-  const execQuery = async (query: string) => {
+  const execQuery = async (query: string, values: any[]) => {
+    const conn = await pool;
     try {
-      const conn = await pool;
-      const res = await conn.execute(query);
+      await conn.beginTransaction();
+      const res = await conn.execute(query, values);
+      await conn.commit();
+
       // 0:rows, 1:fields
       return res[0];
     } catch (err) {
+      await conn.rollback();
       console.log(err);
     }
   };
