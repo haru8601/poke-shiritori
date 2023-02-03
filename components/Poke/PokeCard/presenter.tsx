@@ -5,7 +5,7 @@ import styles from "@/styles/Top.module.css";
 import { PATH } from "@/const/path";
 
 type Props = Required<ComponentProps<typeof PokeCard>> & {
-  isHover: boolean;
+  clicked: boolean;
   onClickPokeImg: () => void;
 };
 
@@ -14,15 +14,15 @@ export default function PokeCardPresenter({
   small,
   zIndex,
   imgBase,
-  isHover,
+  clicked,
   onClickPokeImg,
 }: Props) {
   return (
     <>
       <span className="align-self-center">{targetPoke.name.japanese}</span>
       <Image
-        /* mobileのhover制御もあるためjsで動的クラス追加 */
-        className={isHover ? styles.hoverImg : ""}
+        /* mobileのhover制御はjsで動的クラス追加 */
+        className={`${styles.pokeImg} ${clicked ? styles.jumpImg : ""}`}
         height={small ? imgBase : imgBase * 1.2}
         width={small ? imgBase : imgBase * 1.2}
         src={targetPoke.imgPath ?? PATH.defaultImg}

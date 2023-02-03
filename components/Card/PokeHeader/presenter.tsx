@@ -19,7 +19,7 @@ import { TIPS } from "@/const/tips";
 type Props = ComponentProps<typeof PokeHeader> & {
   showSide: boolean;
   innerWidth: number;
-  isHover: boolean;
+  clicked: boolean;
   onReload: () => void;
   onOpenSide: () => void;
   onCloseSide: () => void;
@@ -32,7 +32,7 @@ export default function PokeHeaderPresenter({
   finishType,
   diff,
   innerWidth,
-  isHover,
+  clicked,
   onReload,
   onOpenSide,
   onCloseSide,
@@ -55,7 +55,7 @@ export default function PokeHeaderPresenter({
         >
           <Image
             /* mobileのhover制御もあるためjsで動的クラス追加 */
-            className={isHover ? styles.hoverImg : ""}
+            className={`${styles.pokeImg} ${clicked ? styles.jumpImg : ""}`}
             height={CONFIG.spaceBasis}
             width={CONFIG.spaceBasis}
             src={PATH.defaultImg}
