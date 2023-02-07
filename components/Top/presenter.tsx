@@ -2,7 +2,7 @@ import { Poke } from "@/types/Poke";
 import { ChangeEvent, KeyboardEvent } from "react";
 import { Stack } from "react-bootstrap";
 import Loading from "../Item/Loading/container";
-import PokeFinishLogo from "../Poke/PokeFinishLogo/container";
+import PokeFinishModal from "../Poke/PokeFinishLogo/container";
 import PokeFirst from "../Poke/PokeFirst/container";
 import PokeHeader from "../Card/PokeHeader/container";
 import PokeHistoryList from "../Poke/PokeHistoryList/container";
@@ -49,7 +49,12 @@ export default function TopPresenter({
 }: Props) {
   return (
     <>
-      {finishType != "" && <PokeFinishLogo finishType={finishType} />}
+      {finishType && (
+        <PokeFinishModal
+          finishType={finishType}
+          usedPokeCount={usedPokeCount}
+        />
+      )}
       <Stack
         className={`justify-content-around ${
           finishType != "" && styles.fadeBg

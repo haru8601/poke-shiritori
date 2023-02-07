@@ -106,9 +106,6 @@ export default function PokeHeaderPresenter({
                     value={type}
                     checked={type == diff}
                     variant="outline-primary"
-                    onClick={async () =>
-                      console.log(localStorage.getItem("diff"))
-                    }
                     onChange={onChangeDiff}
                   >
                     {type}

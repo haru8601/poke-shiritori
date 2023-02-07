@@ -1,15 +1,125 @@
-import { ComponentProps } from "react";
-import PokeFinishLogo from "./container";
+import { ChangeEvent, ComponentProps } from "react";
+import PokeFinishModal from "./container";
 import styles from "@/styles/Top.module.css";
+import { Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
+import { Score } from "@/types/Score";
+import { USER } from "@/const/user";
+import Tweet from "@/components/Card/Tweet/container";
 
-type Props = ComponentProps<typeof PokeFinishLogo>;
+type Props = Pick<ComponentProps<typeof PokeFinishModal>, "finishType"> & {
+  scoreAll: Score[];
+  myScore: Score;
+  showModal: boolean;
+  nickname: string;
+  nameErr: string;
+  myIndex: number;
+  onCloseModal: () => void;
+  onChangeNickname: (event: ChangeEvent<HTMLInputElement>) => void;
+  onSubmitNickname: () => void;
+};
 
-export default function PokeFinishLogoPresenter({ finishType }: Props) {
+export default function PokeFinishModalPresenter({
+  scoreAll,
+  myScore,
+  finishType,
+  showModal,
+  nickname,
+  nameErr,
+  myIndex,
+  onCloseModal,
+  onChangeNickname,
+  onSubmitNickname,
+}: Props) {
   return (
-    <h3
-      className={`text-success text-uppercase position-fixed top-50 start-50 translate-middle text-nowrap ${styles.finishLogoCenter}`}
+    <Modal
+      show={showModal}
+      onHide={onCloseModal}
+      className={`${styles.finishModal} overflow-hidden`}
+      backdrop="static"
     >
-      you {finishType} {finishType == "win" ? "!!" : "..."}
-    </h3>
+      <Modal.Header closeButton style={{ height: "15vh" }}>
+        <Modal.Title
+          className={`text-success text-uppercase ${styles.finishLogoCenter} flex-grow-1 text-center`}
+        >
+          you {finishType} {finishType == "win" ? "!!" : "..."}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="d-flex flex-column" style={{ maxHeight: "80vh" }}>
+        <Tweet usedPokeCount={myScore.score} className="m-3 mb-5" />
+        <InputGroup className="mx-auto justify-content-center">
+          <InputGroup.Text>ニックネーム</InputGroup.Text>
+          <Form.Control
+            placeholder={USER.defaultName}
+            value={nickname}
+            onChange={onChangeNickname}
+            isInvalid={nameErr != ""}
+            className={styles.pokeInput}
+          />
+          <Button
+            variant="primary"
+            className="rounded-end"
+            type="submit"
+            onClick={onSubmitNickname}
+          >
+            変更
+          </Button>
+          {nameErr && (
+            <Form.Control.Feedback type="invalid" tooltip>
+              {nameErr}
+            </Form.Control.Feedback>
+          )}
+        </InputGroup>
+        <h4 className="mt-3">ランキング</h4>
+        <div style={{ height: "auto", overflowY: "scroll" }}>
+          <Table>
+            <thead>
+              <tr>
+                <th>順位</th>
+                <th>ユーザー</th>
+                <th>スコア</th>
+              </tr>
+            </thead>
+            <tbody>
+              {scoreAll
+                .concat(myScore)
+                .sort((a, b) => {
+                  const scoreDiff = b.score - a.score;
+                  /* 2つ目で新規のスコアが既存の以上ならswap */
+                  if (b.id == -1 && scoreDiff > 0) {
+                    return 1;
+                  }
+                  /* 1つ目が新規で既存のスコアと同じならswapさせない */
+                  if (a.id == -1 && scoreDiff <= 0) {
+                    return -1;
+                  }
+                  return scoreDiff;
+                })
+                .slice(0, 5)
+                .map((score: Score, index) => {
+                  return (
+                    <tr
+                      key={index}
+                      className={`${score.id < 0 ? styles.myScore : ""}`}
+                    >
+                      <td>{index + 1}</td>
+                      <td>{score.user}</td>
+                      <td>{score.score}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+            {myIndex > 10 && (
+              <tfoot style={{ borderTop: "3px double black" }}>
+                <tr className={styles.myScore}>
+                  <td>{myIndex + 1}</td>
+                  <td>{myScore.user}</td>
+                  <td>{myScore.score}</td>
+                </tr>
+              </tfoot>
+            )}
+          </Table>
+        </div>
+      </Modal.Body>
+    </Modal>
   );
 }

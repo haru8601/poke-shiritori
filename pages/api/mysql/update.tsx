@@ -10,9 +10,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  const param = req.body;
   const resData = await connectMysql().execQuery(
-    "select user,score from score_all order by score desc, update_date",
-    []
+    "update score_all set user = ? where id = ?",
+    [param.user, param.id]
   );
   res.status(200).json(resData);
 }
