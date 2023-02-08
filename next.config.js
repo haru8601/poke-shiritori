@@ -16,6 +16,8 @@ const nextConfig = {
       },
     ],
   },
+  /* 未検証 */
+  crossOrigin: false,
 };
 
 module.exports = nextConfig;

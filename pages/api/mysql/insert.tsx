@@ -7,6 +7,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResultSetHeader | void>
 ) {
+  /* 未検証 */
+  if (req.headers["content-type"] !== "application/json") {
+    console.error("csrf???");
+    console.log(req.headers);
+    return;
+  }
   const param = req.body;
   const resData: ResultSetHeader | void = await connectMysql()
     .execQuery("insert into score_all(user, score) values(?, ?)", [
