@@ -28,7 +28,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
-  const [usedPokeCount, setUsedPokeCount] = useState<number>(1);
   const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([
     firstPoke.name.japanese,
   ]);
@@ -107,7 +106,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const tmpUsedPokeNameList = Array.from(usedPokeNameList);
     tmpUsedPokeNameList.push(sentPoke.name.japanese);
     setUsedPokeNameList(tmpUsedPokeNameList);
-    setUsedPokeCount(tmpUsedPokeNameList.length);
 
     const sentPokeResponse = await fetchPoke(sentPoke.id);
     const imgPath =
@@ -135,10 +133,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     /* ポケ一覧からアンサーの候補を取得 */
     let tmpTarget = getAnswer(pokeList, lastWord, tmpUsedPokeNameList, diff);
 
-    /* CPUの負け */
-    if (!tmpTarget || tmpTarget.name.japanese.endsWith("ン")) {
-      setFinishType("win");
-    }
     if (!tmpTarget) {
       /* 解答なし */
       tmpTarget = {
@@ -160,11 +154,14 @@ export default function Top({ pokeList, firstPoke }: Props) {
       /* 使用済みリスト更新 */
       tmpUsedPokeNameList.push(tmpTarget.name.japanese);
       setUsedPokeNameList(tmpUsedPokeNameList);
-      setUsedPokeCount(tmpUsedPokeNameList.length);
 
       const tmpEnermyPokeList = Array.from(enermyPokeList);
       tmpEnermyPokeList.push(tmpTarget);
       setEnermyPokeList(tmpEnermyPokeList);
+    }
+    /* CPUの負け */
+    if (!tmpTarget || tmpTarget.name.japanese.endsWith("ン")) {
+      setFinishType("win");
     }
 
     setTargetPoke(tmpTarget);
@@ -188,8 +185,8 @@ export default function Top({ pokeList, firstPoke }: Props) {
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
       finishType={finishType}
-      usedPokeCount={usedPokeCount}
       diff={diff}
+      usedPokeCount={usedPokeNameList.length}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
