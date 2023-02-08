@@ -1,10 +1,10 @@
 import { ChangeEvent, ComponentProps } from "react";
-import PokeFinishModal from "./container";
-import styles from "@/styles/Top.module.css";
 import { Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
-import { Score } from "@/types/Score";
-import { USER } from "@/const/user";
 import Tweet from "@/components/Card/Tweet/container";
+import { USER } from "@/const/user";
+import styles from "@/styles/Top.module.css";
+import { Score } from "@/types/Score";
+import PokeFinishModal from "./container";
 
 type Props = Pick<ComponentProps<typeof PokeFinishModal>, "finishType"> & {
   scoreAll: Score[];

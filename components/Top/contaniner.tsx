@@ -1,3 +1,10 @@
+import {
+  ChangeEvent,
+  ComponentProps,
+  KeyboardEvent,
+  useEffect,
+  useState,
+} from "react";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useSleep } from "@/hook/useTimer";
@@ -9,13 +16,6 @@ import { getAnswer } from "@/utils/getAnswer";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
 import { hira2kata } from "@/utils/hira2kata";
 import { replaceSpecial } from "@/utils/replaceSpecial";
-import {
-  ChangeEvent,
-  ComponentProps,
-  KeyboardEvent,
-  useEffect,
-  useState,
-} from "react";
 import TopPresenter from "./presenter";
 
 type Props = Required<ComponentProps<typeof TopPage>>["data"];

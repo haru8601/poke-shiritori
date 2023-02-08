@@ -1,4 +1,3 @@
-import { PATH } from "@/const/path";
 import { ChangeEvent, ComponentProps } from "react";
 import {
   Accordion,
@@ -10,11 +9,12 @@ import {
   ToggleButton,
   Tooltip,
 } from "react-bootstrap";
-import PokeHeader from "./container";
-import styles from "@/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
-import { Diff } from "@/types/Diff";
+import { PATH } from "@/const/path";
 import { TIPS } from "@/const/tips";
+import styles from "@/styles/Top.module.css";
+import { Diff } from "@/types/Diff";
+import PokeHeader from "./container";
 
 type Props = ComponentProps<typeof PokeHeader> & {
   showSide: boolean;

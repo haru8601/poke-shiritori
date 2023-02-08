@@ -1,6 +1,6 @@
-import TopPresenter from "@/components/Top/presenter";
 import { useRouter } from "next/router";
 import { ComponentProps, useEffect, useState } from "react";
+import TopPresenter from "@/components/Top/presenter";
 import PokeHeaderPresenter from "./presenter";
 
 type Props = Pick<

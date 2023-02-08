@@ -1,5 +1,5 @@
-import { CONFIG } from "@/const/config";
 import LRU from "lru-cache";
+import { CONFIG } from "@/const/config";
 
 /* キャッシュをグローバルで生成 */
 const tokenCache = new LRU<string, number>({

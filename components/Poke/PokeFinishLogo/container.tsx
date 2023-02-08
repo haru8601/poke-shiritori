@@ -1,9 +1,9 @@
-import TopPresenter from "@/components/Top/presenter";
-import { useScore } from "@/hook/useScore";
-import { Score } from "@/types/Score";
 import { AxiosResponse } from "axios";
 import { ResultSetHeader } from "mysql2";
 import { ChangeEvent, ComponentProps, useEffect, useState } from "react";
+import TopPresenter from "@/components/Top/presenter";
+import { useScore } from "@/hook/useScore";
+import { Score } from "@/types/Score";
 import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<

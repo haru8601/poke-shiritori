@@ -1,6 +1,6 @@
+import { ComponentProps, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
-import { ComponentProps, useState } from "react";
 import PokeCardPresenter from "./presenter";
 
 type Props = Pick<ComponentProps<typeof TopPresenter>, "targetPoke"> & {

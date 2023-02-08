@@ -1,7 +1,7 @@
-import { pokeColorMap } from "@/const/pokeColorMap";
 import { ComponentProps } from "react";
-import PokeCard from "../PokeCard/container";
+import { pokeColorMap } from "@/const/pokeColorMap";
 import PokeFirst from "./container";
+import PokeCard from "../PokeCard/container";
 
 type Props = ComponentProps<typeof PokeFirst> & {
   imgBase: number;

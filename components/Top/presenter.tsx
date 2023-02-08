@@ -1,16 +1,16 @@
-import { Poke } from "@/types/Poke";
 import { ChangeEvent, KeyboardEvent } from "react";
 import { Stack } from "react-bootstrap";
+import styles from "@/styles/Top.module.css";
+import { Diff } from "@/types/Diff";
+import { Poke } from "@/types/Poke";
+import PokeFooter from "../Card/PokeFooter/container";
+import PokeHeader from "../Card/PokeHeader/container";
 import Loading from "../Item/Loading/container";
 import PokeFinishModal from "../Poke/PokeFinishLogo/container";
 import PokeFirst from "../Poke/PokeFirst/container";
-import PokeHeader from "../Card/PokeHeader/container";
 import PokeHistoryList from "../Poke/PokeHistoryList/container";
 import PokeInput from "../Poke/PokeInput/container";
 import PokeTarget from "../Poke/PokeTarget/container";
-import PokeFooter from "../Card/PokeFooter/container";
-import styles from "@/styles/Top.module.css";
-import { Diff } from "@/types/Diff";
 
 type Props = {
   pokeList: Poke[];

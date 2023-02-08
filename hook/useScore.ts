@@ -1,7 +1,7 @@
-import { Score } from "@/types/Score";
 import axios, { AxiosResponse } from "axios";
 import { ResultSetHeader } from "mysql2";
 import { useCallback } from "react";
+import { Score } from "@/types/Score";
 
 export const useScore = () => {
   const createBase = () => {

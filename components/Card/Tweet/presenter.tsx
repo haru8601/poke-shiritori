@@ -1,6 +1,6 @@
-import { PATH } from "@/const/path";
 import { ComponentProps } from "react";
 import { Button } from "react-bootstrap";
+import { PATH } from "@/const/path";
 import Tweet from "./container";
 
 type Props = ComponentProps<typeof Tweet>;

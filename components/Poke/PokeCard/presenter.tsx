@@ -1,8 +1,8 @@
 import { ComponentProps } from "react";
 import { Image } from "react-bootstrap";
-import PokeCard from "./container";
-import styles from "@/styles/Top.module.css";
 import { PATH } from "@/const/path";
+import styles from "@/styles/Top.module.css";
+import PokeCard from "./container";
 
 type Props = Required<ComponentProps<typeof PokeCard>> & {
   clicked: boolean;

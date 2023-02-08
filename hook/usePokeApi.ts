@@ -1,5 +1,5 @@
-import { PokeApi } from "@/types/PokeApi";
 import axios, { AxiosError, AxiosInstance } from "axios";
+import { PokeApi } from "@/types/PokeApi";
 
 export const usePokeApi = () => {
   const createBase = (): AxiosInstance => {
