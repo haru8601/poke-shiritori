@@ -8,13 +8,17 @@ import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "finishType" | "usedPokeCount"
+  "finishType" | "usedPokeCount" | "scoreAll" | "myIndex"
 >;
 
-export default function PokeFinishModal({ finishType, usedPokeCount }: Props) {
-  const { fetchScoreAll, storeScore, updateName } = useScore();
+export default function PokeFinishModal({
+  finishType,
+  usedPokeCount,
+  scoreAll,
+  myIndex,
+}: Props) {
+  const { storeScore, updateName } = useScore();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [scoreAll, setScoreAll] = useState<Score[]>([]);
   const [nickname, setNickname] = useState<string>(
     sessionStorage.getItem("nickname") ?? ""
   );
@@ -25,20 +29,9 @@ export default function PokeFinishModal({ finishType, usedPokeCount }: Props) {
   });
   const [insertId, setInsertId] = useState<number>(-1);
   const [nameErr, setNameErr] = useState<string>("");
-  const [myIndex, setMyIndex] = useState<number>(-1);
 
   useEffect(() => {
     (async () => {
-      /* ランキング取得 */
-      const tmpScoreAll = (await fetchScoreAll()) ?? [];
-
-      /* 順位計算 */
-      const tmpRank = tmpScoreAll.findIndex(
-        (row) => row.score <= myScore.score
-      );
-      setMyIndex(tmpRank != -1 ? tmpRank : tmpScoreAll.length);
-
-      setScoreAll(tmpScoreAll);
       /* DBに結果保存 */
       const res: AxiosResponse<ResultSetHeader> | void = await storeScore(
         myScore

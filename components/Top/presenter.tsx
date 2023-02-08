@@ -3,10 +3,11 @@ import { Stack } from "react-bootstrap";
 import styles from "@/styles/Top.module.css";
 import { Diff } from "@/types/Diff";
 import { Poke } from "@/types/Poke";
+import { Score } from "@/types/Score";
 import PokeFooter from "../Card/PokeFooter/container";
 import PokeHeader from "../Card/PokeHeader/container";
 import Loading from "../Item/Loading/container";
-import PokeFinishModal from "../Poke/PokeFinishLogo/container";
+import PokeFinishModal from "../Poke/PokeFinishModal/container";
 import PokeFirst from "../Poke/PokeFirst/container";
 import PokeHistoryList from "../Poke/PokeHistoryList/container";
 import PokeInput from "../Poke/PokeInput/container";
@@ -24,6 +25,8 @@ type Props = {
   finishType: "" | "win" | "lose";
   usedPokeCount: number;
   diff: Diff;
+  scoreAll: Score[];
+  myIndex: number;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
@@ -42,6 +45,8 @@ export default function TopPresenter({
   finishType,
   usedPokeCount,
   diff,
+  scoreAll,
+  myIndex,
   onChangePoke,
   onKeydown,
   onSubmitPoke,
@@ -53,6 +58,8 @@ export default function TopPresenter({
         <PokeFinishModal
           finishType={finishType}
           usedPokeCount={usedPokeCount}
+          scoreAll={scoreAll}
+          myIndex={myIndex}
         />
       )}
       <Stack
@@ -84,7 +91,7 @@ export default function TopPresenter({
           enermyPokeList={enermyPokeList}
           isMyTurn={isMyTurn}
         />
-        <PokeFooter usedPokeCount={usedPokeCount} />
+        <PokeFooter usedPokeCount={usedPokeCount} myIndex={myIndex} />
       </Stack>
     </>
   );

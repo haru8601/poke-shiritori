@@ -7,11 +7,13 @@ import {
 } from "react";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
+import { useScore } from "@/hook/useScore";
 import { useSleep } from "@/hook/useTimer";
 import TopPage from "@/pages";
 import { Diff } from "@/types/Diff";
 import { Poke } from "@/types/Poke";
 import { PokeApi } from "@/types/PokeApi";
+import { Score } from "@/types/Score";
 import { getAnswer } from "@/utils/getAnswer";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
 import { hira2kata } from "@/utils/hira2kata";
@@ -34,6 +36,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [diff, setDiff] = useState<Diff>("normal");
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
+  const { fetchScoreAll } = useScore();
+  const [scoreAll, setScoreAll] = useState<Score[]>([]);
+  const [myIndex, setMyIndex] = useState<number>(-1);
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
@@ -53,6 +58,25 @@ export default function Top({ pokeList, firstPoke }: Props) {
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  /* 終了後の処理 */
+  useEffect(() => {
+    (async () => {
+      if (finishType == "") {
+        return;
+      }
+      /* ランキング取得 */
+      const tmpScoreAll = (await fetchScoreAll()) ?? [];
+
+      /* 順位計算 */
+      const tmpRank = tmpScoreAll.findIndex(
+        (row) => row.score <= usedPokeNameList.length
+      );
+      setMyIndex(tmpRank != -1 ? tmpRank : tmpScoreAll.length);
+
+      setScoreAll(tmpScoreAll);
+    })();
+  }, [fetchScoreAll, finishType, usedPokeNameList.length]);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
@@ -187,6 +211,8 @@ export default function Top({ pokeList, firstPoke }: Props) {
       finishType={finishType}
       diff={diff}
       usedPokeCount={usedPokeNameList.length}
+      scoreAll={scoreAll}
+      myIndex={myIndex}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}

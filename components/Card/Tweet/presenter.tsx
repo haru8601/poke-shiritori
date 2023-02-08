@@ -3,16 +3,14 @@ import { Button } from "react-bootstrap";
 import { PATH } from "@/const/path";
 import Tweet from "./container";
 
-type Props = ComponentProps<typeof Tweet>;
+type Props = Pick<ComponentProps<typeof Tweet>, "className" | "style"> & {
+  text: string;
+};
 
-export default function TweetPresenter({
-  usedPokeCount,
-  style,
-  className,
-}: Props) {
+export default function TweetPresenter({ text, style, className }: Props) {
   return (
     <Button
-      href={`https://twitter.com/share?text=ポケモンしりとりが ${usedPokeCount} 回続いた!&url=${PATH.site}&via=haroot_net`}
+      href={`https://twitter.com/share?text=${text}&url=${PATH.site}&via=haroot_net`}
       variant="primary"
       data-show-count="false"
       rel="noreferrer"

@@ -10,4 +10,5 @@ export const CONFIG = {
     requestCount: 1000, // per {expired}
     maxUserCount: 1000, // per {expired}
   },
+  rankLimit: 5,
 } as const;

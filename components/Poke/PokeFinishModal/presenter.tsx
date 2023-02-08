@@ -1,6 +1,7 @@
 import { ChangeEvent, ComponentProps } from "react";
 import { Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
 import Tweet from "@/components/Card/Tweet/container";
+import { CONFIG } from "@/const/config";
 import { USER } from "@/const/user";
 import styles from "@/styles/Top.module.css";
 import { Score } from "@/types/Score";
@@ -45,7 +46,11 @@ export default function PokeFinishModalPresenter({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex flex-column" style={{ maxHeight: "80vh" }}>
-        <Tweet usedPokeCount={myScore.score} className="m-3 mb-5" />
+        <Tweet
+          usedPokeCount={myScore.score}
+          myIndex={myIndex}
+          className="m-3 mb-5"
+        />
         <InputGroup className="mx-auto justify-content-center">
           <InputGroup.Text>ニックネーム</InputGroup.Text>
           <Form.Control
@@ -94,7 +99,7 @@ export default function PokeFinishModalPresenter({
                   }
                   return scoreDiff;
                 })
-                .slice(0, 5)
+                .slice(0, CONFIG.rankLimit)
                 .map((score: Score, index) => {
                   return (
                     <tr
@@ -108,7 +113,7 @@ export default function PokeFinishModalPresenter({
                   );
                 })}
             </tbody>
-            {myIndex > 10 && (
+            {myIndex >= CONFIG.rankLimit && (
               <tfoot style={{ borderTop: "3px double black" }}>
                 <tr className={styles.myScore}>
                   <td>{myIndex + 1}</td>
