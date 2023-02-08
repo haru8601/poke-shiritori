@@ -34,11 +34,11 @@ export default function Top({ pokeList, firstPoke }: Props) {
     firstPoke.name.japanese,
   ]);
   const [diff, setDiff] = useState<Diff>("normal");
+  const [scoreAll, setScoreAll] = useState<Score[]>([]);
+  const [myIndex, setMyIndex] = useState<number>(-1);
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
   const { fetchScoreAll } = useScore();
-  const [scoreAll, setScoreAll] = useState<Score[]>([]);
-  const [myIndex, setMyIndex] = useState<number>(-1);
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {

@@ -54,7 +54,7 @@ export default function TopPresenter({
 }: Props) {
   return (
     <>
-      {finishType && (
+      {myIndex != -1 && (
         <PokeFinishModal
           finishType={finishType}
           usedPokeCount={usedPokeCount}

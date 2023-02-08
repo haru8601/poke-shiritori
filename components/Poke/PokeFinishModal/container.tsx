@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import { ResultSetHeader } from "mysql2";
 import { ChangeEvent, ComponentProps, useEffect, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
@@ -33,10 +32,8 @@ export default function PokeFinishModal({
   useEffect(() => {
     (async () => {
       /* DBに結果保存 */
-      const res: AxiosResponse<ResultSetHeader> | void = await storeScore(
-        myScore
-      );
-      res && setInsertId(res.data.insertId);
+      const res: ResultSetHeader | void = await storeScore(myScore);
+      res && setInsertId(res.insertId);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -64,7 +61,7 @@ export default function PokeFinishModal({
     const tmpMyScore = JSON.parse(JSON.stringify(myScore));
     tmpMyScore.user = nickname;
     /* DBにスコアを保存 */
-    await updateName({ id: insertId, user: nickname });
+    insertId && (await updateName({ id: insertId, user: nickname }));
     /* 表示を変更 */
     setMyScore(tmpMyScore);
     /* ストレージに保存 */

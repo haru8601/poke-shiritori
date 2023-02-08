@@ -21,13 +21,16 @@ export const useScore = () => {
   const storeScore = useCallback(
     async (
       param: Pick<Score, "user" | "score">
-    ): Promise<AxiosResponse<ResultSetHeader> | void> => {
+    ): Promise<ResultSetHeader | void> => {
       const instance = createBase();
       return await instance
         .post("insert", {
           user: param.user,
           score: param.score,
         })
+        .then(
+          (response: AxiosResponse<ResultSetHeader | void>) => response?.data
+        )
         .catch((err) => {
           console.log(err);
         });
