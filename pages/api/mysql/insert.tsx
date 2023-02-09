@@ -1,16 +1,14 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ResultSetHeader } from "mysql2";
 import connectMysql from "@/lib/connectMysql";
+import checkRequest from "./checkRequest";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResultSetHeader | void>
 ) {
-  /* 未検証 */
-  if (req.headers["content-type"] !== "application/json") {
-    console.error("csrf???");
-    console.log(req.headers);
+  if (!checkRequest(req, res, "POST")) {
     return;
   }
   const param = req.body;
@@ -22,6 +20,7 @@ export default async function handler(
     .then((response: ResultSetHeader | void) => response)
     .catch((err) => {
       console.log(err);
+      res.status(500).end();
       return;
     });
   res.status(200).json(resData);

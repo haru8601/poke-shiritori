@@ -1,18 +1,25 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import connectMysql from "@/lib/connectMysql";
+import { Score } from "@/types/Score";
+import checkRequest from "./checkRequest";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-type Data = {
-  name: string;
-};
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Score[] | void>
 ) {
-  const resData = await connectMysql().execQuery(
-    "select user,score from score_all order by score desc, update_date",
-    []
-  );
+  if (!checkRequest(req, res, "GET")) {
+    return;
+  }
+  const resData: Score[] | void = await connectMysql()
+    .execQuery(
+      "select user,score from score_all order by score desc, update_date",
+      []
+    )
+    .catch((err) => {
+      console.log(err);
+      res.status(500).end();
+      return;
+    });
   res.status(200).json(resData);
 }

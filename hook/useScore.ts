@@ -7,13 +7,11 @@ export const useScore = () => {
   const createBase = () => {
     return axios.create({ baseURL: "api/mysql" });
   };
-  const fetchScoreAll = useCallback(async () => {
+  const fetchScoreAll = useCallback(async (): Promise<Score[] | void> => {
     const instance = createBase();
     return await instance
       .get("select")
-      .then((response: AxiosResponse<Score[]>) => {
-        return response.data;
-      })
+      .then((response: AxiosResponse<Score[]>) => response?.data)
       .catch((err) => {
         console.log(err);
       });
@@ -37,7 +35,9 @@ export const useScore = () => {
     },
     []
   );
-  const updateName = async (param: Pick<Score, "id" | "user">) => {
+  const updateName = async (
+    param: Pick<Score, "id" | "user">
+  ): Promise<ResultSetHeader | void> => {
     if (param.id < 0) {
       console.log(`id: ${param.id}のレコードは存在しません`);
       return;
@@ -48,6 +48,7 @@ export const useScore = () => {
         id: param.id,
         user: param.user,
       })
+      .then((response: AxiosResponse<ResultSetHeader | void>) => response?.data)
       .catch((err) => {
         console.log(err);
       });
