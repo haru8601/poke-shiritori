@@ -32,7 +32,7 @@ export default function PokeHeaderPresenter({
         <h1
           className={`d-inline-block align-self-center my-0 text-dark fw-bold ${styles.headerTitle}`}
         >
-          ポケモンしりとり
+          ポケモンしりとり(β版)
         </h1>
         <OverlayTrigger
           placement="right"
