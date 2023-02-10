@@ -13,7 +13,7 @@ export default async function handler(
   }
   const resData: Score[] | void = await connectMysql()
     .execQuery(
-      "select user,score from score_all order by score desc, update_date",
+      "select user,score from score_all order by score desc, update_date desc",
       []
     )
     .catch((err) => {
