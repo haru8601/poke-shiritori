@@ -12,11 +12,33 @@ haroot が作成したポケモンしりとり SPA。
 | Bootstrap  | 5.2.3      | CSS テンプレート   |
 | PokéAPI    | -          | ポケモン非公式 API |
 
+<br>
+
 ## 環境構築
 
-環境変数や DB 接続は特にありません。
+DB 接続パラメータを環境変数に記載
+<br>
+({}内は使用する DB 情報に書き換えてください)
+
+```sh
+cat << EOF >> .env
+MYSQL_HOST={host}
+MYSQL_USER={user}
+MYSQL_PASSWORD={password}
+MYSQL_DATABASE={database}
+EOF
+```
+
+モジュールのインストール
 
 ```sh
 npm install
+```
+
+<br>
+
+# 起動
+
+```sh
 npm run dev
 ```

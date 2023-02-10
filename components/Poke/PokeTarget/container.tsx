@@ -1,6 +1,6 @@
+import { ComponentProps } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
-import { ComponentProps } from "react";
 import PokeTargetPresenter from "./presenter";
 
 type Props = Pick<ComponentProps<typeof TopPresenter>, "targetPoke">;

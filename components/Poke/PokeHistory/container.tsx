@@ -1,5 +1,5 @@
-import TopPresenter from "@/components/Top/presenter";
 import { ComponentProps } from "react";
+import TopPresenter from "@/components/Top/presenter";
 import PokeHistoryPresenter from "./presenter";
 
 type Props = Pick<

@@ -1,6 +1,6 @@
-import { CONFIG } from "@/const/config";
 import { ComponentProps } from "react";
 import { Spinner } from "react-bootstrap";
+import { CONFIG } from "@/const/config";
 import Loading from "./container";
 
 type Props = ComponentProps<typeof Loading>;

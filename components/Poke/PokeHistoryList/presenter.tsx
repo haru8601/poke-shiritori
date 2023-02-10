@@ -1,7 +1,7 @@
 import { ComponentProps } from "react";
 import { Stack } from "react-bootstrap";
-import PokeHistory from "../PokeHistory/container";
 import PokeHistoryList from "./container";
+import PokeHistory from "../PokeHistory/container";
 
 type Props = ComponentProps<typeof PokeHistoryList>;
 

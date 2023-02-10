@@ -1,9 +1,9 @@
-import { CONFIG } from "@/const/config";
-import { pokeColorMap } from "@/const/pokeColorMap";
 import { ComponentProps, Fragment } from "react";
 import { Stack } from "react-bootstrap";
-import PokeCard from "../PokeCard/container";
+import { CONFIG } from "@/const/config";
+import { pokeColorMap } from "@/const/pokeColorMap";
 import PokeHistory from "./container";
+import PokeCard from "../PokeCard/container";
 
 type Props = ComponentProps<typeof PokeHistory>;
 

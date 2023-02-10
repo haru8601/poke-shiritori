@@ -1,6 +1,6 @@
+import { ComponentProps, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
-import { ComponentProps, useState } from "react";
 import PokeCardPresenter from "./presenter";
 
 type Props = Pick<ComponentProps<typeof TopPresenter>, "targetPoke"> & {
@@ -15,12 +15,12 @@ export default function PokeCard({
   zIndex = 0,
   imgBase = CONFIG.spaceBasis,
 }: Props) {
-  const [isHover, setIsHover] = useState<boolean>(false);
+  const [clicked, setClicked] = useState<boolean>(false);
   const handleClickPokeImg = () => {
-    setIsHover(true);
+    setClicked(true);
     /* 0.7s後にクラス解除 */
     setTimeout(() => {
-      setIsHover(false);
+      setClicked(false);
     }, 700);
   };
   return (
@@ -29,7 +29,7 @@ export default function PokeCard({
       small={small}
       zIndex={zIndex}
       imgBase={imgBase}
-      isHover={isHover}
+      clicked={clicked}
       onClickPokeImg={handleClickPokeImg}
     />
   );

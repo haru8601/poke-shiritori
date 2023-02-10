@@ -1,11 +1,3 @@
-import { PATH } from "@/const/path";
-import { SPECIAL_WORDS } from "@/const/specialWords";
-import { usePokeApi } from "@/hook/usePokeApi";
-import { useSleep } from "@/hook/useTimer";
-import TopPage from "@/pages";
-import { Diff } from "@/types/Diff";
-import { Poke } from "@/types/Poke";
-import { PokeApi } from "@/types/PokeApi";
 import {
   ChangeEvent,
   ComponentProps,
@@ -13,6 +5,19 @@ import {
   useEffect,
   useState,
 } from "react";
+import { PATH } from "@/const/path";
+import { usePokeApi } from "@/hook/usePokeApi";
+import { useScore } from "@/hook/useScore";
+import { useSleep } from "@/hook/useTimer";
+import TopPage from "@/pages";
+import { Diff } from "@/types/Diff";
+import { Poke } from "@/types/Poke";
+import { PokeApi } from "@/types/PokeApi";
+import { Score } from "@/types/Score";
+import { getAnswer } from "@/utils/getAnswer";
+import { getShiritoriWord } from "@/utils/getShiritoriWord";
+import { hira2kata } from "@/utils/hira2kata";
+import { replaceSpecial } from "@/utils/replaceSpecial";
 import TopPresenter from "./presenter";
 
 type Props = Required<ComponentProps<typeof TopPage>>["data"];
@@ -25,13 +30,15 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
-  const [usedPokeCount, setUsedPokeCount] = useState<number>(1);
-  const { sleep } = useSleep();
-  const { fetchPoke } = usePokeApi();
   const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([
     firstPoke.name.japanese,
   ]);
   const [diff, setDiff] = useState<Diff>("normal");
+  const [scoreAll, setScoreAll] = useState<Score[]>([]);
+  const [myIndex, setMyIndex] = useState<number>(-1);
+  const { sleep } = useSleep();
+  const { fetchPoke } = usePokeApi();
+  const { fetchScoreAll } = useScore();
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
@@ -42,9 +49,12 @@ export default function Top({ pokeList, firstPoke }: Props) {
       const imgPath =
         tmpTargetResponse!.sprites.other["official-artwork"].front_default;
       firstPoke.imgPath = imgPath || PATH.defaultImg;
-      console.log(firstPoke);
       /* レンダリングさせる(変更を伝える)ためディープコピー */
       setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
+
+      /* ランキング取得 */
+      const tmpScoreAll = (await fetchScoreAll()) ?? [];
+      setScoreAll(tmpScoreAll);
     })();
 
     /* 難易度をセッションから取得 */
@@ -52,6 +62,21 @@ export default function Top({ pokeList, firstPoke }: Props) {
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  /* 終了後の処理 */
+  useEffect(() => {
+    (async () => {
+      if (finishType == "") {
+        return;
+      }
+
+      /* 順位計算 */
+      const tmpRank = scoreAll.findIndex(
+        (row) => row.score <= usedPokeNameList.length
+      );
+      setMyIndex(tmpRank != -1 ? tmpRank : scoreAll.length);
+    })();
+  }, [finishType, scoreAll, usedPokeNameList.length]);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
@@ -105,7 +130,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     const tmpUsedPokeNameList = Array.from(usedPokeNameList);
     tmpUsedPokeNameList.push(sentPoke.name.japanese);
     setUsedPokeNameList(tmpUsedPokeNameList);
-    setUsedPokeCount(tmpUsedPokeNameList.length);
 
     const sentPokeResponse = await fetchPoke(sentPoke.id);
     const imgPath =
@@ -133,10 +157,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     /* ポケ一覧からアンサーの候補を取得 */
     let tmpTarget = getAnswer(pokeList, lastWord, tmpUsedPokeNameList, diff);
 
-    /* CPUの負け */
-    if (!tmpTarget || tmpTarget.name.japanese.endsWith("ン")) {
-      setFinishType("win");
-    }
     if (!tmpTarget) {
       /* 解答なし */
       tmpTarget = {
@@ -158,11 +178,14 @@ export default function Top({ pokeList, firstPoke }: Props) {
       /* 使用済みリスト更新 */
       tmpUsedPokeNameList.push(tmpTarget.name.japanese);
       setUsedPokeNameList(tmpUsedPokeNameList);
-      setUsedPokeCount(tmpUsedPokeNameList.length);
 
       const tmpEnermyPokeList = Array.from(enermyPokeList);
       tmpEnermyPokeList.push(tmpTarget);
       setEnermyPokeList(tmpEnermyPokeList);
+    }
+    /* CPUの負け */
+    if (!tmpTarget || tmpTarget.name.japanese.endsWith("ン")) {
+      setFinishType("win");
     }
 
     setTargetPoke(tmpTarget);
@@ -186,8 +209,10 @@ export default function Top({ pokeList, firstPoke }: Props) {
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
       finishType={finishType}
-      usedPokeCount={usedPokeCount}
       diff={diff}
+      usedPokeCount={usedPokeNameList.length}
+      scoreAll={scoreAll}
+      myIndex={myIndex}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
@@ -195,86 +220,3 @@ export default function Top({ pokeList, firstPoke }: Props) {
     />
   );
 }
-
-const getShiritoriWord = (pokeName: string): string => {
-  const specialCharReg = new RegExp(
-    Object.keys(SPECIAL_WORDS.shiritoriPronunciationMap).join("|"),
-    "g"
-  );
-  /* 特殊文字の変換処理 */
-  const replacedPokeName = pokeName.replaceAll(
-    specialCharReg,
-    (str) => SPECIAL_WORDS.shiritoriPronunciationMap[str]
-  );
-  /* 文字を逆順にしてしりとり可能な単語を見つけ次第返却 */
-  return (
-    replacedPokeName
-      .split("")
-      .reverse()
-      .find((char) => !SPECIAL_WORDS.notLastWordList.includes(char)) || ""
-  );
-};
-
-/**
- * CPU側のアンサー取得
- * @param pokeList ポケリスト
- * @param lastWord ユーザー側の最後の文字
- * @param usedPokeNameList 使用済みポケリスト
- * @param diff 難易度
- * @returns アンサーポケ
- */
-const getAnswer = (
-  pokeList: Poke[],
-  lastWord: string,
-  usedPokeNameList: string[],
-  diff: Diff
-): Poke | undefined => {
-  /* ポケ一覧からアンサーの候補を取得 */
-  let candidateList = pokeList.filter(
-    (poke) =>
-      poke.name.japanese.startsWith(lastWord) &&
-      !usedPokeNameList.includes(poke.name.japanese)
-  );
-
-  /* hardの場合はなるべく負けない選択 */
-  if (diff == "hard") {
-    const tmpCandidateList = candidateList.filter(
-      (poke) => !poke.name.japanese.endsWith("ン")
-    );
-    if (tmpCandidateList.length) {
-      candidateList = tmpCandidateList;
-    }
-  }
-
-  /* 候補からランダムに選択 */
-  const tmpTarget =
-    (candidateList.length &&
-      candidateList[Math.floor(Math.random() * candidateList.length)]) ||
-    void 0;
-  return tmpTarget;
-};
-
-/**
- * ひらがなをカタカナに変換
- * @param hira ひらがな
- * @returns カタカナ
- */
-const hira2kata = (hira: string): string => {
-  return hira.replaceAll(/[ぁ-ん]/g, (word) =>
-    String.fromCharCode(
-      ...word.split("").map((char) => char.charCodeAt(0) + 96)
-    )
-  );
-};
-
-/**
- * 特殊文字の表記揺れを置換して統一
- * @param kata カタカナ
- * @returns 置換後のカタカナ
- */
-const replaceSpecial = (kata: string): string => {
-  Object.entries(SPECIAL_WORDS.spellingFixMap).forEach((entry) => {
-    kata = kata.replace(new RegExp(entry[0]), entry[1]);
-  });
-  return kata;
-};

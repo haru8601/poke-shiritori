@@ -1,18 +1,22 @@
-import TopPresenter from "@/components/Top/presenter";
 import { useRouter } from "next/router";
 import { ComponentProps, useEffect, useState } from "react";
+import TopPresenter from "@/components/Top/presenter";
 import PokeHeaderPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "finishType" | "diff" | "onChangeDiff"
+  "finishType" | "diff" | "onChangeDiff" | "scoreAll"
 >;
 
-export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
+export default function PokeHeader({
+  finishType,
+  diff,
+  scoreAll,
+  onChangeDiff,
+}: Props) {
   const router = useRouter();
-  const [showSide, setShowSide] = useState<boolean>(false);
   const [innerWidth, setInnerWidth] = useState<number>(0);
-  const [isHover, setIsHover] = useState<boolean>(false);
+  const [clicked, setClicked] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -29,28 +33,20 @@ export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
   const handleReload = () => {
     router.reload();
   };
-  const handleOpenSide = () => {
-    setShowSide(true);
-  };
-  const handleCloseSide = () => {
-    setShowSide(false);
-  };
   const handleClickPokeImg = () => {
-    setIsHover(true);
+    setClicked(true);
     setTimeout(() => {
-      setIsHover(false);
+      setClicked(false);
     }, 700);
   };
   return (
     <PokeHeaderPresenter
       finishType={finishType}
-      showSide={showSide}
       diff={diff}
       innerWidth={innerWidth}
-      isHover={isHover}
+      clicked={clicked}
+      scoreAll={scoreAll}
       onReload={handleReload}
-      onOpenSide={handleOpenSide}
-      onCloseSide={handleCloseSide}
       onChangeDiff={onChangeDiff}
       onClickPokeImg={handleClickPokeImg}
     />

@@ -1,28 +1,28 @@
 /* hoverがある場合(PC) */
-@media (hover:hover) {
-  .pokeImg:hover{
+@media (hover: hover) {
+  .pokeImg:hover {
     animation: jump 0.6s ease 0.1s forwards;
   }
 }
 
 /* hoverがない場合(Mobile)はjsで動的クラス追加 */
-@media (hover:none){
-  .hoverImg{
+@media (hover: none) {
+  .jumpImg {
     animation: jump 0.6s ease 0.1s forwards;
   }
 }
 
 @keyframes jump {
-  0%{
+  0% {
     transform: none;
   }
-  30%{
+  30% {
     transform: scale(0.98, 1.05) translateY(-10px) rotate(3deg);
   }
-  83%{
-    transform: scale(1.06, 0.94) translateY(5px)
+  83% {
+    transform: scale(1.06, 0.94) translateY(5px);
   }
-  100%{
+  100% {
     transform: none;
   }
 }
@@ -32,88 +32,87 @@
   margin: 0.5rem 1.5rem;
 }
 
-.fadeBg{
-    animation: fade-bg 5s ease 0.5s 1 forwards;
+.fadeBg {
+  animation: fade-bg 5s ease 0.5s 1 forwards;
 }
 
 @keyframes fade-bg {
-  0%{
+  0% {
     opacity: 1;
   }
-  30%{
+  30% {
     opacity: 0.5;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
 
-.header{
+.header {
   flex-direction: row;
   position: relative;
 }
 
-.headerTitle{
+.headerTitle {
   font-size: 30px;
 }
 
-.finishLogo{
-  position:absolute;
+.finishLogo {
+  position: absolute;
   top: 100%;
-  left:0;
+  left: 0;
 }
 
-.clickBtn:active{
+.clickBtn:active {
   transform: translateY(3px);
 }
 
-.btnIcon{
+.btnIcon {
   font-size: 30px;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
 
-.configCanvas{
+.configCanvas {
   width: 300px !important;
   transition: transform 0.5s ease;
 }
 
 /* Accordion.Headerの中にbutton要素があるはずなので勝手に書き換え */
-.tipHeader > button{
+.tipHeader > button {
   background-color: rgb(232, 232, 232);
 }
 
-.tipBody > *{
+.tipBody > * {
   font-size: 0.8rem;
 }
 
-.finishLogoCenter{
-  font-size: 5rem;
-  z-index: 1000;
+.finishModal {
   opacity: 0;
-  pointer-events: none;
-  animation: fade 5s ease 0.5s 1 forwards;
+  max-height: 95vh;
+  animation: fade-in 2s ease 0.5s 1 forwards;
 }
-
-@keyframes fade{
-  0%{
+@keyframes fade-in {
+  0% {
     opacity: 0;
   }
-  30%{
+  100% {
     opacity: 1;
   }
-  100%{
-    opacity: 0;
-  }
+}
+
+.finishLogoCenter {
+  font-size: 3rem;
+}
+
+.myScore {
+  background-color: gold;
 }
 
 /* Form.Controlのcss上書き */
-.pokeInput:focus{
+.pokeInput:focus {
   box-shadow: 0 0 0 0.1rem rgb(13 110 253 / 25%);
 }
-
-
-
 
 .description {
   display: inherit;
@@ -205,7 +204,7 @@
 
 .center::before,
 .center::after {
-  content: '';
+  content: "";
   left: 50%;
   position: absolute;
   filter: blur(45px);
@@ -233,7 +232,7 @@
 
 .thirteen::before,
 .thirteen::after {
-  content: '';
+  content: "";
   position: absolute;
   z-index: -1;
 }
@@ -283,21 +282,20 @@
 
 /* Mobile */
 @media (max-width: 700px) {
-  .main{
+  .main {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
   }
 
-  .btnIcon{
+  .btnIcon {
     font-size: 23px;
   }
 
-
-  .headerTitle{
+  .headerTitle {
     font-size: 18px;
   }
 
-  .configCanvas{
+  .configCanvas {
     width: 100vw !important;
   }
 
