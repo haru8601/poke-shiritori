@@ -19,6 +19,7 @@ export default function PokeHeaderPresenter({
   diff,
   innerWidth,
   clicked,
+  scoreAll,
   onReload,
   onChangeDiff,
   onClickPokeImg,
@@ -58,7 +59,7 @@ export default function PokeHeaderPresenter({
           <i className={`bi bi-arrow-clockwise ${styles.btnIcon}`}></i>
         )}
       </Button>
-      <PokeConfig diff={diff} onChangeDiff={onChangeDiff} />
+      <PokeConfig diff={diff} scoreAll={scoreAll} onChangeDiff={onChangeDiff} />
       {finishType != "" && (
         <h3 className={`my-0 text-success text-uppercase ${styles.finishLogo}`}>
           you {finishType} {finishType == "win" ? "!!" : "..."}

@@ -71,6 +71,7 @@ export default function TopPresenter({
           finishType={finishType}
           diff={diff}
           onChangeDiff={onChangeDiff}
+          scoreAll={scoreAll}
         />
         <PokeTarget targetPoke={targetPoke} />
         <PokeFirst firstPoke={firstPoke} />

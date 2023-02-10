@@ -5,10 +5,15 @@ import PokeHeaderPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "finishType" | "diff" | "onChangeDiff"
+  "finishType" | "diff" | "onChangeDiff" | "scoreAll"
 >;
 
-export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
+export default function PokeHeader({
+  finishType,
+  diff,
+  scoreAll,
+  onChangeDiff,
+}: Props) {
   const router = useRouter();
   const [innerWidth, setInnerWidth] = useState<number>(0);
   const [clicked, setClicked] = useState<boolean>(false);
@@ -40,6 +45,7 @@ export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
       diff={diff}
       innerWidth={innerWidth}
       clicked={clicked}
+      scoreAll={scoreAll}
       onReload={handleReload}
       onChangeDiff={onChangeDiff}
       onClickPokeImg={handleClickPokeImg}

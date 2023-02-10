@@ -51,6 +51,10 @@ export default function Top({ pokeList, firstPoke }: Props) {
       firstPoke.imgPath = imgPath || PATH.defaultImg;
       /* レンダリングさせる(変更を伝える)ためディープコピー */
       setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
+
+      /* ランキング取得 */
+      const tmpScoreAll = (await fetchScoreAll()) ?? [];
+      setScoreAll(tmpScoreAll);
     })();
 
     /* 難易度をセッションから取得 */
@@ -65,18 +69,14 @@ export default function Top({ pokeList, firstPoke }: Props) {
       if (finishType == "") {
         return;
       }
-      /* ランキング取得 */
-      const tmpScoreAll = (await fetchScoreAll()) ?? [];
 
       /* 順位計算 */
-      const tmpRank = tmpScoreAll.findIndex(
+      const tmpRank = scoreAll.findIndex(
         (row) => row.score <= usedPokeNameList.length
       );
-      setMyIndex(tmpRank != -1 ? tmpRank : tmpScoreAll.length);
-
-      setScoreAll(tmpScoreAll);
+      setMyIndex(tmpRank != -1 ? tmpRank : scoreAll.length);
     })();
-  }, [fetchScoreAll, finishType, usedPokeNameList.length]);
+  }, [finishType, scoreAll, usedPokeNameList.length]);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
