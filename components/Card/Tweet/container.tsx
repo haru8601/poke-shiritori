@@ -16,7 +16,9 @@ export default function Tweet({
   className,
 }: Props) {
   const text: string = `ポケモンしりとりが ${usedPokeCount} 回続い${
-    myIndex < CONFIG.rankLimit ? `て、${myIndex + 1}位にランクインし` : ""
+    myIndex >= 0 && myIndex < CONFIG.rankLimit
+      ? `て、${myIndex + 1}位にランクインし`
+      : ""
   }た！`;
   return <TweetPresenter text={text} style={style} className={className} />;
 }
