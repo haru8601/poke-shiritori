@@ -10,7 +10,6 @@ type Props = Pick<
 
 export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
   const router = useRouter();
-  const [showSide, setShowSide] = useState<boolean>(false);
   const [innerWidth, setInnerWidth] = useState<number>(0);
   const [clicked, setClicked] = useState<boolean>(false);
 
@@ -29,12 +28,6 @@ export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
   const handleReload = () => {
     router.reload();
   };
-  const handleOpenSide = () => {
-    setShowSide(true);
-  };
-  const handleCloseSide = () => {
-    setShowSide(false);
-  };
   const handleClickPokeImg = () => {
     setClicked(true);
     setTimeout(() => {
@@ -44,13 +37,10 @@ export default function PokeHeader({ finishType, diff, onChangeDiff }: Props) {
   return (
     <PokeHeaderPresenter
       finishType={finishType}
-      showSide={showSide}
       diff={diff}
       innerWidth={innerWidth}
       clicked={clicked}
       onReload={handleReload}
-      onOpenSide={handleOpenSide}
-      onCloseSide={handleCloseSide}
       onChangeDiff={onChangeDiff}
       onClickPokeImg={handleClickPokeImg}
     />
