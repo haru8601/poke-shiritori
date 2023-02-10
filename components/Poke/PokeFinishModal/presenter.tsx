@@ -40,7 +40,8 @@ export default function PokeFinishModalPresenter({
     >
       <Modal.Header closeButton style={{ height: "15vh" }}>
         <Modal.Title
-          className={`text-success text-uppercase ${styles.finishLogoCenter} flex-grow-1 text-center`}
+          className="text-success text-uppercase flex-grow-1 text-center"
+          style={{ fontSize: "3rem" }}
         >
           you {finishType} {finishType == "win" ? "!!" : "..."}
         </Modal.Title>

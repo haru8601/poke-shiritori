@@ -25,46 +25,53 @@ export default function PokeHeaderPresenter({
   onClickPokeImg,
 }: Props) {
   return (
-    <header
-      className={`mt-1 mb-3 d-flex justify-content-between ${styles.header}`}
-    >
-      <div className="d-inline-flex me-auto border-2 border-bottom border-dark ">
-        <h1
-          className={`d-inline-block align-self-center my-0 text-dark fw-bold ${styles.headerTitle}`}
+    <div className="mb-3">
+      <header className="mt-1 d-flex flex-row justify-content-between position-relative">
+        <div className="d-inline-flex me-auto border-2 border-bottom border-dark">
+          <h1
+            className="d-inline-block align-self-center my-0 text-dark fw-bold"
+            style={{ fontSize: "30px" }}
+          >
+            ポケモンしりとり(β版)
+          </h1>
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>made by haroot</Tooltip>}
+          >
+            <Image
+              /* mobileのhover制御もあるためjsで動的クラス追加 */
+              className={`${styles.pokeImg} ${clicked ? styles.jumpImg : ""}`}
+              height={CONFIG.spaceBasis}
+              width={CONFIG.spaceBasis}
+              src={PATH.defaultImg}
+              alt="ピカチュウの尻尾の画像です"
+              onClick={onClickPokeImg}
+            />
+          </OverlayTrigger>
+        </div>
+        <Button
+          className={`mx-3 ${styles.clickBtn}`}
+          variant="dark"
+          type="submit"
+          onClick={onReload}
         >
-          ポケモンしりとり(β版)
-        </h1>
-        <OverlayTrigger
-          placement="right"
-          overlay={<Tooltip>made by haroot</Tooltip>}
-        >
-          <Image
-            /* mobileのhover制御もあるためjsで動的クラス追加 */
-            className={`${styles.pokeImg} ${clicked ? styles.jumpImg : ""}`}
-            height={CONFIG.spaceBasis}
-            width={CONFIG.spaceBasis}
-            src={PATH.defaultImg}
-            alt="ピカチュウの尻尾の画像です"
-            onClick={onClickPokeImg}
-          />
-        </OverlayTrigger>
-      </div>
-      <Button
-        className={`mx-3 ${styles.clickBtn}`}
-        variant="dark"
-        type="submit"
-        onClick={onReload}
+          {(innerWidth >= 700 && "目の前を真っ暗にする") || (
+            <i className={`bi bi-arrow-clockwise ${styles.btnIcon}`}></i>
+          )}
+        </Button>
+        <PokeConfig
+          diff={diff}
+          scoreAll={scoreAll}
+          onChangeDiff={onChangeDiff}
+        />
+      </header>
+      <h3
+        className={`my-0 text-success text-uppercase ${
+          finishType != "" ? "" : "d-none"
+        }`}
       >
-        {(innerWidth >= 700 && "目の前を真っ暗にする") || (
-          <i className={`bi bi-arrow-clockwise ${styles.btnIcon}`}></i>
-        )}
-      </Button>
-      <PokeConfig diff={diff} scoreAll={scoreAll} onChangeDiff={onChangeDiff} />
-      {finishType != "" && (
-        <h3 className={`my-0 text-success text-uppercase ${styles.finishLogo}`}>
-          you {finishType} {finishType == "win" ? "!!" : "..."}
-        </h3>
-      )}
-    </header>
+        you {finishType} {finishType == "win" ? "!!" : "..."}
+      </h3>
+    </div>
   );
 }

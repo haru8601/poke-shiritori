@@ -12,8 +12,8 @@ export default function PokeHistoryListPresenter({
 }: Props) {
   return (
     <Stack
-      style={{ height: "40vh", overflow: "scroll" }}
-      className="justify-content-around"
+      style={{ height: "40vh" }}
+      className="justify-content-around overflow-scroll"
       direction="horizontal"
     >
       <PokeHistory myPokeList={myPokeList} isMyTurn={isMyTurn} />

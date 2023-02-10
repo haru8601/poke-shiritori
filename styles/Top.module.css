@@ -48,19 +48,8 @@
   }
 }
 
-.header {
-  flex-direction: row;
-  position: relative;
-}
-
 .headerTitle {
   font-size: 30px;
-}
-
-.finishLogo {
-  position: absolute;
-  top: 100%;
-  left: 0;
 }
 
 .clickBtn:active {
@@ -99,10 +88,6 @@
   100% {
     opacity: 1;
   }
-}
-
-.finishLogoCenter {
-  font-size: 3rem;
 }
 
 .myScore {
