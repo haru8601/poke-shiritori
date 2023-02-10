@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import requestIp from "request-ip";
 
 export default function checkRequest(
   req: NextApiRequest,
@@ -17,11 +16,11 @@ export default function checkRequest(
     res.redirect("/400");
     return false;
   }
-  if (requestIp.getClientIp(req) !== "::1") {
-    console.log("who are u?");
-    console.log(req);
-    res.redirect("/400");
-    return false;
-  }
+  // if (requestIp.getClientIp(req) !== "::1") {
+  //   console.log("who are u?");
+  //   console.log(req);
+  //   res.redirect("/400");
+  //   return false;
+  // }
   return true;
 }
