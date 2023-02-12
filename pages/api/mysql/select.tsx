@@ -21,6 +21,5 @@ export default async function handler(
       res.status(500).end();
       return;
     });
-  console.log("selected");
   res.status(200).json(resData);
 }

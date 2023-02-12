@@ -26,7 +26,6 @@ export default function TopPage(props: Props) {
   if (props.err) {
     return <Error statusCode={props.err.code} title={props.err.message} />;
   }
-  console.log("test1");
   return (
     <>
       <Head>
