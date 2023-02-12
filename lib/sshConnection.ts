@@ -43,6 +43,7 @@ export const SSHConnection = new Promise<any>((resolve, reject) => {
           };
           // connect to mysql
           const connection = mysql.createConnection(updatedDbServer);
+          console.log("connected");
           resolve(connection);
         }
       );

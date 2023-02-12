@@ -12,6 +12,7 @@ export const dbServer = {
 export default function connectMysql() {
   /* クエリ実行関数 */
   const execQuery = async (query: string, values: any[]) => {
+    console.log("test2");
     const pool =
       process.env.USE_SSH == "true"
         ? require("./sshConnection").SSHConnection
@@ -22,6 +23,7 @@ export default function connectMysql() {
     try {
       await conn.beginTransaction();
       const res = await conn.execute(query, values);
+      console.log("executed");
       await conn.commit();
       // 0:rows, 1:fields
       return res[0];
