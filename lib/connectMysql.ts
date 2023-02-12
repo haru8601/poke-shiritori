@@ -12,6 +12,7 @@ export const dbServer = {
 export default function connectMysql() {
   /* クエリ実行関数 */
   const execQuery = async (query: string, values: any[]) => {
+    console.log("test2");
     const pool =
       process.env.NODE_ENV == "production"
         ? require("./sshConnection").SSHConnection
