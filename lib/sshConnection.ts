@@ -1,5 +1,4 @@
 import { dbServer } from "./connectMysql";
-const fs = require("fs");
 const mysql = require("mysql2/promise");
 const { Client } = require("ssh2");
 
@@ -8,7 +7,7 @@ const tunnelConfig = {
   username: process.env.SSH_USER,
   port: process.env.SSH_PORT,
   host: process.env.SSH_HOST,
-  privateKey: fs.readFileSync("ssh_client.pem").toString(),
+  privateKey: process.env.SSH_KEY!.replaceAll("\\n", "\n"),
 };
 
 // ssh先
