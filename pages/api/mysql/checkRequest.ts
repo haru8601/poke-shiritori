@@ -7,13 +7,13 @@ export default function checkRequest(
 ) {
   if (req.method !== method) {
     console.log("method not allowed");
-    res.redirect("/405");
+    // res.redirect("/405");
     return false;
   }
   if (method == "POST" && req.headers["content-type"] !== "application/json") {
     console.log("csrf???");
     console.log(req.headers);
-    res.redirect("/400");
+    // res.redirect("/400");
     return false;
   }
   // if (requestIp.getClientIp(req) !== "::1") {
