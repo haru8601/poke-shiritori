@@ -16,11 +16,5 @@ export default function checkRequest(
     res.redirect("/400").end();
     return false;
   }
-  if (req.headers.host !== "localhost:3000") {
-    console.log("who are u?");
-    console.log(req.headers);
-    res.redirect("/400").end();
-    return false;
-  }
   return true;
 }
