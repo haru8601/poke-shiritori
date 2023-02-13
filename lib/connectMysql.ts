@@ -13,7 +13,7 @@ export default function connectMysql() {
   /* クエリ実行関数 */
   const execQuery = async (query: string, values: any[]) => {
     const pool =
-      process.env.USE_SSH == "true"
+      process.env.SSH_HOST !== undefined
         ? require("./sshConnection").SSHConnection
         : mysql.createConnection(dbServer);
     // 接続
