@@ -9,7 +9,6 @@ export default async function handler(
   res: NextApiResponse<ResultSetHeader | void>
 ) {
   if (!checkRequest(req, res, "POST")) {
-    res.status(500).end();
     return;
   }
   const param = req.body;

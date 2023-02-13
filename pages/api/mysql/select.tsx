@@ -9,7 +9,6 @@ export default async function handler(
   res: NextApiResponse<Score[] | void>
 ) {
   if (!checkRequest(req, res, "GET")) {
-    res.status(500).end();
     return;
   }
   const resData: Score[] | void = await connectMysql()
