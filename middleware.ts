@@ -12,7 +12,11 @@ export function middleware(request: NextRequest) {
   const requestIp = request.headers.get("x-real-ip");
   if (requestIp !== undefined && requestIp !== "::1") {
     console.log("auth error. ip:" + requestIp + "|");
-    console.log(request.headers);
+    console.log(
+      request.headers.forEach((val, key) => {
+        console.log(key + "||||" + val);
+      })
+    );
     return NextResponse.json([]);
   }
 }
