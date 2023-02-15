@@ -3,7 +3,6 @@ import path from "path";
 import { NextApiRequest } from "next";
 import Error from "next/error";
 import Head from "next/head";
-import requestIp from "request-ip";
 import Top from "@/components/Top/contaniner";
 import { CONFIG } from "@/const/config";
 import { PATH } from "@/const/path";
@@ -72,7 +71,7 @@ export async function getServerSideProps({
   req: NextApiRequest;
 }): Promise<{ props: Props }> {
   /* Poke Apiに負荷をかけない為リクエスト上限を設ける */
-  const clientIp = requestIp.getClientIp(req) || "IP_NOT_FOUND";
+  const clientIp = (req.headers["x-real-ip"] as string) || "IP_NOT_FOUND";
   try {
     // 上限はポケモン数
     await limitChecker().check(clientIp);
