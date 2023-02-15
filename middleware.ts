@@ -14,7 +14,12 @@ export function middleware(request: NextRequest) {
     console.log("auth error. ip:" + requestIp + "|");
     console.log(
       request.headers.forEach((val, key) => {
-        console.log(key + "||||" + val);
+        if (
+          val.includes("localhost") ||
+          val.includes("::1") ||
+          val.includes("127.0")
+        )
+          console.log(key + "||||" + val);
       })
     );
     return NextResponse.json([]);
