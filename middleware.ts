@@ -12,16 +12,14 @@ export function middleware(request: NextRequest) {
   const requestIp = request.headers.get("x-real-ip");
   if (requestIp !== undefined && requestIp !== "::1") {
     console.log("auth error. ip:" + requestIp + "|");
-    console.log(
-      request.headers.forEach((val, key) => {
-        if (
-          val.includes("localhost") ||
-          val.includes("::1") ||
-          val.includes("127.0")
-        )
-          console.log(key + "||||" + val);
-      })
-    );
+    request.headers.forEach((val, key) => {
+      if (
+        val.includes("localhost") ||
+        val.includes("::1") ||
+        val.includes("127.0")
+      )
+        console.log(key + "||||" + val);
+    });
     return NextResponse.json([]);
   }
 }
