@@ -12,19 +12,6 @@ export function middleware(request: NextRequest) {
   if (request.headers.get("x-real-ip") !== "::1") {
     console.log("auth error. headers:");
     console.log(request.headers);
-    console.log(
-      `${new URL(
-        `${request.headers.get("x-forwarded-proto")}://${request.headers.get(
-          "x-forwarded-host"
-        )}`
-      )}401`
-    );
-    return NextResponse.redirect(
-      `${new URL(
-        `${request.headers.get("x-forwarded-proto")}://${request.headers.get(
-          "x-forwarded-host"
-        )}`
-      )}401`
-    );
+    return NextResponse.json([]);
   }
 }
