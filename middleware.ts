@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
   if (request.headers.get("x-real-ip") !== "::1") {
     console.log("auth error. headers:");
     console.log(request.headers);
-    console.log(request.nextUrl.origin);
+    console.log(request.headers.get("x-forwarded-host"));
     return NextResponse.redirect(`${request.nextUrl.origin}/401`);
   }
 }
