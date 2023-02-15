@@ -17,14 +17,14 @@ export function middleware(request: NextRequest) {
         `${request.headers.get("x-forwarded-proto")}://${request.headers.get(
           "x-forwarded-host"
         )}`
-      )}/401`
+      )}401`
     );
     return NextResponse.redirect(
       `${new URL(
         `${request.headers.get("x-forwarded-proto")}://${request.headers.get(
           "x-forwarded-host"
         )}`
-      )}/401`
+      )}401`
     );
   }
 }
