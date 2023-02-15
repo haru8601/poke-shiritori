@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
   // local以外はアクセス不可
   const requestIp = request.headers.get("x-real-ip");
   if (requestIp !== undefined && requestIp !== "::1") {
-    console.log("auth error. headers:");
+    console.log("auth error. ip:" + requestIp + "|");
     console.log(request.headers);
     return NextResponse.json([]);
   }
