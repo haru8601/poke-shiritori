@@ -97,8 +97,11 @@ export async function getServerSideProps({
   ) as Poke[];
   /* 最初のポケ設定 */
   let firstPoke: Poke | undefined = void 0;
+  let checkCount = 0;
   while (!firstPoke || firstPoke.name.japanese.endsWith("ン")) {
+    checkCount++;
     firstPoke = pokeList[Math.floor(Math.random() * pokeList.length)];
+    if (checkCount > pokeList.length) break;
   }
 
   return { props: { data: { pokeList, firstPoke } } };
