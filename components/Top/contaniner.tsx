@@ -7,13 +7,11 @@ import {
 } from "react";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
-import { useScore } from "@/hook/useScore";
 import { useSleep } from "@/hook/useTimer";
 import TopPage from "@/pages";
 import { Diff } from "@/types/Diff";
 import { Poke } from "@/types/Poke";
 import { PokeApi } from "@/types/PokeApi";
-import { Score } from "@/types/Score";
 import { getAnswer } from "@/utils/getAnswer";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
 import { hira2kata } from "@/utils/hira2kata";
@@ -22,7 +20,7 @@ import TopPresenter from "./presenter";
 
 type Props = Required<ComponentProps<typeof TopPage>>["data"];
 
-export default function Top({ pokeList, firstPoke }: Props) {
+export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   const [targetPoke, setTargetPoke] = useState<Poke>(firstPoke);
   const [sentPokeName, setSentPokeName] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
@@ -34,11 +32,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
     firstPoke.name.japanese,
   ]);
   const [diff, setDiff] = useState<Diff>("normal");
-  const [scoreAll, setScoreAll] = useState<Score[]>([]);
   const [myIndex, setMyIndex] = useState<number>(-1);
   const { sleep } = useSleep();
   const { fetchPoke } = usePokeApi();
-  const { fetchScoreAll } = useScore();
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
@@ -51,10 +47,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
       firstPoke.imgPath = imgPath || PATH.defaultImg;
       /* レンダリングさせる(変更を伝える)ためディープコピー */
       setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
-
-      /* ランキング取得 */
-      const tmpScoreAll = (await fetchScoreAll()) ?? [];
-      setScoreAll(tmpScoreAll);
     })();
 
     /* 難易度をセッションから取得 */

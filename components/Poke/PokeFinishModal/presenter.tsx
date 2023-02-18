@@ -7,12 +7,13 @@ import styles from "@/styles/Top.module.css";
 import { Score } from "@/types/Score";
 import PokeFinishModal from "./container";
 
-type Props = Pick<ComponentProps<typeof PokeFinishModal>, "finishType"> & {
+type Props = Pick<
+  ComponentProps<typeof PokeFinishModal>,
+  "finishType" | "usedPokeCount"
+> & {
   scoreAll: Score[];
-  myScore: Score;
   showModal: boolean;
-  nickname: string;
-  nameErr: string;
+  nickname: string | null;
   myIndex: number;
   onCloseModal: () => void;
   onChangeNickname: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -21,11 +22,10 @@ type Props = Pick<ComponentProps<typeof PokeFinishModal>, "finishType"> & {
 
 export default function PokeFinishModalPresenter({
   scoreAll,
-  myScore,
+  usedPokeCount,
   finishType,
   showModal,
   nickname,
-  nameErr,
   myIndex,
   onCloseModal,
   onChangeNickname,
@@ -48,7 +48,7 @@ export default function PokeFinishModalPresenter({
       </Modal.Header>
       <Modal.Body className="d-flex flex-column" style={{ maxHeight: "80vh" }}>
         <Tweet
-          usedPokeCount={myScore.score}
+          usedPokeCount={usedPokeCount}
           myIndex={myIndex}
           className="m-3 mb-5"
         />
@@ -56,9 +56,8 @@ export default function PokeFinishModalPresenter({
           <InputGroup.Text>ニックネーム</InputGroup.Text>
           <Form.Control
             placeholder={USER.defaultName}
-            value={nickname}
+            value={nickname ?? ""}
             onChange={onChangeNickname}
-            isInvalid={nameErr != ""}
             className={styles.pokeInput}
           />
           <Button
@@ -67,13 +66,8 @@ export default function PokeFinishModalPresenter({
             type="submit"
             onClick={onSubmitNickname}
           >
-            変更
+            記録して次の対戦へ
           </Button>
-          {nameErr && (
-            <Form.Control.Feedback type="invalid" tooltip>
-              {nameErr}
-            </Form.Control.Feedback>
-          )}
         </InputGroup>
         <h4 className="mt-3">ランキング</h4>
         <div style={{ height: "auto", overflowY: "scroll" }}>
@@ -87,7 +81,11 @@ export default function PokeFinishModalPresenter({
             </thead>
             <tbody>
               {scoreAll
-                .concat(myScore)
+                .concat({
+                  id: -1,
+                  user: nickname || USER.defaultName,
+                  score: usedPokeCount,
+                })
                 .sort((a, b) => {
                   const scoreDiff = b.score - a.score;
                   /* 2つ目で新規のスコアが既存の以上ならswap */
@@ -118,8 +116,8 @@ export default function PokeFinishModalPresenter({
               <tfoot style={{ borderTop: "3px double black" }}>
                 <tr className={styles.myScore}>
                   <td>{myIndex + 1}</td>
-                  <td>{myScore.user}</td>
-                  <td>{myScore.score}</td>
+                  <td>{nickname || USER.defaultName}</td>
+                  <td>{usedPokeCount}</td>
                 </tr>
               </tfoot>
             )}

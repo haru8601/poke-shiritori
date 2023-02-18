@@ -1,14 +1,18 @@
 import fs from "fs";
 import path from "path";
-import { NextApiRequest } from "next";
+import { GetServerSideProps } from "next";
 import Error from "next/error";
 import Head from "next/head";
+import nookies from "nookies";
 import Top from "@/components/Top/contaniner";
 import { CONFIG } from "@/const/config";
+import { CookieNames } from "@/const/cookieNames";
 import { PATH } from "@/const/path";
+import connectMysql from "@/lib/connectMysql";
 import limitChecker from "@/lib/limitChecher";
 import styles from "@/styles/Top.module.css";
 import { Poke } from "@/types/Poke";
+import { Score } from "@/types/Score";
 
 type Props = {
   err?: {
@@ -18,6 +22,7 @@ type Props = {
   data?: {
     pokeList: Poke[];
     firstPoke: Poke;
+    scoreAll: Score[];
   };
 };
 
@@ -59,19 +64,34 @@ export default function TopPage(props: Props) {
         <Top
           pokeList={props.data!.pokeList}
           firstPoke={props.data!.firstPoke}
+          scoreAll={props.data!.scoreAll}
         />
       </main>
     </>
   );
 }
 
-export async function getServerSideProps({
-  req,
-}: {
-  req: NextApiRequest;
-}): Promise<{ props: Props }> {
+export const getServerSideProps: GetServerSideProps = async (
+  ctx
+): Promise<{ props: Props }> => {
+  const cookies = nookies.get(ctx) as typeof CookieNames;
+  /* 前回のデータがあればランキング更新 */
+  if (cookies.shiritori_score) {
+    await connectMysql()
+      .execQuery("insert into score_all(user, score) values(?, ?)", [
+        cookies.shiritori_nickname ?? "unown",
+        cookies.shiritori_score,
+      ])
+      .catch((err) => {
+        console.log("insert error");
+        console.log(err);
+        return;
+      });
+    nookies.destroy(ctx, CookieNames.shiritori_score);
+  }
+
   /* Poke Apiに負荷をかけない為リクエスト上限を設ける */
-  const clientIp = (req.headers["x-real-ip"] as string) || "IP_NOT_FOUND";
+  const clientIp = (ctx.req.headers["x-real-ip"] as string) || "IP_NOT_FOUND";
   try {
     // 上限はポケモン数
     await limitChecker().check(clientIp);
@@ -104,5 +124,17 @@ export async function getServerSideProps({
     if (checkCount > pokeList.length) break;
   }
 
-  return { props: { data: { pokeList, firstPoke } } };
-}
+  /* ランキング取得 */
+  const scoreAll: Score[] = await connectMysql()
+    .execQuery(
+      "select user,score from score_all order by score desc, update_date desc",
+      []
+    )
+    .catch((err) => {
+      console.log("select error");
+      console.log(err);
+      return [];
+    });
+
+  return { props: { data: { pokeList, firstPoke, scoreAll } } };
+};
