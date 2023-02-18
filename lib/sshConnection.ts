@@ -1,13 +1,13 @@
+import mysql from "mysql2/promise";
+import { Client } from "ssh2";
 import { dbServer } from "./connectMysql";
-const mysql = require("mysql2/promise");
-const { Client } = require("ssh2");
 
 // ssh元
 const tunnelConfig = {
-  username: process.env.SSH_USER,
-  port: process.env.SSH_PORT,
-  host: process.env.SSH_HOST,
-  privateKey: process.env.SSH_KEY!.replaceAll("\\n", "\n"),
+  username: process.env.SSH_USER ?? "",
+  port: parseInt(process.env.SSH_PORT ?? "0"),
+  host: process.env.SSH_HOST ?? "",
+  privateKey: process.env.SSH_KEY?.replaceAll("\\n", "\n") ?? "",
 };
 
 // ssh先

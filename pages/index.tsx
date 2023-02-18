@@ -8,7 +8,7 @@ import Top from "@/components/Top/contaniner";
 import { CONFIG } from "@/const/config";
 import { CookieNames } from "@/const/cookieNames";
 import { PATH } from "@/const/path";
-import connectMysql from "@/lib/connectMysql";
+import mysqlUtils from "@/lib/connectMysql";
 import limitChecker from "@/lib/limitChecher";
 import styles from "@/styles/Top.module.css";
 import { Poke } from "@/types/Poke";
@@ -74,19 +74,15 @@ export default function TopPage(props: Props) {
 export const getServerSideProps: GetServerSideProps = async (
   ctx
 ): Promise<{ props: Props }> => {
+  const { fetchScoreAll, storeScore } = mysqlUtils();
+
   const cookies = nookies.get(ctx) as typeof CookieNames;
   /* 前回のデータがあればランキング更新 */
   if (cookies.shiritori_score) {
-    await connectMysql()
-      .execQuery("insert into score_all(user, score) values(?, ?)", [
-        cookies.shiritori_nickname ?? "unown",
-        cookies.shiritori_score,
-      ])
-      .catch((err) => {
-        console.log("insert error");
-        console.log(err);
-        return;
-      });
+    await storeScore(
+      cookies.shiritori_nickname ?? "unown",
+      cookies.shiritori_score
+    );
     nookies.destroy(ctx, CookieNames.shiritori_score);
   }
 
@@ -125,16 +121,7 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 
   /* ランキング取得 */
-  const scoreAll: Score[] = await connectMysql()
-    .execQuery(
-      "select user,score from score_all order by score desc, update_date desc",
-      []
-    )
-    .catch((err) => {
-      console.log("select error");
-      console.log(err);
-      return [];
-    });
+  const scoreAll: Score[] = await fetchScoreAll();
 
   return { props: { data: { pokeList, firstPoke, scoreAll } } };
 };
