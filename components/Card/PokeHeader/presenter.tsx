@@ -50,7 +50,7 @@ export default function PokeHeaderPresenter({
           </OverlayTrigger>
         </div>
         <Button
-          className={`mx-3 ${styles.clickBtn}`}
+          className={`mx-1 ${styles.clickBtn}`}
           variant="dark"
           type="submit"
           onClick={onReload}

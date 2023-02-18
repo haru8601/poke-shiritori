@@ -36,7 +36,7 @@ export default function PokeConfigPresenter({
     <>
       <Button
         variant="secondary"
-        className={`mx-3 ${styles.clickBtn}`}
+        className={`mx-1 ${styles.clickBtn}`}
         onClick={onOpenSide}
       >
         <i className={`bi bi-gear-fill ${styles.btnIcon}`}></i>

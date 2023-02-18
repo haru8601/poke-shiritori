@@ -53,7 +53,9 @@ export default function PokeFinishModalPresenter({
           className="m-3 mb-5"
         />
         <InputGroup className="mx-auto justify-content-center">
-          <InputGroup.Text>ニックネーム</InputGroup.Text>
+          <InputGroup.Text style={{ fontSize: "14px" }} className="px-1">
+            ニックネーム
+          </InputGroup.Text>
           <Form.Control
             placeholder={USER.defaultName}
             value={nickname ?? ""}
@@ -65,6 +67,7 @@ export default function PokeFinishModalPresenter({
             className="rounded-end"
             type="submit"
             onClick={onSubmitNickname}
+            style={{ fontSize: "16px" }}
           >
             記録して次の対戦へ
           </Button>
