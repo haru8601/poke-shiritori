@@ -76,7 +76,6 @@ export default function PokeConfigPresenter({
               </ButtonGroup>
             </Tab>
             <Tab eventKey="ranking" title="ランキング">
-              <p>※今回の結果を反映するにはブラウザをリロードしてください</p>
               <div
                 className="rounded overflow-scroll"
                 style={{
