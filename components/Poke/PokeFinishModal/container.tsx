@@ -38,8 +38,12 @@ export default function PokeFinishModal({
 
   const handleSubmitNickname = async () => {
     /* cookieにスコアを保存 */
-    nickname &&
-      setCookie(null, CookieNames.shiritori_nickname, nickname, CONFIG.cookie);
+    setCookie(
+      null,
+      CookieNames.shiritori_nickname,
+      nickname ?? "",
+      CONFIG.cookie
+    );
     setCookie(
       null,
       CookieNames.shiritori_score,

@@ -80,7 +80,7 @@ export const getServerSideProps: GetServerSideProps = async (
   /* 前回のデータがあればランキング更新 */
   if (cookies.shiritori_score) {
     await storeScore(
-      cookies.shiritori_nickname ?? "unown",
+      cookies.shiritori_nickname || "unown",
       cookies.shiritori_score
     );
     nookies.destroy(ctx, CookieNames.shiritori_score);
