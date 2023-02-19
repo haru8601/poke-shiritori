@@ -1,23 +1,16 @@
 import { ResultSetHeader } from "mysql2";
 import mysql from "mysql2/promise";
+import { dbServer } from "@/const/dbConfig";
 import { Score } from "@/types/Score";
-
-// db情報
-export const dbServer = {
-  host: process.env.MYSQL_HOST ?? "",
-  database: process.env.MYSQL_DATABASE ?? "",
-  user: process.env.MYSQL_USER ?? "",
-  password: process.env.MYSQL_PASSWORD ?? "",
-  port: parseInt(process.env.MYSQL_PORT ?? "0"),
-};
 
 export default function mysqlUtils() {
   /* クエリ実行関数 */
   const execQuery = async (query: string, values: any[]): Promise<any> => {
     const pool: mysql.Pool =
       process.env.SSH_HOST !== undefined
-        ? require("./sshConnection").SSHConnection
+        ? await require("./sshConnection").SSHConnection()
         : mysql.createPool(dbServer);
+    if (!pool) return;
     // 接続
     const conn = await pool.getConnection();
 
