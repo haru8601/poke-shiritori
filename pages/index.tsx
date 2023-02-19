@@ -90,6 +90,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const clientIp =
     ((ctx.req.headers["x-forwarded-for"] ||
       ctx.req.socket.remoteAddress) as string) || "IP_NOT_FOUND";
+  console.log(clientIp);
   try {
     // 上限はポケモン数
     await limitChecker().check(clientIp);
