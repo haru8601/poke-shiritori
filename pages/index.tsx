@@ -87,7 +87,9 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 
   /* Poke Apiに負荷をかけない為リクエスト上限を設ける */
-  const clientIp = (ctx.req.headers["x-real-ip"] as string) || "IP_NOT_FOUND";
+  const clientIp =
+    ((ctx.req.headers["x-forwarded-for"] ||
+      ctx.req.socket.remoteAddress) as string) || "IP_NOT_FOUND";
   try {
     // 上限はポケモン数
     await limitChecker().check(clientIp);

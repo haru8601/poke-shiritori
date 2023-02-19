@@ -1,3 +1,4 @@
+import { ResultSetHeader } from "mysql2";
 import mysql from "mysql2/promise";
 import { Score } from "@/types/Score";
 
@@ -22,14 +23,16 @@ export default function mysqlUtils() {
 
     try {
       await conn.beginTransaction();
-      const res = await conn.execute(query, values);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [rows, fileds] = await conn.execute(query, values);
       await conn.commit();
-      // 0:rows, 1:fields
-      return res[0];
+      return rows;
     } catch (err) {
       await conn.rollback();
       console.log("error while executing query");
       console.log(err);
+    } finally {
+      await conn.end();
     }
   };
 
@@ -53,14 +56,19 @@ export default function mysqlUtils() {
    * @param nickname ニックネーム
    * @param score スコア
    */
-  const storeScore = async (nickname: string, score: string): Promise<void> => {
-    await execQuery("insert into score_all(user, score) values(?, ?)", [
+  const storeScore = async (
+    nickname: string,
+    score: string
+  ): Promise<ResultSetHeader | void> => {
+    return await execQuery("insert into score_all(user, score) values(?, ?)", [
       nickname,
       score,
-    ]).catch((err) => {
-      console.log("insert error");
-      console.log(err);
-    });
+    ])
+      .then((response: ResultSetHeader) => response)
+      .catch((err) => {
+        console.log("insert error");
+        console.log(err);
+      });
   };
 
   return { fetchScoreAll, storeScore } as const;
