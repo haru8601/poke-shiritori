@@ -13,13 +13,13 @@ export const dbServer = {
 
 export default function mysqlUtils() {
   /* クエリ実行関数 */
-  const execQuery = async (query: string, values: any[]) => {
-    const pool =
+  const execQuery = async (query: string, values: any[]): Promise<any> => {
+    const pool: mysql.Pool =
       process.env.SSH_HOST !== undefined
         ? require("./sshConnection").SSHConnection
-        : mysql.createConnection(dbServer);
+        : mysql.createPool(dbServer);
     // 接続
-    const conn = await pool;
+    const conn = await pool.getConnection();
 
     try {
       await conn.beginTransaction();
@@ -32,7 +32,7 @@ export default function mysqlUtils() {
       console.log("error while executing query");
       console.log(err);
     } finally {
-      await conn.end();
+      conn.release();
     }
   };
 
@@ -63,12 +63,10 @@ export default function mysqlUtils() {
     return await execQuery("insert into score_all(user, score) values(?, ?)", [
       nickname,
       score,
-    ])
-      .then((response: ResultSetHeader) => response)
-      .catch((err) => {
-        console.log("insert error");
-        console.log(err);
-      });
+    ]).catch((err) => {
+      console.log("insert error");
+      console.log(err);
+    });
   };
 
   return { fetchScoreAll, storeScore } as const;

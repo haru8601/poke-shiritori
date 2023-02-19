@@ -18,7 +18,7 @@ const forwardConfig = {
   dstPort: dbServer.port,
 };
 
-export const SSHConnection = new Promise<any>((resolve, reject) => {
+export const SSHConnection = new Promise<mysql.Pool>((resolve, reject) => {
   const sshClient = new Client();
   sshClient
     // ssh元に接続した後の処理
@@ -42,7 +42,7 @@ export const SSHConnection = new Promise<any>((resolve, reject) => {
             stream,
           };
           // connect to mysql
-          const connection = mysql.createConnection(updatedDbServer);
+          const connection = mysql.createPool(updatedDbServer);
           resolve(connection);
         }
       );
