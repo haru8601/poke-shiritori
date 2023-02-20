@@ -9,7 +9,7 @@ import PokeFinishModal from "./container";
 
 type Props = Pick<
   ComponentProps<typeof PokeFinishModal>,
-  "finishType" | "usedPokeCount"
+  "gameStatus" | "usedPokeCount"
 > & {
   scoreAll: Score[];
   showModal: boolean;
@@ -23,7 +23,7 @@ type Props = Pick<
 export default function PokeFinishModalPresenter({
   scoreAll,
   usedPokeCount,
-  finishType,
+  gameStatus,
   showModal,
   nickname,
   myIndex,
@@ -43,7 +43,8 @@ export default function PokeFinishModalPresenter({
           className="text-success text-uppercase flex-grow-1 text-center"
           style={{ fontSize: "3rem" }}
         >
-          you {finishType} {finishType == "win" ? "!!" : "..."}
+          you {gameStatus.replace("end_", "")}
+          {gameStatus == "end_win" ? "!!" : "..."}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex flex-column" style={{ maxHeight: "80vh" }}>

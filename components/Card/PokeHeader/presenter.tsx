@@ -15,7 +15,7 @@ type Props = ComponentProps<typeof PokeHeader> & {
 };
 
 export default function PokeHeaderPresenter({
-  finishType,
+  gameStatus,
   diff,
   innerWidth,
   clicked,
@@ -67,10 +67,11 @@ export default function PokeHeaderPresenter({
       </header>
       <h3
         className={`my-0 text-success text-uppercase ${
-          finishType != "" ? "" : "d-none"
+          gameStatus.includes("end") ? "" : "d-none"
         }`}
       >
-        you {finishType} {finishType == "win" ? "!!" : "..."}
+        you {gameStatus.replace("end_", "")}
+        {gameStatus == "end_win" ? "!!" : "..."}
       </h3>
     </div>
   );

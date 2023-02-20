@@ -5,11 +5,11 @@ import PokeHeaderPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "finishType" | "diff" | "onChangeDiff" | "scoreAll"
+  "gameStatus" | "diff" | "onChangeDiff" | "scoreAll"
 >;
 
 export default function PokeHeader({
-  finishType,
+  gameStatus,
   diff,
   scoreAll,
   onChangeDiff,
@@ -41,7 +41,7 @@ export default function PokeHeader({
   };
   return (
     <PokeHeaderPresenter
-      finishType={finishType}
+      gameStatus={gameStatus}
       diff={diff}
       innerWidth={innerWidth}
       clicked={clicked}

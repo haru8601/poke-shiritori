@@ -14,4 +14,5 @@ export const CONFIG = {
   cookie: {
     maxAge: 60 * 60 * 24,
   },
+  timeLimit: 30 * 1000,
 } as const;

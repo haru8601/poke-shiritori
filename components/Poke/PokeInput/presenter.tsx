@@ -10,7 +10,7 @@ export default function PokeInputPresenter({
   sentPokeName,
   pokeErr,
   isMyTurn,
-  finishType,
+  gameStatus,
   diff,
   onKeydown,
   onChangePoke,
@@ -26,7 +26,7 @@ export default function PokeInputPresenter({
         onChange={onChangePoke}
         onKeyDown={onKeydown}
         placeholder="ポケモンを入力してください"
-        disabled={!isMyTurn || finishType != ""}
+        disabled={!isMyTurn || gameStatus.includes("end")}
         isInvalid={pokeErr != ""}
         autoComplete="off"
         className={styles.pokeInput}
@@ -43,7 +43,7 @@ export default function PokeInputPresenter({
         className="rounded-end"
         type="submit"
         onClick={onSubmitPoke}
-        disabled={!isMyTurn || finishType != ""}
+        disabled={!isMyTurn || gameStatus.includes("end")}
       >
         送信
       </Button>

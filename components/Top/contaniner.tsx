@@ -5,11 +5,13 @@ import {
   useEffect,
   useState,
 } from "react";
+import { CONFIG } from "@/const/config";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
-import { useSleep } from "@/hook/useTimer";
+import { useTimer } from "@/hook/useTimer";
 import TopPage from "@/pages";
 import { Diff } from "@/types/Diff";
+import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
 import { PokeApi } from "@/types/PokeApi";
 import { getAnswer } from "@/utils/getAnswer";
@@ -27,14 +29,15 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   const [myPokeList, setMyPokeList] = useState<Poke[]>([]);
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [isMyTurn, setMyTurn] = useState<boolean>(true);
-  const [finishType, setFinishType] = useState<"" | "win" | "lose">("");
+  const [gameStatus, setGameStatus] = useState<GameStatus>("before_start");
   const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([
     firstPoke.name.japanese,
   ]);
   const [diff, setDiff] = useState<Diff>("normal");
   const [myIndex, setMyIndex] = useState<number>(-1);
-  const { sleep } = useSleep();
+  const { sleep } = useTimer();
   const { fetchPoke } = usePokeApi();
+  const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimit);
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
@@ -55,10 +58,18 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /* タイマー処理 */
+  useEffect(() => {
+    if (leftMillS > 0 && isMyTurn) {
+      const timeoutId = setTimeout(() => setLeftMillS(leftMillS - 1), 1);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isMyTurn, leftMillS]);
+
   /* 終了後の処理 */
   useEffect(() => {
     (async () => {
-      if (finishType == "") {
+      if (!gameStatus.includes("end")) {
         return;
       }
 
@@ -68,7 +79,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       );
       setMyIndex(tmpRank != -1 ? tmpRank : scoreAll.length);
     })();
-  }, [finishType, scoreAll, usedPokeNameList.length]);
+  }, [gameStatus, scoreAll, usedPokeNameList.length]);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
@@ -135,7 +146,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     tmpMyPokeList.push(sentPoke);
     setMyPokeList(tmpMyPokeList);
     if (sentPoke.name.japanese.endsWith("ン")) {
-      setFinishType("lose");
+      setGameStatus("end_lose");
       return;
     }
 
@@ -143,8 +154,8 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     /* 自分のポケリセット */
     setSentPokeName("");
 
-    /* 一定時間後に返答 */
-    await sleep(3000);
+    /* ランダムな時間後に返答 */
+    await sleep(500 + Math.random() * 4500);
 
     /* ポケ一覧からアンサーの候補を取得 */
     let tmpTarget = getAnswer(pokeList, lastWord, tmpUsedPokeNameList, diff);
@@ -177,11 +188,12 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     }
     /* CPUの負け */
     if (!tmpTarget || tmpTarget.name.japanese.endsWith("ン")) {
-      setFinishType("win");
+      setGameStatus("end_win");
+    } else {
+      setMyTurn(true);
     }
 
     setTargetPoke(tmpTarget);
-    setMyTurn(true);
   };
 
   const handleChangeDiff = (event: ChangeEvent<HTMLInputElement>) => {
@@ -200,11 +212,12 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       pokeErr={pokeErr}
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
-      finishType={finishType}
+      gameStatus={gameStatus}
       diff={diff}
       usedPokeCount={usedPokeNameList.length}
       scoreAll={scoreAll}
       myIndex={myIndex}
+      leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}

@@ -8,11 +8,11 @@ import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "finishType" | "usedPokeCount" | "scoreAll" | "myIndex"
+  "gameStatus" | "usedPokeCount" | "scoreAll" | "myIndex"
 >;
 
 export default function PokeFinishModal({
-  finishType,
+  gameStatus,
   usedPokeCount,
   scoreAll,
   myIndex,
@@ -23,10 +23,10 @@ export default function PokeFinishModal({
   );
   const router = useRouter();
 
-  /* finishTypeが切り替わったらmodalを表示 */
+  /* gameStatusが切り替わったらmodalを表示 */
   useEffect(() => {
-    setShowModal(finishType != "");
-  }, [finishType]);
+    setShowModal(gameStatus.includes("end"));
+  }, [gameStatus]);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -58,7 +58,7 @@ export default function PokeFinishModal({
     <PokeFinishModalPresenter
       scoreAll={scoreAll}
       usedPokeCount={usedPokeCount}
-      finishType={finishType}
+      gameStatus={gameStatus}
       showModal={showModal}
       nickname={nickname}
       myIndex={myIndex}
