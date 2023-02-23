@@ -27,25 +27,13 @@
   }
 }
 
+.grayOut {
+  opacity: 0.5;
+}
+
 .main {
   height: calc(100vh - 0.5rem * 2);
   margin: 0.5rem 1.5rem;
-}
-
-.fadeBg {
-  animation: fade-bg 5s ease 0.5s 1 forwards;
-}
-
-@keyframes fade-bg {
-  0% {
-    opacity: 1;
-  }
-  30% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .headerTitle {

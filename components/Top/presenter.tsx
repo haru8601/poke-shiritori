@@ -1,6 +1,5 @@
 import { ChangeEvent, KeyboardEvent } from "react";
-import { ProgressBar, Stack } from "react-bootstrap";
-import { CONFIG } from "@/const/config";
+import { Stack } from "react-bootstrap";
 import styles from "@/styles/Top.module.css";
 import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
@@ -9,6 +8,7 @@ import { Score } from "@/types/Score";
 import PokeFooter from "../Card/PokeFooter/container";
 import PokeHeader from "../Card/PokeHeader/container";
 import Loading from "../Item/Loading/container";
+import Timer from "../Item/Timer/container";
 import PokeFinishModal from "../Poke/PokeFinishModal/container";
 import PokeFirst from "../Poke/PokeFirst/container";
 import PokeHistoryList from "../Poke/PokeHistoryList/container";
@@ -30,10 +30,12 @@ type Props = {
   scoreAll: Score[];
   myIndex: number;
   leftPercent: number;
+  countDown: number;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
   onChangeDiff: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClickStart: () => void;
 };
 
 export default function TopPresenter({
@@ -51,10 +53,12 @@ export default function TopPresenter({
   scoreAll,
   myIndex,
   leftPercent,
+  countDown,
   onChangePoke,
   onKeydown,
   onSubmitPoke,
   onChangeDiff,
+  onClickStart,
 }: Props) {
   return (
     <>
@@ -66,33 +70,40 @@ export default function TopPresenter({
           myIndex={myIndex}
         />
       )}
+      {gameStatus == "will_start" && (
+        <div
+          className="position-fixed top-50 start-50 translate-middle border border-dark rounded-circle border-5"
+          style={{
+            fontSize: "100px",
+            zIndex: 100,
+            width: "300px",
+            height: "300px",
+          }}
+        >
+          <div className="position-absolute top-50 start-50 translate-middle">
+            {countDown}
+          </div>
+        </div>
+      )}
       <Stack
         className={`justify-content-around ${
-          gameStatus.includes("end") && styles.fadeBg
+          gameStatus == "will_start" && styles.grayOut
         }`}
       >
         <PokeHeader
           gameStatus={gameStatus}
           diff={diff}
-          onChangeDiff={onChangeDiff}
           scoreAll={scoreAll}
+          onChangeDiff={onChangeDiff}
+          onClickStart={onClickStart}
         />
-        <div className="my-3">
-          <div>
-            残り時間:
-            {Math.ceil(((leftPercent / 100) * CONFIG.timeLimit) / 1000)}秒
-          </div>
-          <ProgressBar
-            now={leftPercent}
-            animated
-            variant={
-              leftPercent < 10 ? "danger" : leftPercent < 50 ? "warning" : ""
-            }
-            style={{ height: "25px" }}
-          />
-        </div>
-        <PokeTarget targetPoke={targetPoke} />
-        <PokeFirst firstPoke={firstPoke} />
+        <Timer
+          leftPercent={leftPercent}
+          gameStatus={gameStatus}
+          isMyTurn={isMyTurn}
+        />
+        <PokeTarget targetPoke={targetPoke} gameStatus={gameStatus} />
+        <PokeFirst firstPoke={firstPoke} gameStatus={gameStatus} />
         <PokeInput
           pokeList={pokeList}
           sentPokeName={sentPokeName}

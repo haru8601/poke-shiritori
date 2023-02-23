@@ -28,6 +28,7 @@ export default function PokeConfigPresenter({
   diff,
   showSide,
   scoreAll,
+  innerWidth,
   onChangeDiff,
   onOpenSide,
   onCloseSide,
@@ -36,7 +37,9 @@ export default function PokeConfigPresenter({
     <>
       <Button
         variant="secondary"
-        className={`mx-1 ${styles.clickBtn}`}
+        className={`mx-1 ${styles.clickBtn} ${
+          innerWidth < 700 ? "align-self-center p-1" : ""
+        }`}
         onClick={onOpenSide}
       >
         <i className={`bi bi-gear-fill ${styles.btnIcon}`}></i>

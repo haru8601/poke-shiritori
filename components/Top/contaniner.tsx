@@ -35,9 +35,10 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   ]);
   const [diff, setDiff] = useState<Diff>("normal");
   const [myIndex, setMyIndex] = useState<number>(-1);
+  const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimit);
+  const [countDown, setCountDown] = useState<number>(3);
   const { sleep } = useTimer();
   const { fetchPoke } = usePokeApi();
-  const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimit);
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
@@ -58,13 +59,29 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (gameStatus == "will_start") {
+      if (countDown > 0) {
+        const timeoutId = setTimeout(
+          () => setCountDown((countDown) => countDown - 1),
+          1000
+        );
+        return () => clearTimeout(timeoutId);
+      } else {
+        setGameStatus("playing");
+      }
+    }
+  }, [countDown, gameStatus]);
+
   /* タイマー処理 */
   useEffect(() => {
-    if (leftMillS > 0 && isMyTurn) {
+    if (leftMillS <= 0) {
+      setGameStatus("end_lose");
+    } else if (gameStatus == "playing" && isMyTurn) {
       const timeoutId = setTimeout(() => setLeftMillS(leftMillS - 1), 1);
       return () => clearTimeout(timeoutId);
     }
-  }, [isMyTurn, leftMillS]);
+  }, [gameStatus, isMyTurn, leftMillS]);
 
   /* 終了後の処理 */
   useEffect(() => {
@@ -202,6 +219,10 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     setDiff(checkedDiff);
   };
 
+  const handleClickStart = async () => {
+    setGameStatus("will_start");
+  };
+
   return (
     <TopPresenter
       pokeList={pokeList}
@@ -218,10 +239,12 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       scoreAll={scoreAll}
       myIndex={myIndex}
       leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
+      countDown={countDown}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
       onChangeDiff={handleChangeDiff}
+      onClickStart={handleClickStart}
     />
   );
 }

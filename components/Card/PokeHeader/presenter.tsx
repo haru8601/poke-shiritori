@@ -23,11 +23,12 @@ export default function PokeHeaderPresenter({
   onReload,
   onChangeDiff,
   onClickPokeImg,
+  onClickStart,
 }: Props) {
   return (
     <div className="mb-3">
       <header className="mt-1 d-flex flex-row justify-content-between position-relative">
-        <div className="d-inline-flex me-auto border-2 border-bottom border-dark">
+        <div className="d-inline-flex border-2 border-bottom border-dark">
           <h1
             className="d-inline-block align-self-center my-0 text-dark fw-bold"
             style={{ fontSize: "30px" }}
@@ -49,21 +50,38 @@ export default function PokeHeaderPresenter({
             />
           </OverlayTrigger>
         </div>
-        <Button
-          className={`mx-1 ${styles.clickBtn}`}
-          variant="dark"
-          type="submit"
-          onClick={onReload}
-        >
-          {(innerWidth >= 700 && "目の前を真っ暗にする") || (
-            <i className={`bi bi-arrow-clockwise ${styles.btnIcon}`}></i>
-          )}
-        </Button>
-        <PokeConfig
-          diff={diff}
-          scoreAll={scoreAll}
-          onChangeDiff={onChangeDiff}
-        />
+        {gameStatus == "before_start" && (
+          <Button
+            className={`mx-1 text-nowrap ${styles.clickBtn} ${
+              innerWidth < 700 ? "align-self-center p-1" : ""
+            }`}
+            variant="success"
+            type="submit"
+            onClick={onClickStart}
+          >
+            スタート
+          </Button>
+        )}
+        <div className="d-flex">
+          <Button
+            className={`mx-1 ${styles.clickBtn} ${
+              innerWidth < 700 ? "align-self-center p-1" : ""
+            }`}
+            variant="dark"
+            type="submit"
+            onClick={onReload}
+          >
+            {(innerWidth >= 700 && "目の前を真っ暗にする") || (
+              <i className={`bi bi-arrow-clockwise ${styles.btnIcon}`}></i>
+            )}
+          </Button>
+          <PokeConfig
+            diff={diff}
+            scoreAll={scoreAll}
+            innerWidth={innerWidth}
+            onChangeDiff={onChangeDiff}
+          />
+        </div>
       </header>
       <h3
         className={`my-0 text-success text-uppercase ${

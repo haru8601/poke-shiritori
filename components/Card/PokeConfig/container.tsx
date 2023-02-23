@@ -1,13 +1,18 @@
 import { ComponentProps, useState } from "react";
 import PokeConfigPresenter from "./presenter";
-import PokeHeader from "../PokeHeader/container";
+import PokeHeaderPresenter from "../PokeHeader/presenter";
 
 type Props = Pick<
-  ComponentProps<typeof PokeHeader>,
-  "diff" | "onChangeDiff" | "scoreAll"
+  ComponentProps<typeof PokeHeaderPresenter>,
+  "diff" | "onChangeDiff" | "scoreAll" | "innerWidth"
 >;
 
-export default function PokeConfig({ diff, scoreAll, onChangeDiff }: Props) {
+export default function PokeConfig({
+  diff,
+  scoreAll,
+  innerWidth,
+  onChangeDiff,
+}: Props) {
   const [showSide, setShowSide] = useState<boolean>(false);
   const handleOpenSide = () => {
     setShowSide(true);
@@ -21,6 +26,7 @@ export default function PokeConfig({ diff, scoreAll, onChangeDiff }: Props) {
       diff={diff}
       showSide={showSide}
       scoreAll={scoreAll}
+      innerWidth={innerWidth}
       onChangeDiff={onChangeDiff}
       onOpenSide={handleOpenSide}
       onCloseSide={handleCloseSide}

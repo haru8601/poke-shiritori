@@ -7,7 +7,11 @@ type Props = ComponentProps<typeof PokeFirst> & {
   imgBase: number;
 };
 
-export default function PokeFirstPresenter({ firstPoke, imgBase }: Props) {
+export default function PokeFirstPresenter({
+  firstPoke,
+  gameStatus,
+  imgBase,
+}: Props) {
   return (
     <div
       style={{ width: "90%" }}
@@ -21,7 +25,12 @@ export default function PokeFirstPresenter({ firstPoke, imgBase }: Props) {
           backgroundColor: firstPoke.type && pokeColorMap[firstPoke.type[0]],
         }}
       >
-        <PokeCard targetPoke={firstPoke} small imgBase={imgBase} />
+        <PokeCard
+          targetPoke={firstPoke}
+          gameStatus={gameStatus}
+          small
+          imgBase={imgBase}
+        />
       </div>
     </div>
   );

@@ -7,7 +7,11 @@ type Props = ComponentProps<typeof PokeTarget> & {
   imgBase: number;
 };
 
-export default function PokeTargetPresenter({ targetPoke, imgBase }: Props) {
+export default function PokeTargetPresenter({
+  targetPoke,
+  gameStatus,
+  imgBase,
+}: Props) {
   return (
     <div
       className="px-2 mb-1 rounded d-flex mx-auto border border-dark border-1 justify-content-center"
@@ -18,7 +22,12 @@ export default function PokeTargetPresenter({ targetPoke, imgBase }: Props) {
         backgroundColor: targetPoke.type && pokeColorMap[targetPoke.type[0]],
       }}
     >
-      <PokeCard targetPoke={targetPoke} small imgBase={imgBase} />
+      <PokeCard
+        targetPoke={targetPoke}
+        gameStatus={gameStatus}
+        small
+        imgBase={imgBase}
+      />
     </div>
   );
 }

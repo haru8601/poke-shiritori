@@ -3,9 +3,18 @@ import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
 import PokeTargetPresenter from "./presenter";
 
-type Props = Pick<ComponentProps<typeof TopPresenter>, "targetPoke">;
+type Props = Pick<
+  ComponentProps<typeof TopPresenter>,
+  "targetPoke" | "gameStatus"
+>;
 
-export default function PokeTarget({ targetPoke }: Props) {
+export default function PokeTarget({ targetPoke, gameStatus }: Props) {
   const imgBase = CONFIG.spaceBasis;
-  return <PokeTargetPresenter targetPoke={targetPoke} imgBase={imgBase} />;
+  return (
+    <PokeTargetPresenter
+      targetPoke={targetPoke}
+      gameStatus={gameStatus}
+      imgBase={imgBase}
+    />
+  );
 }
