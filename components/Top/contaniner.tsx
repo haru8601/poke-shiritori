@@ -172,7 +172,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     setSentPokeName("");
 
     /* ランダムな時間後に返答 */
-    await sleep(500 + Math.random() * 4500);
+    await sleep(2000 + Math.random() * 8000);
 
     /* ポケ一覧からアンサーの候補を取得 */
     let tmpTarget = getAnswer(pokeList, lastWord, tmpUsedPokeNameList, diff);
