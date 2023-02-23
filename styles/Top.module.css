@@ -29,10 +29,11 @@
 
 .grayOut {
   opacity: 0.5;
+  pointer-events: none;
 }
 
 .main {
-  height: calc(100vh - 0.5rem * 2);
+  height: 100%;
   margin: 0.5rem 1.5rem;
 }
 
