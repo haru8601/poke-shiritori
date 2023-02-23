@@ -35,7 +35,12 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   ]);
   const [diff, setDiff] = useState<Diff>("normal");
   const [myIndex, setMyIndex] = useState<number>(-1);
+  /* 直近で自分のターンが始まった時刻 */
+  const [startTime, setStartTime] = useState<number>(Date.now());
+  /* 現在の残り時間 */
   const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimit);
+  /* 最後に止まった時までの残り時間 */
+  const [exLeft, setExLeft] = useState<number>(leftMillS);
   const [countDown, setCountDown] = useState<number>(3);
   const { sleep } = useTimer();
   const { fetchPoke } = usePokeApi();
@@ -59,6 +64,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /* スタートカウントダウン */
   useEffect(() => {
     if (gameStatus == "will_start") {
       if (countDown > 0) {
@@ -68,6 +74,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
         );
         return () => clearTimeout(timeoutId);
       } else {
+        setStartTime(Date.now());
         setGameStatus("playing");
       }
     }
@@ -75,13 +82,28 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
 
   /* タイマー処理 */
   useEffect(() => {
-    if (leftMillS <= 0) {
-      setGameStatus("end_lose");
-    } else if (gameStatus == "playing" && isMyTurn) {
-      const timeoutId = setTimeout(() => setLeftMillS(leftMillS - 1), 1);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [gameStatus, isMyTurn, leftMillS]);
+    let animationFrameId: number = -1;
+    /* 毎フレームごとの処理 */
+    const tick = () => {
+      setLeftMillS((leftMillS) => {
+        if (leftMillS <= 0) {
+          /* 時間切れ */
+          cancelAnimationFrame(animationFrameId);
+          setGameStatus("end_lose");
+          return leftMillS;
+        } else if (gameStatus != "playing" || !isMyTurn) {
+          /* 自分のターン以外 */
+          cancelAnimationFrame(animationFrameId);
+          return leftMillS;
+        }
+        return exLeft - (Date.now() - startTime);
+      });
+      animationFrameId = requestAnimationFrame(tick);
+    };
+    tick();
+    return () => cancelAnimationFrame(animationFrameId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameStatus, isMyTurn, startTime]);
 
   /* 終了後の処理 */
   useEffect(() => {
@@ -141,6 +163,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     /****************/
 
     setMyTurn(false);
+    setExLeft(leftMillS);
     setPokeErr("");
     const sentPoke = pokeList.find(
       (poke) => poke.name.japanese == kataPokeName
@@ -208,6 +231,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       setGameStatus("end_win");
     } else {
       setMyTurn(true);
+      setStartTime(Date.now());
     }
 
     setTargetPoke(tmpTarget);
