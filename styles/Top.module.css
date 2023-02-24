@@ -32,6 +32,22 @@
   pointer-events: none;
 }
 
+.flash {
+  animation: flash 2s linear 0s infinite forwards;
+}
+
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .main {
   height: 100%;
   margin: 0.5rem 1.5rem;

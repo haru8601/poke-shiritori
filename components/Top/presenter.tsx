@@ -104,7 +104,6 @@ export default function TopPresenter({
           leftPercent={leftPercent}
           gameStatus={gameStatus}
           isMyTurn={isMyTurn}
-          innerWidth={innerWidth}
         />
         <PokeTarget targetPoke={targetPoke} gameStatus={gameStatus} />
         <PokeFirst firstPoke={firstPoke} gameStatus={gameStatus} />

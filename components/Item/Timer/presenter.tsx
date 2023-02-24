@@ -1,5 +1,6 @@
 import { ComponentProps } from "react";
 import { CONFIG } from "@/const/config";
+import styles from "@/styles/Top.module.css";
 import Timer from "./container";
 
 type Props = ComponentProps<typeof Timer>;
@@ -8,7 +9,6 @@ export default function TimerPresenter({
   leftPercent,
   gameStatus,
   isMyTurn,
-  innerWidth,
 }: Props) {
   return (
     <div className="my-3">
@@ -18,24 +18,22 @@ export default function TimerPresenter({
       </div>
       <div
         style={{ height: "25px", width: "100%" }}
-        className="border border-1 border-dark"
+        className="border border-1 border-dark rounded"
       >
         <div
           style={{
             height: "100%",
             width: `${leftPercent}%`,
           }}
-          className="bg-primary"
+          className={`${
+            leftPercent < 10
+              ? "bg-danger"
+              : leftPercent < 50
+              ? "bg-warning"
+              : "bg-primary"
+          } ${gameStatus == "playing" && isMyTurn ? styles.flash : ""}`}
         ></div>
       </div>
-      {/* <ProgressBar
-        now={leftPercent}
-        animated={innerWidth >= 700 && gameStatus == "playing" && isMyTurn}
-        variant={
-          leftPercent < 10 ? "danger" : leftPercent < 50 ? "warning" : ""
-        }
-        style={{ height: "25px" }}
-      /> */}
     </div>
   );
 }
