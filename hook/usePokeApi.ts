@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
+import { useCallback } from "react";
 import { PokeApi } from "@/types/PokeApi";
 
 export const usePokeApi = () => {
@@ -10,7 +11,7 @@ export const usePokeApi = () => {
       },
     });
   };
-  const fetchPoke = async (id: number): Promise<PokeApi> => {
+  const fetchPoke = useCallback(async (id: number): Promise<PokeApi> => {
     const instance = createBase();
     return await instance
       .get(`pokemon/${id}`)
@@ -19,6 +20,6 @@ export const usePokeApi = () => {
         console.log(err);
         return;
       });
-  };
+  }, []);
   return { fetchPoke } as const;
 };

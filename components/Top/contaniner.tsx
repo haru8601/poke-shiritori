@@ -110,6 +110,55 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     })();
   }, [gameStatus, isMyTurn, leftMillS]);
 
+  /* CPUの回答 */
+  useEffect(() => {
+    if (gameStatus != "playing" || isMyTurn) return;
+    (async () => {
+      /* ランダムな時間後に返答 */
+      await sleep(2000 + Math.random() * 8000);
+
+      const lastWord = getShiritoriWord(targetPoke.name.japanese);
+      /* ポケ一覧からアンサーの候補を取得 */
+      let tmpTarget = getAnswer(pokeList, lastWord, usedPokeNameList, diff);
+
+      if (!tmpTarget) {
+        /* 解答なし */
+        tmpTarget = {
+          id: -1,
+          base: { h: 0, a: 0, b: 0, c: 0, d: 0, s: 0 },
+          name: { japanese: "見つかりませんでした。。" },
+          type: ["Normal"],
+          imgPath: PATH.defaultImg,
+        };
+      } else {
+        /* 解答あり */
+
+        /* 画像パス取得 */
+        const tmpTargetResponse = await fetchPoke(tmpTarget.id);
+        const enermyImgPath =
+          tmpTargetResponse.sprites.other["official-artwork"].front_default;
+        tmpTarget.imgPath = enermyImgPath || PATH.defaultImg;
+
+        /* 使用済みリスト更新 */
+        const tmpUsedPokeNameList = Array.from(usedPokeNameList);
+        tmpUsedPokeNameList.push(tmpTarget.name.japanese);
+        setUsedPokeNameList(tmpUsedPokeNameList);
+
+        const tmpEnermyPokeList = Array.from(enermyPokeList);
+        tmpEnermyPokeList.push(tmpTarget);
+        setEnermyPokeList(tmpEnermyPokeList);
+      }
+      setTargetPoke(tmpTarget);
+      /* CPUの負け */
+      if (tmpTarget.id == -1 || tmpTarget.name.japanese.endsWith("ン")) {
+        setGameStatus("end_win");
+      } else {
+        setMyTurn(true);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMyTurn]);
+
   /* 終了後の処理 */
   useEffect(() => {
     (async () => {
@@ -167,7 +216,6 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     }
     /****************/
 
-    setMyTurn(false);
     setPokeErr("");
     const sentPoke = pokeList.find(
       (poke) => poke.name.japanese == kataPokeName
@@ -194,50 +242,9 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       return;
     }
 
-    const lastWord = getShiritoriWord(kataPokeName);
     /* 自分のポケリセット */
     setSentPokeName("");
-
-    /* ランダムな時間後に返答 */
-    await sleep(2000 + Math.random() * 8000);
-
-    /* ポケ一覧からアンサーの候補を取得 */
-    let tmpTarget = getAnswer(pokeList, lastWord, tmpUsedPokeNameList, diff);
-
-    if (!tmpTarget) {
-      /* 解答なし */
-      tmpTarget = {
-        id: -1,
-        base: { h: 0, a: 0, b: 0, c: 0, d: 0, s: 0 },
-        name: { japanese: "見つかりませんでした。。" },
-        type: ["Normal"],
-        imgPath: PATH.defaultImg,
-      };
-    } else {
-      /* 解答あり */
-
-      /* 画像パス取得 */
-      const tmpTargetResponse = await fetchPoke(tmpTarget.id);
-      const enermyImgPath =
-        tmpTargetResponse.sprites.other["official-artwork"].front_default;
-      tmpTarget.imgPath = enermyImgPath || PATH.defaultImg;
-
-      /* 使用済みリスト更新 */
-      tmpUsedPokeNameList.push(tmpTarget.name.japanese);
-      setUsedPokeNameList(tmpUsedPokeNameList);
-
-      const tmpEnermyPokeList = Array.from(enermyPokeList);
-      tmpEnermyPokeList.push(tmpTarget);
-      setEnermyPokeList(tmpEnermyPokeList);
-    }
-    /* CPUの負け */
-    if (!tmpTarget || tmpTarget.name.japanese.endsWith("ン")) {
-      setGameStatus("end_win");
-    } else {
-      setMyTurn(true);
-    }
-
-    setTargetPoke(tmpTarget);
+    setMyTurn(false);
   };
 
   const handleChangeDiff = (event: ChangeEvent<HTMLInputElement>) => {
