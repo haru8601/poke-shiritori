@@ -48,6 +48,25 @@
   }
 }
 
+.flashOnce {
+  animation: flashOnce 2s ease 0s forwards;
+}
+
+@keyframes flashOnce {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .main {
   height: 100%;
   margin: 0.5rem 1.5rem;

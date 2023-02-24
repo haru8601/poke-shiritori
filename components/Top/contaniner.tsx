@@ -15,6 +15,7 @@ import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
 import { PokeApi } from "@/types/PokeApi";
 import { getAnswer } from "@/utils/getAnswer";
+import getCompatibility from "@/utils/getCompatibility";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
 import { hira2kata } from "@/utils/hira2kata";
 import { replaceSpecial } from "@/utils/replaceSpecial";
@@ -39,6 +40,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimit);
   const [countDown, setCountDown] = useState<number>(3);
   const [innerWidth, setInnerWidth] = useState<number>(0);
+  const [bonus, setBonus] = useState<number>(0);
   const { sleep } = useTimer();
   const { fetchPoke } = usePokeApi();
 
@@ -83,7 +85,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
         );
         return () => clearTimeout(timeoutId);
       } else {
-        setGameStatus("playing");
+        setGameStatus("playing_myturn");
       }
     }
   }, [countDown, gameStatus]);
@@ -98,7 +100,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
             if (leftMillS <= 0) {
               setGameStatus("end_lose");
               return leftMillS;
-            } else if (gameStatus != "playing" || !isMyTurn) {
+            } else if (gameStatus != "playing_myturn" || !isMyTurn) {
               return leftMillS;
             }
             return leftMillS - 20;
@@ -112,7 +114,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
 
   /* CPUの回答 */
   useEffect(() => {
-    if (gameStatus != "playing" || isMyTurn) return;
+    if (gameStatus != "playing_enermy") return;
     (async () => {
       /* ランダムな時間後に返答 */
       await sleep(2000 + Math.random() * 8000);
@@ -154,6 +156,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
         setGameStatus("end_win");
       } else {
         setMyTurn(true);
+        setGameStatus("playing_myturn");
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -216,6 +219,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     }
     /****************/
 
+    setGameStatus("playing_will_enermy");
     setPokeErr("");
     const sentPoke = pokeList.find(
       (poke) => poke.name.japanese == kataPokeName
@@ -228,7 +232,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
 
     const sentPokeResponse = await fetchPoke(sentPoke.id);
     const imgPath =
-      sentPokeResponse.sprites.other["official-artwork"].front_default;
+      sentPokeResponse?.sprites.other["official-artwork"].front_default;
     sentPoke.imgPath = imgPath || PATH.defaultImg;
 
     setTargetPoke(sentPoke);
@@ -242,9 +246,23 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       return;
     }
 
+    /* タイムボーナス */
+    setLeftMillS((leftMillS) => {
+      const tmpBonus =
+        getCompatibility(
+          sentPoke,
+          (enermyPokeList.length &&
+            enermyPokeList[enermyPokeList.length - 1]) ||
+            firstPoke
+        ) * 1000;
+      setBonus(tmpBonus);
+      return Math.min(CONFIG.timeLimit, leftMillS + tmpBonus);
+    });
+
     /* 自分のポケリセット */
     setSentPokeName("");
     setMyTurn(false);
+    setGameStatus("playing_enermy");
   };
 
   const handleChangeDiff = (event: ChangeEvent<HTMLInputElement>) => {
@@ -274,6 +292,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       myIndex={myIndex}
       leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
       countDown={countDown}
+      bonus={bonus}
       innerWidth={innerWidth}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}

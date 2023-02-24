@@ -13,7 +13,7 @@ type Props = Pick<ComponentProps<typeof TopPresenter>, "targetPoke"> &
 
 export default function PokeCard({
   targetPoke,
-  gameStatus = "playing",
+  gameStatus = "playing_myturn",
   small = false,
   zIndex = 0,
   imgBase = CONFIG.spaceBasis,
