@@ -7,7 +7,6 @@ type Props = ComponentProps<typeof Timer>;
 export default function TimerPresenter({
   leftPercent,
   gameStatus,
-  isMyTurn,
   bonus,
 }: Props) {
   return (
@@ -27,7 +26,7 @@ export default function TimerPresenter({
               : leftPercent < 50
               ? "bg-warning"
               : "bg-primary"
-          } ${gameStatus.includes("playing") && isMyTurn ? styles.flash : ""}`}
+          } ${gameStatus == "playing_myturn" ? styles.flash : ""}`}
         ></div>
         {gameStatus == "playing_enermy" && (
           <p className={styles.flashOnce}>{`+${bonus}`}</p>

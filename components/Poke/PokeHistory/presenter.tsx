@@ -7,12 +7,12 @@ import PokeCard from "../PokeCard/container";
 
 type Props = ComponentProps<typeof PokeHistory>;
 
-export default function PokeHistoryPresenter({ myPokeList, isMyTurn }: Props) {
+export default function PokeHistoryPresenter({ myPokeList, isTarget }: Props) {
   return (
     <Stack
       style={{ width: "40%" }}
       className={`text-center border border-3 rounded ${
-        isMyTurn ? "border-primary" : ""
+        isTarget ? "border-primary" : ""
       }`}
     >
       {myPokeList

@@ -23,7 +23,6 @@ type Props = {
   pokeErr: string;
   myPokeList: Poke[];
   enermyPokeList: Poke[];
-  isMyTurn: boolean;
   gameStatus: GameStatus;
   usedPokeCount: number;
   diff: Diff;
@@ -42,7 +41,6 @@ type Props = {
 
 export default function TopPresenter({
   pokeList,
-  isMyTurn,
   firstPoke,
   targetPoke,
   sentPokeName,
@@ -105,7 +103,6 @@ export default function TopPresenter({
         <Timer
           leftPercent={leftPercent}
           gameStatus={gameStatus}
-          isMyTurn={isMyTurn}
           bonus={bonus}
         />
         <PokeTarget targetPoke={targetPoke} gameStatus={gameStatus} />
@@ -115,17 +112,16 @@ export default function TopPresenter({
           sentPokeName={sentPokeName}
           pokeErr={pokeErr}
           gameStatus={gameStatus}
-          isMyTurn={isMyTurn}
           diff={diff}
           onKeydown={onKeydown}
           onChangePoke={onChangePoke}
           onSubmitPoke={onSubmitPoke}
         />
-        <Loading isMyTurn={isMyTurn} gameStatus={gameStatus} />
+        <Loading gameStatus={gameStatus} />
         <PokeHistoryList
           myPokeList={myPokeList}
           enermyPokeList={enermyPokeList}
-          isMyTurn={isMyTurn}
+          gameStatus={gameStatus}
         />
         <PokeFooter usedPokeCount={usedPokeCount} myIndex={myIndex} />
       </Stack>

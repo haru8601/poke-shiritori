@@ -29,7 +29,6 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   const [pokeErr, setPokeErr] = useState<string>("");
   const [myPokeList, setMyPokeList] = useState<Poke[]>([]);
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
-  const [isMyTurn, setMyTurn] = useState<boolean>(true);
   const [gameStatus, setGameStatus] = useState<GameStatus>("before_start");
   const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([
     firstPoke.name.japanese,
@@ -100,7 +99,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
             if (leftMillS <= 0) {
               setGameStatus("end_lose");
               return leftMillS;
-            } else if (gameStatus != "playing_myturn" || !isMyTurn) {
+            } else if (gameStatus != "playing_myturn") {
               return leftMillS;
             }
             return leftMillS - 20;
@@ -110,7 +109,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       });
       clearTimeout(timeoutId);
     })();
-  }, [gameStatus, isMyTurn, leftMillS]);
+  }, [gameStatus, leftMillS]);
 
   /* CPUの回答 */
   useEffect(() => {
@@ -155,12 +154,11 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       if (tmpTarget.id == -1 || tmpTarget.name.japanese.endsWith("ン")) {
         setGameStatus("end_win");
       } else {
-        setMyTurn(true);
         setGameStatus("playing_myturn");
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMyTurn]);
+  }, [gameStatus]);
 
   /* 終了後の処理 */
   useEffect(() => {
@@ -261,7 +259,6 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
 
     /* 自分のポケリセット */
     setSentPokeName("");
-    setMyTurn(false);
     setGameStatus("playing_enermy");
   };
 
@@ -278,7 +275,6 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   return (
     <TopPresenter
       pokeList={pokeList}
-      isMyTurn={isMyTurn}
       firstPoke={firstPoke}
       targetPoke={targetPoke!}
       sentPokeName={sentPokeName}

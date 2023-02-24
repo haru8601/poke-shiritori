@@ -7,7 +7,6 @@ type Props = Pick<
   | "pokeList"
   | "sentPokeName"
   | "pokeErr"
-  | "isMyTurn"
   | "gameStatus"
   | "onKeydown"
   | "onChangePoke"
@@ -19,7 +18,6 @@ export default function PokeInput({
   pokeList,
   sentPokeName,
   pokeErr,
-  isMyTurn,
   gameStatus,
   diff,
   onKeydown,
@@ -31,7 +29,6 @@ export default function PokeInput({
       pokeList={pokeList}
       sentPokeName={sentPokeName}
       pokeErr={pokeErr}
-      isMyTurn={isMyTurn}
       gameStatus={gameStatus}
       diff={diff}
       onKeydown={onKeydown}

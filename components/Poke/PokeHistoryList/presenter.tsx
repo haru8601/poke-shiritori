@@ -8,7 +8,7 @@ type Props = ComponentProps<typeof PokeHistoryList>;
 export default function PokeHistoryListPresenter({
   myPokeList,
   enermyPokeList,
-  isMyTurn,
+  gameStatus,
 }: Props) {
   return (
     <Stack
@@ -16,8 +16,14 @@ export default function PokeHistoryListPresenter({
       className="justify-content-around overflow-scroll"
       direction="horizontal"
     >
-      <PokeHistory myPokeList={myPokeList} isMyTurn={isMyTurn} />
-      <PokeHistory myPokeList={enermyPokeList} isMyTurn={!isMyTurn} />
+      <PokeHistory
+        myPokeList={myPokeList}
+        isTarget={gameStatus == "playing_myturn"}
+      />
+      <PokeHistory
+        myPokeList={enermyPokeList}
+        isTarget={gameStatus == "playing_enermy"}
+      />
     </Stack>
   );
 }

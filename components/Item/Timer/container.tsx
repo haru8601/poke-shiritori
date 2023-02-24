@@ -4,20 +4,14 @@ import TimerPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "leftPercent" | "gameStatus" | "isMyTurn" | "bonus"
+  "leftPercent" | "gameStatus" | "bonus"
 >;
 
-export default function Timer({
-  leftPercent,
-  gameStatus,
-  isMyTurn,
-  bonus,
-}: Props) {
+export default function Timer({ leftPercent, gameStatus, bonus }: Props) {
   return (
     <TimerPresenter
       leftPercent={leftPercent}
       gameStatus={gameStatus}
-      isMyTurn={isMyTurn}
       bonus={bonus}
     />
   );

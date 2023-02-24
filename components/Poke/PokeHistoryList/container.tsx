@@ -4,19 +4,19 @@ import PokeHistoryListPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "myPokeList" | "enermyPokeList" | "isMyTurn"
+  "myPokeList" | "enermyPokeList" | "gameStatus"
 >;
 
 export default function PokeHistoryList({
   myPokeList,
   enermyPokeList,
-  isMyTurn,
+  gameStatus,
 }: Props) {
   return (
     <PokeHistoryListPresenter
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
-      isMyTurn={isMyTurn}
+      gameStatus={gameStatus}
     />
   );
 }

@@ -5,13 +5,13 @@ import Loading from "./container";
 
 type Props = ComponentProps<typeof Loading>;
 
-export default function LoadingPresenter({ isMyTurn, gameStatus }: Props) {
+export default function LoadingPresenter({ gameStatus }: Props) {
   return (
     <div
       style={{ width: "90%", height: `${CONFIG.spaceBasis}px` }}
       className="d-inline-flex mx-auto justify-content-end"
     >
-      {!isMyTurn && !gameStatus.includes("end") && (
+      {gameStatus == "playing_enermy" && (
         <Spinner
           animation="border"
           role="status"
