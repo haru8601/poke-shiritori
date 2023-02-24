@@ -3,6 +3,7 @@ import {
   Accordion,
   Button,
   ButtonGroup,
+  ListGroup,
   Offcanvas,
   OverlayTrigger,
   Tab,
@@ -111,6 +112,61 @@ export default function PokeConfigPresenter({
                   </tbody>
                 </Table>
               </div>
+            </Tab>
+            <Tab eventKey="rules" title="ルール">
+              <ListGroup
+                as="ol"
+                numbered
+                className="overflow-scroll"
+                style={{ height: "70vh" }}
+              >
+                <ListGroup.Item as="li" className="d-flex">
+                  <div>
+                    <p className="fw-bold">伸ばし棒は無視します</p>
+                    <p>{"ex)「キャタピー」->o「ピッピ」"}</p>
+                  </div>
+                </ListGroup.Item>
+                <ListGroup.Item as="li" className="d-flex">
+                  <div>
+                    <p className="fw-bold">{"濁点、半濁点は無視しません"}</p>
+                    <p>{"ex)「ボーマンダ」->x「タツベイ」"}</p>
+                  </div>
+                </ListGroup.Item>
+                <ListGroup.Item as="li" className="d-flex">
+                  <div>
+                    <p className="fw-bold">{"小文字は大文字に変換されます"}</p>
+                    <p>{"ex)「ゴローニャ」->o「ヤミラミ」"}</p>
+                  </div>
+                </ListGroup.Item>
+                <ListGroup.Item as="li" className="d-flex">
+                  <div>
+                    <p className="fw-bold">
+                      {"特殊な文字は一般的な読み方に変換されます"}
+                    </p>
+                    <p>{"ex1)「ニドラン♀(めす)」->o「スターミー」"}</p>
+                    <p>{"ex2)「ポリゴンＺ(ぜっと)」->o「トランセル」"}</p>
+                  </div>
+                </ListGroup.Item>
+                <ListGroup.Item as="li" className="d-flex">
+                  <div>
+                    <p className="fw-bold">
+                      {
+                        "直前の相手ポケモンに有利なタイプが有るか無いかで、制限時間が増え方が変わります"
+                      }
+                    </p>
+                    <p>
+                      {
+                        "ex1)「ヒトカゲ」に対して「ゲッコウガ」を出すと、制限時間が2秒増えます"
+                      }
+                    </p>
+                    <p>
+                      {
+                        "ex2)「ワニノコ」に対して「コダック」を出しても、0.5秒しか増えません"
+                      }
+                    </p>
+                  </div>
+                </ListGroup.Item>
+              </ListGroup>
             </Tab>
             <Tab eventKey="tips" title="tips">
               <p style={{ fontSize: "14px" }}>※SVまでの情報です</p>

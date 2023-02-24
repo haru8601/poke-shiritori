@@ -116,7 +116,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     if (gameStatus != "playing_enermy") return;
     (async () => {
       /* ランダムな時間後に返答 */
-      await sleep(2000 + Math.random() * 8000);
+      await sleep(2000 + Math.random() * 6000);
 
       const lastWord = getShiritoriWord(targetPoke.name.japanese);
       /* ポケ一覧からアンサーの候補を取得 */
