@@ -38,6 +38,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   /* 現在の残り時間 */
   const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimit);
   const [countDown, setCountDown] = useState<number>(3);
+  const [innerWidth, setInnerWidth] = useState<number>(0);
   const { sleep } = useTimer();
   const { fetchPoke } = usePokeApi();
 
@@ -58,6 +59,18 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     setDiff((sessionStorage.getItem("diff") as Diff) || "normal");
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      /* 初期値 */
+      setInnerWidth(window.innerWidth);
+
+      /* リサイズ処理追加 */
+      window.addEventListener("resize", () => {
+        setInnerWidth(window.innerWidth);
+      });
+    }
   }, []);
 
   /* スタートカウントダウン */
@@ -254,6 +267,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       myIndex={myIndex}
       leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
       countDown={countDown}
+      innerWidth={innerWidth}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}

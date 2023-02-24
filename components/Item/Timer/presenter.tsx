@@ -9,6 +9,7 @@ export default function TimerPresenter({
   leftPercent,
   gameStatus,
   isMyTurn,
+  innerWidth,
 }: Props) {
   return (
     <div className="my-3">
@@ -18,7 +19,7 @@ export default function TimerPresenter({
       </div>
       <ProgressBar
         now={leftPercent}
-        animated={gameStatus == "playing" && isMyTurn}
+        animated={innerWidth >= 700 && gameStatus == "playing" && isMyTurn}
         variant={
           leftPercent < 10 ? "danger" : leftPercent < 50 ? "warning" : ""
         }

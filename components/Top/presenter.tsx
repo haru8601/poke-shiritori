@@ -31,6 +31,7 @@ type Props = {
   myIndex: number;
   leftPercent: number;
   countDown: number;
+  innerWidth: number;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
@@ -54,6 +55,7 @@ export default function TopPresenter({
   myIndex,
   leftPercent,
   countDown,
+  innerWidth,
   onChangePoke,
   onKeydown,
   onSubmitPoke,
@@ -94,6 +96,7 @@ export default function TopPresenter({
           gameStatus={gameStatus}
           diff={diff}
           scoreAll={scoreAll}
+          innerWidth={innerWidth}
           onChangeDiff={onChangeDiff}
           onClickStart={onClickStart}
         />
@@ -101,6 +104,7 @@ export default function TopPresenter({
           leftPercent={leftPercent}
           gameStatus={gameStatus}
           isMyTurn={isMyTurn}
+          innerWidth={innerWidth}
         />
         <PokeTarget targetPoke={targetPoke} gameStatus={gameStatus} />
         <PokeFirst firstPoke={firstPoke} gameStatus={gameStatus} />

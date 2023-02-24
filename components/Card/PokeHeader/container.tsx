@@ -1,35 +1,28 @@
 import { useRouter } from "next/router";
-import { ComponentProps, useEffect, useState } from "react";
+import { ComponentProps, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import PokeHeaderPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "gameStatus" | "diff" | "scoreAll" | "onChangeDiff" | "onClickStart"
+  | "gameStatus"
+  | "diff"
+  | "scoreAll"
+  | "innerWidth"
+  | "onChangeDiff"
+  | "onClickStart"
 >;
 
 export default function PokeHeader({
   gameStatus,
   diff,
   scoreAll,
+  innerWidth,
   onChangeDiff,
   onClickStart,
 }: Props) {
   const router = useRouter();
-  const [innerWidth, setInnerWidth] = useState<number>(0);
   const [clicked, setClicked] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      /* 初期値 */
-      setInnerWidth(window.innerWidth);
-
-      /* リサイズ処理追加 */
-      window.addEventListener("resize", () => {
-        setInnerWidth(window.innerWidth);
-      });
-    }
-  }, []);
 
   const handleReload = () => {
     router.reload();
