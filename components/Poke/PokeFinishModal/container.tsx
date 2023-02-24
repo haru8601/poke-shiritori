@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { setCookie, parseCookies } from "nookies";
+import { parseCookies, setCookie } from "nookies";
 import { ChangeEvent, ComponentProps, useEffect, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
@@ -21,6 +21,7 @@ export default function PokeFinishModal({
   const [nickname, setNickname] = useState<string | null>(
     (parseCookies() as typeof CookieNames).shiritori_nickname
   );
+  const [nicknameErr, setNicknameErr] = useState<string>("");
   const router = useRouter();
 
   /* gameStatusが切り替わったらmodalを表示 */
@@ -33,10 +34,19 @@ export default function PokeFinishModal({
   };
 
   const handleChangeNickname = (event: ChangeEvent<HTMLInputElement>) => {
-    setNickname(event.target.value);
+    const tmpName = event.target.value;
+    setNickname(tmpName);
+    if (tmpName.length > 10) {
+      setNicknameErr("ニックネームは10文字以下にしてください");
+    } else {
+      setNicknameErr("");
+    }
   };
 
   const handleSubmitNickname = async () => {
+    if (nicknameErr !== "") {
+      return;
+    }
     /* cookieにスコアを保存 */
     setCookie(
       null,
@@ -61,6 +71,7 @@ export default function PokeFinishModal({
       gameStatus={gameStatus}
       showModal={showModal}
       nickname={nickname}
+      nicknameErr={nicknameErr}
       myIndex={myIndex}
       onCloseModal={handleCloseModal}
       onChangeNickname={handleChangeNickname}

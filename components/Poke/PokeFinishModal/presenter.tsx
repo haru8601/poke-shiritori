@@ -15,6 +15,7 @@ type Props = Pick<
   showModal: boolean;
   nickname: string | null;
   myIndex: number;
+  nicknameErr: string;
   onCloseModal: () => void;
   onChangeNickname: (event: ChangeEvent<HTMLInputElement>) => void;
   onSubmitNickname: () => void;
@@ -26,6 +27,7 @@ export default function PokeFinishModalPresenter({
   gameStatus,
   showModal,
   nickname,
+  nicknameErr,
   myIndex,
   onCloseModal,
   onChangeNickname,
@@ -62,16 +64,22 @@ export default function PokeFinishModalPresenter({
             value={nickname ?? ""}
             onChange={onChangeNickname}
             className={styles.pokeInput}
+            isInvalid={nicknameErr !== ""}
           />
           <Button
             variant="primary"
             className="rounded-end"
             type="submit"
-            onClick={onSubmitNickname}
             style={{ fontSize: "16px" }}
+            onClick={onSubmitNickname}
           >
             記録して次の対戦へ
           </Button>
+          {nicknameErr && (
+            <Form.Control.Feedback type="invalid">
+              {nicknameErr}
+            </Form.Control.Feedback>
+          )}
         </InputGroup>
         <h4 className="mt-3">ランキング</h4>
         <div style={{ height: "auto", overflowY: "scroll" }}>

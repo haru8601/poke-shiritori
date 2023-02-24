@@ -53,6 +53,14 @@ export default function mysqlUtils() {
     nickname: string,
     score: string
   ): Promise<ResultSetHeader | void> => {
+    if (nickname.length > 10) {
+      console.log("too long nickname.");
+      return;
+    }
+    if (Number.isNaN(score)) {
+      console.log("score is NOT a number.");
+      return;
+    }
     return await execQuery("insert into score_all(user, score) values(?, ?)", [
       nickname,
       score,
