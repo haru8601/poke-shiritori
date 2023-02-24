@@ -33,7 +33,7 @@ export default function PokeHeaderPresenter({
             className="d-inline-block align-self-center text-dark fw-bold"
             style={{ fontSize: "30px" }}
           >
-            ポケモンしりとり(β版)
+            ポケモンしりとりSV(β版)
           </h1>
           <OverlayTrigger
             placement="right"
