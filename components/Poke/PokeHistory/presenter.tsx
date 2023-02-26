@@ -7,13 +7,18 @@ import PokeCard from "../PokeCard/container";
 
 type Props = ComponentProps<typeof PokeHistory>;
 
-export default function PokeHistoryPresenter({ myPokeList, isTarget }: Props) {
+export default function PokeHistoryPresenter({
+  myPokeList,
+  isTarget,
+  toolTarget,
+}: Props) {
   return (
     <Stack
       style={{ width: "40%" }}
       className={`text-center border border-3 rounded ${
         isTarget ? "border-primary" : ""
       }`}
+      ref={toolTarget}
     >
       {myPokeList
         .map((myPoke, index) => {

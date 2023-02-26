@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent } from "react";
+import { ChangeEvent, KeyboardEvent, MutableRefObject } from "react";
 import { Stack } from "react-bootstrap";
 import styles from "@/styles/Top.module.css";
 import { Diff } from "@/types/Diff";
@@ -7,7 +7,7 @@ import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
 import PokeFooter from "../Card/PokeFooter/container";
 import PokeHeader from "../Card/PokeHeader/container";
-import Loading from "../Item/Loading/container";
+import Thinking from "../Item/Thinking/container";
 import Timer from "../Item/Timer/container";
 import PokeFinishModal from "../Poke/PokeFinishModal/container";
 import PokeFirst from "../Poke/PokeFirst/container";
@@ -31,6 +31,7 @@ type Props = {
   leftPercent: number;
   countDown: number;
   bonus: number;
+  toolTarget: MutableRefObject<null>;
   innerWidth: number;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -55,6 +56,7 @@ export default function TopPresenter({
   leftPercent,
   countDown,
   bonus,
+  toolTarget,
   innerWidth,
   onChangePoke,
   onKeydown,
@@ -117,11 +119,12 @@ export default function TopPresenter({
           onChangePoke={onChangePoke}
           onSubmitPoke={onSubmitPoke}
         />
-        <Loading gameStatus={gameStatus} />
+        <Thinking gameStatus={gameStatus} toolTarget={toolTarget} />
         <PokeHistoryList
           myPokeList={myPokeList}
           enermyPokeList={enermyPokeList}
           gameStatus={gameStatus}
+          toolTarget={toolTarget}
         />
         <PokeFooter score={score} myIndex={myIndex} />
       </Stack>

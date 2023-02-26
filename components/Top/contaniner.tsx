@@ -3,6 +3,7 @@ import {
   ComponentProps,
   KeyboardEvent,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { CONFIG } from "@/const/config";
@@ -41,6 +42,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   const [innerWidth, setInnerWidth] = useState<number>(0);
   const [bonus, setBonus] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
+  const toolTarget = useRef(null);
   const { sleep } = useTimer();
   const { fetchPoke } = usePokeApi();
 
@@ -294,6 +296,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
       countDown={countDown}
       bonus={bonus}
+      toolTarget={toolTarget}
       innerWidth={innerWidth}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}

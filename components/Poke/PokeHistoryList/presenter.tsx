@@ -9,6 +9,7 @@ export default function PokeHistoryListPresenter({
   myPokeList,
   enermyPokeList,
   gameStatus,
+  toolTarget,
 }: Props) {
   return (
     <Stack
@@ -19,10 +20,12 @@ export default function PokeHistoryListPresenter({
       <PokeHistory
         myPokeList={myPokeList}
         isTarget={gameStatus == "playing_myturn"}
+        toolTarget={toolTarget}
       />
       <PokeHistory
         myPokeList={enermyPokeList}
         isTarget={gameStatus == "playing_enermy"}
+        toolTarget={toolTarget}
       />
     </Stack>
   );

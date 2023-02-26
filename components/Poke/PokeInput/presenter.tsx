@@ -28,7 +28,6 @@ export default function PokeInputPresenter({
           (gameStatus == "before_start" && "スタートを押してください") ||
           "ポケモンを入力してください"
         }
-        disabled={gameStatus !== "playing_myturn"}
         isInvalid={pokeErr != ""}
         autoComplete="off"
         className={styles.pokeInput}
