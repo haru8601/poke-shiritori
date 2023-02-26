@@ -1,11 +1,11 @@
-import { ComponentProps } from "react";
+import { ComponentProps, Fragment, MutableRefObject } from "react";
 import {
   Accordion,
   Button,
   ButtonGroup,
   ListGroup,
   Offcanvas,
-  OverlayTrigger,
+  Overlay,
   Tab,
   Table,
   Tabs,
@@ -22,6 +22,7 @@ import PokeConfig from "./container";
 
 type Props = ComponentProps<typeof PokeConfig> & {
   showSide: boolean;
+  toolTarget: MutableRefObject<null>;
   onOpenSide: () => void;
   onCloseSide: () => void;
 };
@@ -31,6 +32,7 @@ export default function PokeConfigPresenter({
   showSide,
   scoreAll,
   innerWidth,
+  toolTarget,
   onChangeDiff,
   onOpenSide,
   onCloseSide,
@@ -62,11 +64,7 @@ export default function PokeConfigPresenter({
               <p>※ 停止中</p>
               <ButtonGroup>
                 {Object.keys(CONFIG.diff).map((type, index) => (
-                  <OverlayTrigger
-                    key={index}
-                    placement="bottom"
-                    overlay={<Tooltip>{CONFIG.diff[type as Diff]}</Tooltip>}
-                  >
+                  <Fragment key={index}>
                     <ToggleButton
                       id={`${index}`}
                       type="radio"
@@ -75,10 +73,14 @@ export default function PokeConfigPresenter({
                       variant="outline-primary"
                       onChange={onChangeDiff}
                       disabled
+                      ref={toolTarget}
                     >
                       {type}
                     </ToggleButton>
-                  </OverlayTrigger>
+                    <Overlay placement="bottom" target={toolTarget}>
+                      <Tooltip>{CONFIG.diff[type as Diff]}</Tooltip>
+                    </Overlay>
+                  </Fragment>
                 ))}
               </ButtonGroup>
             </Tab>
