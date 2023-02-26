@@ -1,6 +1,6 @@
 import { ComponentProps } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
-import styles from "@/styles/Top.module.css";
+import styles from "@/app/styles/Top.module.css";
 import PokeInput from "./container";
 
 type Props = ComponentProps<typeof PokeInput>;

@@ -1,6 +1,6 @@
 import { ComponentProps } from "react";
+import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
-import styles from "@/styles/Top.module.css";
 import Timer from "./container";
 
 type Props = ComponentProps<typeof Timer>;

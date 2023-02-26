@@ -1,6 +1,6 @@
 import { ChangeEvent, KeyboardEvent, MutableRefObject } from "react";
 import { Stack } from "react-bootstrap";
-import styles from "@/styles/Top.module.css";
+import styles from "@/app/styles/Top.module.css";
 import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";

@@ -12,10 +12,10 @@ import {
   ToggleButton,
   Tooltip,
 } from "react-bootstrap";
+import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
 import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
-import styles from "@/styles/Top.module.css";
 import { Diff } from "@/types/Diff";
 import { Score } from "@/types/Score";
 import PokeConfig from "./container";

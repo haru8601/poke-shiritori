@@ -1,4 +1,4 @@
-import { ComponentProps, useState } from "react";
+import { ComponentProps, useRef, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import PokeHeaderPresenter from "./presenter";
 
@@ -20,15 +20,16 @@ export default function PokeHeader({
   onChangeDiff,
   onClickStart,
 }: Props) {
-  const [clicked, setClicked] = useState<boolean>(false);
+  const [entered, setEntered] = useState<boolean>(false);
+  const toolTarget = useRef(null);
 
   const handleReload = () => {
     location.reload();
   };
-  const handleClickPokeImg = () => {
-    setClicked(true);
+  const handlEnterPokeImg = () => {
+    setEntered(true);
     setTimeout(() => {
-      setClicked(false);
+      setEntered(false);
     }, 700);
   };
   return (
@@ -36,11 +37,12 @@ export default function PokeHeader({
       gameStatus={gameStatus}
       diff={diff}
       innerWidth={innerWidth}
-      clicked={clicked}
+      entered={entered}
       scoreAll={scoreAll}
+      toolTarget={toolTarget}
       onReload={handleReload}
       onChangeDiff={onChangeDiff}
-      onClickPokeImg={handleClickPokeImg}
+      onEnterPokeImg={handlEnterPokeImg}
       onClickStart={onClickStart}
     />
   );

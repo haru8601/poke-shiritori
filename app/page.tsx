@@ -1,8 +1,13 @@
+import fs from "fs";
+import path from "path";
 import { headers } from "next/headers";
 import Top from "@/components/Top/contaniner";
 import { CONFIG } from "@/const/config";
 import { PATH } from "@/const/path";
 import limitChecker from "@/lib/limitChecher";
+import { Poke } from "@/types/Poke";
+import { Score } from "@/types/Score";
+import fetchScoreAll from "./mysql/select";
 
 export const metadata = {
   title: "ポケモンしりとり by haroot",
@@ -81,9 +86,9 @@ export const metadata = {
 //   );
 // }
 export default async function Page() {
+  //TODO: リクエストIP取得
   /* Poke Apiに負荷をかけない為リクエスト上限を設ける */
   const clientIp = headers().get("x-forwarded-for") || "IP_NOT_FOUND";
-  console.log(headers().keys());
   try {
     // 上限はポケモン数
     await limitChecker().check(clientIp);
@@ -100,17 +105,24 @@ export default async function Page() {
       },
     };
   }
-  return (
-    <Top
-      pokeList={[]}
-      firstPoke={{
-        name: { japanese: "a" },
-        id: -1,
-        base: { h: 0, a: 0, b: 0, c: 0, d: 0, s: 0 },
-        type: ["Bug"],
-        imgPath: "null",
-      }}
-      scoreAll={[]}
-    />
-  );
+
+  /* ポケ一覧取得 */
+  const pokeList = JSON.parse(
+    fs
+      .readFileSync(path.join(process.cwd(), "const", "pokedex.json"))
+      .toString()
+  ) as Poke[];
+  /* 最初のポケ設定 */
+  let firstPoke: Poke | undefined = void 0;
+  let checkCount = 0;
+  while (!firstPoke || firstPoke.name.japanese.endsWith("ン")) {
+    checkCount++;
+    firstPoke = pokeList[Math.floor(Math.random() * pokeList.length)];
+    if (checkCount > pokeList.length) break;
+  }
+
+  /* ランキング取得 */
+  const scoreAll: Score[] = (await fetchScoreAll()) as Score[];
+
+  return <Top pokeList={pokeList} firstPoke={firstPoke} scoreAll={scoreAll} />;
 }

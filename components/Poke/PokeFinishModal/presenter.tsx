@@ -1,9 +1,9 @@
 import { ChangeEvent, ComponentProps } from "react";
 import { Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
+import styles from "@/app/styles/Top.module.css";
 import Tweet from "@/components/Card/Tweet/container";
 import { CONFIG } from "@/const/config";
 import { USER } from "@/const/user";
-import styles from "@/styles/Top.module.css";
 import { Score } from "@/types/Score";
 import PokeFinishModal from "./container";
 

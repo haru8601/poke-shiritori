@@ -18,7 +18,7 @@ export default function PokeCard({
   zIndex = 0,
   imgBase = CONFIG.spaceBasis,
 }: Props) {
-  const [clicked, setClicked] = useState<boolean>(false);
+  const [entered, setEntered] = useState<boolean>(false);
 
   const pokeName =
     gameStatus != "before_start" && gameStatus != "will_start"
@@ -30,11 +30,11 @@ export default function PokeCard({
       ? targetPoke.imgPath ?? PATH.defaultImg
       : PATH.defaultImg;
 
-  const handleClickPokeImg = () => {
-    setClicked(true);
+  const handleEnterPokeImg = () => {
+    setEntered(true);
     /* 0.7s後にクラス解除 */
     setTimeout(() => {
-      setClicked(false);
+      setEntered(false);
     }, 700);
   };
   return (
@@ -44,8 +44,8 @@ export default function PokeCard({
       small={small}
       zIndex={zIndex}
       imgBase={imgBase}
-      clicked={clicked}
-      onClickPokeImg={handleClickPokeImg}
+      entered={entered}
+      onEnterPokeImg={handleEnterPokeImg}
     />
   );
 }

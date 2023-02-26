@@ -1,28 +1,30 @@
-import { ChangeEvent, ComponentProps } from "react";
-import { Button, Image, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { ChangeEvent, ComponentProps, MutableRefObject } from "react";
+import { Button, Image, Overlay, Tooltip } from "react-bootstrap";
+import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
 import { PATH } from "@/const/path";
-import styles from "@/styles/Top.module.css";
 import PokeHeader from "./container";
 import PokeConfig from "../PokeConfig/container";
 
 type Props = ComponentProps<typeof PokeHeader> & {
   innerWidth: number;
-  clicked: boolean;
+  entered: boolean;
+  toolTarget: MutableRefObject<null>;
   onReload: () => void;
   onChangeDiff: (event: ChangeEvent<HTMLInputElement>) => void;
-  onClickPokeImg: () => void;
+  onEnterPokeImg: () => void;
 };
 
 export default function PokeHeaderPresenter({
   gameStatus,
   diff,
   innerWidth,
-  clicked,
+  entered,
   scoreAll,
+  toolTarget,
   onReload,
   onChangeDiff,
-  onClickPokeImg,
+  onEnterPokeImg,
   onClickStart,
 }: Props) {
   return (
@@ -35,20 +37,19 @@ export default function PokeHeaderPresenter({
           >
             ポケモンしりとりSV(β版)
           </h1>
-          <OverlayTrigger
-            placement="right"
-            overlay={<Tooltip>made by haroot</Tooltip>}
-          >
-            <Image
-              /* mobileのhover制御もあるためjsで動的クラス追加 */
-              className={`${styles.pokeImg} ${clicked ? styles.jumpImg : ""}`}
-              height={CONFIG.spaceBasis}
-              width={CONFIG.spaceBasis}
-              src={PATH.defaultImg}
-              alt="ピカチュウの尻尾の画像です"
-              onClick={onClickPokeImg}
-            />
-          </OverlayTrigger>
+          <Image
+            className={entered ? styles.jumpImg : ""}
+            height={CONFIG.spaceBasis}
+            width={CONFIG.spaceBasis}
+            src={PATH.defaultImg}
+            alt="ピカチュウの尻尾の画像です"
+            onClick={onEnterPokeImg}
+            onMouseEnter={onEnterPokeImg}
+            ref={toolTarget}
+          />
+          <Overlay placement="right" target={toolTarget} show={entered}>
+            <Tooltip>made by haroot</Tooltip>
+          </Overlay>
         </div>
         <div className="d-flex">
           {(gameStatus == "before_start" && (
