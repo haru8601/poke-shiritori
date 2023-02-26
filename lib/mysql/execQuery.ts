@@ -1,8 +1,11 @@
 import mysql from "mysql2/promise";
 import { dbServer } from "@/const/dbConfig";
-import { SSHConnection } from "@/lib/sshConnection";
+import { SSHConnection } from "./sshConnection";
 
-export default async function execQuery(query: string, values: any[]) {
+export default async function execQuery(
+  query: string,
+  values: any[]
+): Promise<any> {
   const pool: mysql.Pool | undefined =
     process.env.SSH_HOST !== undefined
       ? await SSHConnection()

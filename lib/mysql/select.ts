@@ -1,6 +1,8 @@
-import execQuery from "./execQuery";
+import "server-only";
+import execQuery from "@/lib/mysql/execQuery";
+import { Score } from "@/types/Score";
 
-export default async function fetchScoreAll() {
+export default async function fetchScoreAll(): Promise<Score[]> {
   return await execQuery(
     "select user,score from score_all order by score desc, update_date desc",
     []

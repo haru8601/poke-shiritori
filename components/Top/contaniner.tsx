@@ -1,7 +1,9 @@
 "use client";
 
+import { destroyCookie } from "nookies";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { CONFIG } from "@/const/config";
+import { CookieNames } from "@/const/cookieNames";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
@@ -47,6 +49,9 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
+    /* next/headersのcookiesがreadonlyなためCSR側で削除 */
+    destroyCookie(null, CookieNames.shiritori_score);
+
     let tmpTargetResponse: PokeApi | undefined = void 0;
     (async () => {
       /* 最初のポケ画像取得 */

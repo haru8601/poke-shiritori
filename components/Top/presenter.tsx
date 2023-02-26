@@ -1,10 +1,15 @@
-import { ChangeEvent, KeyboardEvent, MutableRefObject } from "react";
+import {
+  ChangeEvent,
+  ComponentProps,
+  KeyboardEvent,
+  MutableRefObject,
+} from "react";
 import { Stack } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
-import { Score } from "@/types/Score";
+import Top from "./contaniner";
 import PokeFooter from "../Card/PokeFooter/container";
 import PokeHeader from "../Card/PokeHeader/container";
 import Thinking from "../Item/Thinking/container";
@@ -15,9 +20,7 @@ import PokeHistoryList from "../Poke/PokeHistoryList/container";
 import PokeInput from "../Poke/PokeInput/container";
 import PokeTarget from "../Poke/PokeTarget/container";
 
-type Props = {
-  pokeList: Poke[];
-  firstPoke: Poke;
+type Props = ComponentProps<typeof Top> & {
   targetPoke: Poke;
   sentPokeName: string;
   pokeErr: string;
@@ -26,7 +29,6 @@ type Props = {
   gameStatus: GameStatus;
   score: number;
   diff: Diff;
-  scoreAll: Score[];
   myIndex: number;
   leftPercent: number;
   countDown: number;
