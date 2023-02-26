@@ -40,6 +40,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   const [countDown, setCountDown] = useState<number>(3);
   const [innerWidth, setInnerWidth] = useState<number>(0);
   const [bonus, setBonus] = useState<number>(0);
+  const [score, setScore] = useState<number>(0);
   const { sleep } = useTimer();
   const { fetchPoke } = usePokeApi();
 
@@ -120,7 +121,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
 
       const lastWord = getShiritoriWord(targetPoke.name.japanese);
       /* ポケ一覧からアンサーの候補を取得 */
-      let tmpTarget = getAnswer(pokeList, lastWord, usedPokeNameList, diff);
+      let tmpTarget = getAnswer(pokeList, lastWord, usedPokeNameList);
 
       if (!tmpTarget) {
         /* 解答なし */
@@ -152,6 +153,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       setTargetPoke(tmpTarget);
       /* CPUの負け */
       if (tmpTarget.id == -1 || tmpTarget.name.japanese.endsWith("ン")) {
+        setScore((score) => score + 10000);
         setGameStatus("end_win");
       } else {
         setGameStatus("playing_myturn");
@@ -244,17 +246,20 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       return;
     }
 
+    const tmpBonus =
+      getCompatibility(
+        sentPoke,
+        (enermyPokeList.length && enermyPokeList[enermyPokeList.length - 1]) ||
+          firstPoke
+      ) * 1000;
+
     /* タイムボーナス */
     setLeftMillS((leftMillS) => {
-      const tmpBonus =
-        getCompatibility(
-          sentPoke,
-          (enermyPokeList.length &&
-            enermyPokeList[enermyPokeList.length - 1]) ||
-            firstPoke
-        ) * 1000;
       setBonus(tmpBonus);
       return Math.min(CONFIG.timeLimit, leftMillS + tmpBonus);
+    });
+    setScore((score) => {
+      return score + tmpBonus;
     });
 
     /* 自分のポケリセット */
@@ -283,7 +288,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       enermyPokeList={enermyPokeList}
       gameStatus={gameStatus}
       diff={diff}
-      usedPokeCount={usedPokeNameList.length}
+      score={score}
       scoreAll={scoreAll}
       myIndex={myIndex}
       leftPercent={(leftMillS / CONFIG.timeLimit) * 100}

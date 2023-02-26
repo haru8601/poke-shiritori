@@ -9,7 +9,7 @@ import PokeFinishModal from "./container";
 
 type Props = Pick<
   ComponentProps<typeof PokeFinishModal>,
-  "gameStatus" | "usedPokeCount"
+  "gameStatus" | "score"
 > & {
   scoreAll: Score[];
   showModal: boolean;
@@ -23,7 +23,7 @@ type Props = Pick<
 
 export default function PokeFinishModalPresenter({
   scoreAll,
-  usedPokeCount,
+  score,
   gameStatus,
   showModal,
   nickname,
@@ -50,11 +50,7 @@ export default function PokeFinishModalPresenter({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex flex-column" style={{ maxHeight: "80vh" }}>
-        <Tweet
-          usedPokeCount={usedPokeCount}
-          myIndex={myIndex}
-          className="m-3 mb-5"
-        />
+        <Tweet score={score} myIndex={myIndex} className="m-3 mb-5" />
         <InputGroup className="mx-auto justify-content-center">
           <InputGroup.Text style={{ fontSize: "14px" }} className="px-1">
             ニックネーム
@@ -96,7 +92,7 @@ export default function PokeFinishModalPresenter({
                 .concat({
                   id: -1,
                   user: nickname || USER.defaultName,
-                  score: usedPokeCount,
+                  score: score,
                 })
                 .sort((a, b) => {
                   const scoreDiff = b.score - a.score;
@@ -129,7 +125,7 @@ export default function PokeFinishModalPresenter({
                 <tr className={styles.myScore}>
                   <td>{myIndex + 1}</td>
                   <td>{nickname || USER.defaultName}</td>
-                  <td>{usedPokeCount}</td>
+                  <td>{score}</td>
                 </tr>
               </tfoot>
             )}

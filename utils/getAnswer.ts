@@ -1,4 +1,3 @@
-import { Diff } from "@/types/Diff";
 import { Poke } from "@/types/Poke";
 
 /**
@@ -12,8 +11,7 @@ import { Poke } from "@/types/Poke";
 export const getAnswer = (
   pokeList: Poke[],
   lastWord: string,
-  usedPokeNameList: string[],
-  diff: Diff
+  usedPokeNameList: string[]
 ): Poke | undefined => {
   /* ポケ一覧からアンサーの候補を取得 */
   let candidateList = pokeList.filter(
@@ -22,14 +20,12 @@ export const getAnswer = (
       !usedPokeNameList.includes(poke.name.japanese)
   );
 
-  /* hardの場合はなるべく負けない選択 */
-  if (diff == "hard") {
-    const tmpCandidateList = candidateList.filter(
-      (poke) => !poke.name.japanese.endsWith("ン")
-    );
-    if (tmpCandidateList.length) {
-      candidateList = tmpCandidateList;
-    }
+  /* なるべく負けない選択 */
+  const tmpCandidateList = candidateList.filter(
+    (poke) => !poke.name.japanese.endsWith("ン")
+  );
+  if (tmpCandidateList.length) {
+    candidateList = tmpCandidateList;
   }
 
   /* 候補からランダムに選択 */

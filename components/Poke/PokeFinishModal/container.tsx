@@ -8,12 +8,12 @@ import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "gameStatus" | "usedPokeCount" | "scoreAll" | "myIndex"
+  "gameStatus" | "score" | "scoreAll" | "myIndex"
 >;
 
 export default function PokeFinishModal({
   gameStatus,
-  usedPokeCount,
+  score,
   scoreAll,
   myIndex,
 }: Props) {
@@ -57,7 +57,7 @@ export default function PokeFinishModal({
     setCookie(
       null,
       CookieNames.shiritori_score,
-      usedPokeCount.toString(),
+      score.toString(),
       CONFIG.cookie
     );
 
@@ -67,7 +67,7 @@ export default function PokeFinishModal({
   return (
     <PokeFinishModalPresenter
       scoreAll={scoreAll}
-      usedPokeCount={usedPokeCount}
+      score={score}
       gameStatus={gameStatus}
       showModal={showModal}
       nickname={nickname}

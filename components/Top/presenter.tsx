@@ -24,7 +24,7 @@ type Props = {
   myPokeList: Poke[];
   enermyPokeList: Poke[];
   gameStatus: GameStatus;
-  usedPokeCount: number;
+  score: number;
   diff: Diff;
   scoreAll: Score[];
   myIndex: number;
@@ -48,7 +48,7 @@ export default function TopPresenter({
   myPokeList,
   enermyPokeList,
   gameStatus,
-  usedPokeCount,
+  score,
   diff,
   scoreAll,
   myIndex,
@@ -67,7 +67,7 @@ export default function TopPresenter({
       {myIndex != -1 && (
         <PokeFinishModal
           gameStatus={gameStatus}
-          usedPokeCount={usedPokeCount}
+          score={score}
           scoreAll={scoreAll}
           myIndex={myIndex}
         />
@@ -123,7 +123,7 @@ export default function TopPresenter({
           enermyPokeList={enermyPokeList}
           gameStatus={gameStatus}
         />
-        <PokeFooter usedPokeCount={usedPokeCount} myIndex={myIndex} />
+        <PokeFooter score={score} myIndex={myIndex} />
       </Stack>
     </>
   );

@@ -24,7 +24,10 @@ export default function PokeInputPresenter({
         value={sentPokeName}
         onChange={onChangePoke}
         onKeyDown={onKeydown}
-        placeholder="ポケモンを入力してください"
+        placeholder={
+          (gameStatus == "before_start" && "スタートを押してください") ||
+          "ポケモンを入力してください"
+        }
         disabled={gameStatus !== "playing_myturn"}
         isInvalid={pokeErr != ""}
         autoComplete="off"
