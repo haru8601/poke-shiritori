@@ -17,6 +17,15 @@ const nextConfig = {
       },
     ],
   },
+  /* ssh2が使用しているcpu-features内の
+  cpu-features.nodeのparseエラー対策 */
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.node$/,
+      loader: "node-loader",
+    });
+    return config;
+  },
 };
 
 module.exports = nextConfig;
