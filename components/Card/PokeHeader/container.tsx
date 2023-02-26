@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { ComponentProps, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import PokeHeaderPresenter from "./presenter";
@@ -21,11 +20,10 @@ export default function PokeHeader({
   onChangeDiff,
   onClickStart,
 }: Props) {
-  const router = useRouter();
   const [clicked, setClicked] = useState<boolean>(false);
 
   const handleReload = () => {
-    router.reload();
+    location.reload();
   };
   const handleClickPokeImg = () => {
     setClicked(true);

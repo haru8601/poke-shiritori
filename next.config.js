@@ -4,6 +4,7 @@ const nextConfig = {
   experimental: {
     /* ポケ一覧取得が128kB以上必要なので拡張 */
     largePageDataBytes: 256 * 1000 /* bytes */,
+    appDir: true,
   },
   images: {
     remotePatterns: [

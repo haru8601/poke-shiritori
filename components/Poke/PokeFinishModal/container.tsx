@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { parseCookies, setCookie } from "nookies";
 import { ChangeEvent, ComponentProps, useEffect, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
@@ -22,7 +21,6 @@ export default function PokeFinishModal({
     (parseCookies() as typeof CookieNames).shiritori_nickname
   );
   const [nicknameErr, setNicknameErr] = useState<string>("");
-  const router = useRouter();
 
   /* gameStatusが切り替わったらmodalを表示 */
   useEffect(() => {
@@ -62,7 +60,7 @@ export default function PokeFinishModal({
     );
 
     /* リロード */
-    router.reload();
+    location.reload();
   };
   return (
     <PokeFinishModalPresenter

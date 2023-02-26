@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ChangeEvent,
   ComponentProps,
@@ -10,7 +12,7 @@ import { CONFIG } from "@/const/config";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
-import TopPage from "@/pages";
+import TopPage from "@/pages_old2";
 import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
