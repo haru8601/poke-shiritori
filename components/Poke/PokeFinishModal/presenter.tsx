@@ -45,8 +45,7 @@ export default function PokeFinishModalPresenter({
           className="text-success text-uppercase flex-grow-1 text-center"
           style={{ fontSize: "3rem" }}
         >
-          you {gameStatus.replace("end_", "")}
-          {gameStatus == "end_win" ? "!!" : "..."}
+          {gameStatus == "end_win" ? "YOU WIN!!!" : "FINISH!"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex flex-column" style={{ maxHeight: "80vh" }}>

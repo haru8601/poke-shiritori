@@ -20,8 +20,9 @@ export default function TimerPresenter({
           style={{
             height: "100%",
             width: `${leftPercent}%`,
-            transition:
-              (gameStatus == "playing_enermy" && `width 1s ease`) || "",
+            transition: `${
+              (gameStatus == "playing_enermy" && "width 1s ease") || "none"
+            }`,
           }}
           className={`position-relative ${
             leftPercent < 10

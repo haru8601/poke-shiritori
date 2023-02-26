@@ -87,8 +87,7 @@ export default function PokeHeaderPresenter({
           gameStatus.includes("end") ? "" : "d-none"
         }`}
       >
-        you {gameStatus.replace("end_", "")}
-        {gameStatus == "end_win" ? "!!" : "..."}
+        {gameStatus == "end_win" ? "YOU WIN!!!" : "FINISH!"}
       </h3>
     </div>
   );

@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { CONFIG } from "@/const/config";
+import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
 import styles from "@/styles/Top.module.css";
 import { Diff } from "@/types/Diff";
@@ -58,6 +59,7 @@ export default function PokeConfigPresenter({
           <Tabs defaultActiveKey="config" className="mb-3">
             <Tab eventKey="config" title="設定">
               <div>難易度</div>
+              <p>※ 停止中</p>
               <ButtonGroup>
                 {Object.keys(CONFIG.diff).map((type, index) => (
                   <OverlayTrigger
@@ -72,6 +74,7 @@ export default function PokeConfigPresenter({
                       checked={type == diff}
                       variant="outline-primary"
                       onChange={onChangeDiff}
+                      disabled
                     >
                       {type}
                     </ToggleButton>
@@ -95,20 +98,18 @@ export default function PokeConfigPresenter({
                     </tr>
                   </thead>
                   <tbody>
-                    {scoreAll
-                      // .slice(0, CONFIG.rankLimit)
-                      .map((score: Score, index) => {
-                        return (
-                          <tr
-                            key={index}
-                            className={`${score.id < 0 ? styles.myScore : ""}`}
-                          >
-                            <td>{index + 1}</td>
-                            <td>{score.user}</td>
-                            <td>{score.score}</td>
-                          </tr>
-                        );
-                      })}
+                    {scoreAll.map((score: Score, index) => {
+                      return (
+                        <tr
+                          key={index}
+                          className={`${score.id < 0 ? styles.myScore : ""}`}
+                        >
+                          <td>{index + 1}</td>
+                          <td>{score.user}</td>
+                          <td>{score.score}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
               </div>
@@ -120,52 +121,14 @@ export default function PokeConfigPresenter({
                 className="overflow-scroll"
                 style={{ height: "70vh" }}
               >
-                <ListGroup.Item as="li" className="d-flex">
-                  <div>
-                    <p className="fw-bold">伸ばし棒は無視します</p>
-                    <p>{"ex)「キャタピー」->o「ピッピ」"}</p>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item as="li" className="d-flex">
-                  <div>
-                    <p className="fw-bold">{"濁点、半濁点は無視しません"}</p>
-                    <p>{"ex)「ボーマンダ」->x「タツベイ」"}</p>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item as="li" className="d-flex">
-                  <div>
-                    <p className="fw-bold">{"小文字は大文字に変換されます"}</p>
-                    <p>{"ex)「ゴローニャ」->o「ヤミラミ」"}</p>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item as="li" className="d-flex">
-                  <div>
-                    <p className="fw-bold">
-                      {"特殊な文字は一般的な読み方に変換されます"}
-                    </p>
-                    <p>{"ex1)「ニドラン♀(めす)」->o「スターミー」"}</p>
-                    <p>{"ex2)「ポリゴンＺ(ぜっと)」->o「トランセル」"}</p>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item as="li" className="d-flex">
-                  <div>
-                    <p className="fw-bold">
-                      {
-                        "直前の相手ポケモンに有利なタイプが有るか無いかで、制限時間が増え方が変わります"
-                      }
-                    </p>
-                    <p>
-                      {
-                        "ex1)「ヒトカゲ」に対して「ゲッコウガ」を出すと、制限時間が2秒増えます"
-                      }
-                    </p>
-                    <p>
-                      {
-                        "ex2)「ワニノコ」に対して「コダック」を出しても、0.5秒しか増えません"
-                      }
-                    </p>
-                  </div>
-                </ListGroup.Item>
+                {RULES.map((rule, index) => (
+                  <ListGroup.Item key={index} as="li" className="d-flex">
+                    <div>
+                      <p className="fw-bold">{rule.title}</p>
+                      {rule.body}
+                    </div>
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </Tab>
             <Tab eventKey="tips" title="tips">

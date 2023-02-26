@@ -1,6 +1,11 @@
 import { Button } from "react-bootstrap";
 
-export const TIPS = [
+type Tip = {
+  title: string;
+  body: JSX.Element;
+};
+
+export const TIPS: readonly Tip[] = [
   {
     title: "カタカナ打つのめんどくさい",
     body: (
@@ -8,6 +13,22 @@ export const TIPS = [
         <p>ひらがなでも通ります。</p>
         <p>
           ちなみに、例えば「ニドラン♂」を入力したければ「にどらんおす」でも通ります。
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "Macだから自動変換されて打ちづらい",
+    body: (
+      <div>
+        <p>
+          入力中(<code>Enter</code>押す前)に、
+          <br />
+          <code>control+J</code>でひらがな
+          <br />
+          <code>control+K</code>でカタカナ
+          <br />
+          に変換できます
         </p>
       </div>
     ),

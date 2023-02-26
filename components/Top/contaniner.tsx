@@ -172,19 +172,17 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       }
 
       /* 順位計算 */
-      const tmpRank = scoreAll.findIndex(
-        (row) => row.score <= usedPokeNameList.length
-      );
+      const tmpRank = scoreAll.findIndex((row) => row.score <= score);
       setMyIndex(tmpRank != -1 ? tmpRank : scoreAll.length);
     })();
-  }, [gameStatus, scoreAll, usedPokeNameList.length]);
+  }, [gameStatus, scoreAll, score]);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
       return;
     }
     /* keyCodeは非推奨だが代替案があまりない(isComposing等は挙動が微妙)のでこのまま使用 */
-    if (e.keyCode == 13) {
+    if (e.keyCode == 13 && gameStatus == "playing_myturn") {
       handleSubmitPoke();
     }
   };
@@ -248,12 +246,15 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       return;
     }
 
-    const tmpBonus =
+    /* ボーナスはタイプ相性*1000点かノーダメなら100点 */
+    const tmpBonus = Math.max(
       getCompatibility(
         sentPoke,
         (enermyPokeList.length && enermyPokeList[enermyPokeList.length - 1]) ||
           firstPoke
-      ) * 1000;
+      ) * 1000,
+      100
+    );
 
     /* タイムボーナス */
     setLeftMillS((leftMillS) => {
