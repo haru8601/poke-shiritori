@@ -40,4 +40,8 @@ export const RULES: readonly Rule[] = [
       </>
     ),
   },
+  {
+    title:
+      "CPUが出せるポケモン無くなった場合、ボーナスとして10000点加算されます",
+  },
 ] as const;
