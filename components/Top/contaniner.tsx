@@ -1,22 +1,15 @@
 "use client";
 
-import {
-  ChangeEvent,
-  ComponentProps,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { CONFIG } from "@/const/config";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
-import TopPage from "@/pages_old2";
 import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
 import { PokeApi } from "@/types/PokeApi";
+import { Score } from "@/types/Score";
 import { getAnswer } from "@/utils/getAnswer";
 import getCompatibility from "@/utils/getCompatibility";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
@@ -24,7 +17,11 @@ import { hira2kata } from "@/utils/hira2kata";
 import { replaceSpecial } from "@/utils/replaceSpecial";
 import TopPresenter from "./presenter";
 
-type Props = Required<ComponentProps<typeof TopPage>>["data"];
+type Props = {
+  pokeList: Poke[];
+  firstPoke: Poke;
+  scoreAll: Score[];
+};
 
 export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   const [targetPoke, setTargetPoke] = useState<Poke>(firstPoke);
