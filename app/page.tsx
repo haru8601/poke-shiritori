@@ -5,7 +5,6 @@ import Top from "@/components/Top/contaniner";
 import { CONFIG } from "@/const/config";
 import { CookieNames } from "@/const/cookieNames";
 import { PATH } from "@/const/path";
-import { USER } from "@/const/user";
 import limitChecker from "@/lib/limitChecher";
 import fetchScoreAll from "@/lib/mysql/select";
 import { Poke } from "@/types/Poke";
@@ -35,7 +34,7 @@ export default async function Page() {
   const score = cookies().get(CookieNames.shiritori_score)?.value;
   /* 前回のデータがあればランキング更新 */
   if (score) {
-    await storeScore(nickname || USER.defaultName, score);
+    await storeScore(nickname || CONFIG.defaultNickname, score);
     /* next/headersのcookiesは現在readonly */
     // cookies().delete(CookieNames.shiritori_score);
   }

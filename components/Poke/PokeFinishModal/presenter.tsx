@@ -3,7 +3,6 @@ import { Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import Tweet from "@/components/Card/Tweet/container";
 import { CONFIG } from "@/const/config";
-import { USER } from "@/const/user";
 import { Score } from "@/types/Score";
 import PokeFinishModal from "./container";
 
@@ -55,7 +54,7 @@ export default function PokeFinishModalPresenter({
             ニックネーム
           </InputGroup.Text>
           <Form.Control
-            placeholder={USER.defaultName}
+            placeholder={CONFIG.defaultNickname}
             value={nickname ?? ""}
             onChange={onChangeNickname}
             className={styles.pokeInput}
@@ -90,7 +89,7 @@ export default function PokeFinishModalPresenter({
               {scoreAll
                 .concat({
                   id: -1,
-                  user: nickname || USER.defaultName,
+                  user: nickname || CONFIG.defaultNickname,
                   score: score,
                 })
                 .sort((a, b) => {
@@ -123,7 +122,7 @@ export default function PokeFinishModalPresenter({
               <tfoot style={{ borderTop: "3px double black" }}>
                 <tr className={styles.myScore}>
                   <td>{myIndex + 1}</td>
-                  <td>{nickname || USER.defaultName}</td>
+                  <td>{nickname || CONFIG.defaultNickname}</td>
                   <td>{score}</td>
                 </tr>
               </tfoot>
