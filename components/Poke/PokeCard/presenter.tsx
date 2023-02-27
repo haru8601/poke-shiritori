@@ -1,5 +1,5 @@
+import Image from "next/image";
 import { ComponentProps } from "react";
-import { Image } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import PokeCard from "./container";
 

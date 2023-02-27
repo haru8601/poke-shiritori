@@ -1,8 +1,9 @@
+import Image from "next/image";
 import { ChangeEvent, ComponentProps, MutableRefObject } from "react";
-import { Button, Image, Overlay, Tooltip } from "react-bootstrap";
+import { Button, Overlay, Tooltip } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
-import { PATH } from "@/const/path";
+import pikachuPic from "@/public/pikachu.png";
 import PokeHeader from "./container";
 import PokeConfig from "../PokeConfig/container";
 
@@ -41,7 +42,7 @@ export default function PokeHeaderPresenter({
             className={entered ? styles.jumpImg : ""}
             height={CONFIG.spaceBasis}
             width={CONFIG.spaceBasis}
-            src={PATH.defaultImg}
+            src={pikachuPic}
             alt="ピカチュウの尻尾の画像です"
             onClick={onEnterPokeImg}
             onMouseEnter={onEnterPokeImg}

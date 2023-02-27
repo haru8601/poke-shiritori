@@ -1,22 +1,19 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
 import { useCallback } from "react";
 import { PokeApi } from "@/types/PokeApi";
 
 export const usePokeApi = () => {
-  const createBase = (): AxiosInstance => {
-    return axios.create({
-      baseURL: "https://pokeapi.co/api/v2/",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  };
-  const fetchPoke = useCallback(async (id: number): Promise<PokeApi> => {
-    const instance = createBase();
-    return await instance
-      .get(`pokemon/${id}`)
-      .then((response) => response.data)
-      .catch((err: AxiosError) => {
+  const POKEAPI_BASE_URL = "https://pokeapi.co/api/v2/pokemon";
+
+  const fetchPoke = useCallback(async (id: number): Promise<PokeApi | void> => {
+    return await fetch(`${POKEAPI_BASE_URL}/${id}`)
+      .then((response: Response) => {
+        if (!response.ok) {
+          console.log("failed to fetch data from pokeApi.");
+          return;
+        }
+        return response.json() as Promise<PokeApi>;
+      })
+      .catch((err: Error) => {
         console.log(err);
         return;
       });

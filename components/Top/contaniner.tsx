@@ -52,13 +52,13 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     /* next/headersのcookiesがreadonlyなためCSR側で削除 */
     destroyCookie(null, CookieNames.shiritori_score);
 
-    let tmpTargetResponse: PokeApi | undefined = void 0;
+    let tmpTargetResponse: PokeApi | void;
     (async () => {
       /* 最初のポケ画像取得 */
       tmpTargetResponse = await fetchPoke(firstPoke.id);
-      const imgPath =
-        tmpTargetResponse!.sprites.other["official-artwork"].front_default;
-      firstPoke.imgPath = imgPath || PATH.defaultImg;
+      firstPoke.imgPath =
+        tmpTargetResponse?.sprites.other["official-artwork"].front_default ||
+        PATH.defaultImg;
       /* レンダリングさせる(変更を伝える)ためディープコピー */
       setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
     })();
@@ -143,9 +143,9 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
 
         /* 画像パス取得 */
         const tmpTargetResponse = await fetchPoke(tmpTarget.id);
-        const enermyImgPath =
-          tmpTargetResponse.sprites.other["official-artwork"].front_default;
-        tmpTarget.imgPath = enermyImgPath || PATH.defaultImg;
+        tmpTarget.imgPath =
+          tmpTargetResponse?.sprites.other["official-artwork"].front_default ||
+          PATH.defaultImg;
 
         /* 使用済みリスト更新 */
         const tmpUsedPokeNameList = Array.from(usedPokeNameList);
@@ -235,9 +235,9 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
     setUsedPokeNameList(tmpUsedPokeNameList);
 
     const sentPokeResponse = await fetchPoke(sentPoke.id);
-    const imgPath =
-      sentPokeResponse?.sprites.other["official-artwork"].front_default;
-    sentPoke.imgPath = imgPath || PATH.defaultImg;
+    sentPoke.imgPath =
+      sentPokeResponse?.sprites.other["official-artwork"].front_default ||
+      PATH.defaultImg;
 
     setTargetPoke(sentPoke);
 
