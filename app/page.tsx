@@ -1,15 +1,12 @@
 import fs from "fs";
 import path from "path";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import Top from "@/components/Top/contaniner";
 import { CONFIG } from "@/const/config";
-import { CookieNames } from "@/const/cookieNames";
 import { PATH } from "@/const/path";
 import limitChecker from "@/lib/limitChecher";
-import fetchScoreAll from "@/lib/mysql/select";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
-import storeScore from "../lib/mysql/insert";
 
 export const metadata = {
   title: "ポケモンしりとり by haroot",
@@ -22,7 +19,7 @@ export const metadata = {
     card: "summary",
     title: "ポケモンしりとり",
     description: "harootが作成したポケモンの名前でしりとりが出来るサイトです。",
-    images: [PATH.site + PATH.defaultImg],
+    images: [process.env.NEXT_PUBLIC_SITE_URL + PATH.defaultImg],
     siteId: "1370600922418536449",
     creator: "@haroot_net",
     creatorId: "1370600922418536449",
@@ -30,15 +27,6 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const nickname = cookies().get(CookieNames.shiritori_nickname)?.value;
-  const score = cookies().get(CookieNames.shiritori_score)?.value;
-  /* 前回のデータがあればランキング更新 */
-  if (score) {
-    await storeScore(nickname || CONFIG.defaultNickname, score);
-    /* next/headersのcookiesは現在readonly */
-    // cookies().delete(CookieNames.shiritori_score);
-  }
-
   //TODO: リクエストIP取得
   /* Poke Apiに負荷をかけない為リクエスト上限を設ける */
   const clientIp = headers().get("x-forwarded-for") || "IP_NOT_FOUND";
@@ -75,7 +63,24 @@ export default async function Page() {
   }
 
   /* ランキング取得 */
-  const scoreAll: Score[] = await fetchScoreAll();
+  const scoreAll: Score[] = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/ranking/api`,
+    {
+      cache: "no-store",
+    }
+  )
+    .then((response) => {
+      if (!response.ok) {
+        console.log("response status from ranking is NOT ok.");
+        return [];
+      }
+      return response.json() as Promise<Score[]>;
+    })
+    .catch((err: Error) => {
+      console.log("error while fetching ranking.");
+      console.log(err);
+      return [];
+    });
 
   return <Top pokeList={pokeList} firstPoke={firstPoke} scoreAll={scoreAll} />;
 }

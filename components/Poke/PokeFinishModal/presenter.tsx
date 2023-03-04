@@ -54,7 +54,7 @@ export default function PokeFinishModalPresenter({
             ニックネーム
           </InputGroup.Text>
           <Form.Control
-            placeholder={CONFIG.defaultNickname}
+            placeholder={CONFIG.score.defaultNickname}
             value={nickname ?? ""}
             onChange={onChangeNickname}
             className={styles.pokeInput}
@@ -88,8 +88,7 @@ export default function PokeFinishModalPresenter({
             <tbody>
               {scoreAll
                 .concat({
-                  id: -1,
-                  user: nickname || CONFIG.defaultNickname,
+                  user: nickname || CONFIG.score.defaultNickname,
                   score: score,
                 })
                 .sort((a, b) => {
@@ -109,7 +108,9 @@ export default function PokeFinishModalPresenter({
                   return (
                     <tr
                       key={index}
-                      className={`${score.id < 0 ? styles.myScore : ""}`}
+                      className={`${
+                        score.id && score.id < 0 ? styles.myScore : ""
+                      }`}
                     >
                       <td>{index + 1}</td>
                       <td>{score.user}</td>
@@ -122,7 +123,7 @@ export default function PokeFinishModalPresenter({
               <tfoot style={{ borderTop: "3px double black" }}>
                 <tr className={styles.myScore}>
                   <td>{myIndex + 1}</td>
-                  <td>{nickname || CONFIG.defaultNickname}</td>
+                  <td>{nickname || CONFIG.score.defaultNickname}</td>
                   <td>{score}</td>
                 </tr>
               </tfoot>

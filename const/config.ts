@@ -15,5 +15,9 @@ export const CONFIG = {
     maxAge: 60 * 60 * 24,
   },
   timeLimit: 30 * 1000,
-  defaultNickname: "unown",
+  score: {
+    defaultNickname: "unown",
+    nicknameMaxLen: 10,
+    scoreMax: 1000 * 1000,
+  },
 } as const;

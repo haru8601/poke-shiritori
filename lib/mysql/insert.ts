@@ -1,4 +1,5 @@
 import { ResultSetHeader } from "mysql2";
+import { CONFIG } from "@/const/config";
 import execQuery from "@/lib/mysql/execQuery";
 
 /**
@@ -10,7 +11,7 @@ export default async function storeScore(
   nickname: string,
   score: string
 ): Promise<ResultSetHeader | void> {
-  if (nickname.length > 10) {
+  if (nickname.length > CONFIG.score.nicknameMaxLen) {
     console.log("too long nickname.");
     return;
   }

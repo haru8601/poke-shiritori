@@ -102,10 +102,7 @@ export default function PokeConfigPresenter({
                   <tbody>
                     {scoreAll.map((score: Score, index) => {
                       return (
-                        <tr
-                          key={index}
-                          className={`${score.id < 0 ? styles.myScore : ""}`}
-                        >
+                        <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{score.user}</td>
                           <td>{score.score}</td>

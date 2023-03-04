@@ -34,8 +34,10 @@ export default function PokeFinishModal({
   const handleChangeNickname = (event: ChangeEvent<HTMLInputElement>) => {
     const tmpName = event.target.value;
     setNickname(tmpName);
-    if (tmpName.length > 10) {
-      setNicknameErr("ニックネームは10文字以下にしてください");
+    if (tmpName.length > CONFIG.score.nicknameMaxLen) {
+      setNicknameErr(
+        `ニックネームは${CONFIG.score.nicknameMaxLen}文字以下にしてください`
+      );
     } else {
       setNicknameErr("");
     }
@@ -45,21 +47,38 @@ export default function PokeFinishModal({
     if (nicknameErr !== "") {
       return;
     }
-    /* cookieにスコアを保存 */
+
+    /* cookieに名前保存 */
     setCookie(
       null,
       CookieNames.shiritori_nickname,
       nickname ?? "",
       CONFIG.cookie
     );
-    setCookie(
-      null,
-      CookieNames.shiritori_score,
-      score.toString(),
-      CONFIG.cookie
-    );
 
-    /* リロード */
+    /* ランキング更新 */
+    await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/ranking/api/${
+        nickname || CONFIG.score.defaultNickname
+      }/${score}`,
+      {
+        method: "POST",
+        cache: "no-store",
+      }
+    )
+      .then(async (response) => {
+        if (!response.ok) {
+          console.log("response status from ranking is NOT ok.");
+        }
+        return;
+      })
+      .catch((err: Error) => {
+        console.log("error while updating ranking.");
+        console.log(err);
+        return;
+      });
+
+    // /* リロード */
     location.reload();
   };
   return (
