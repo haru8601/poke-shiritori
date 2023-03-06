@@ -4,7 +4,7 @@ import { SSHConnection } from "./sshConnection";
 
 export default async function execQuery(
   query: string,
-  values: any[]
+  values: any[] = []
 ): Promise<any> {
   const pool: mysql.Pool | undefined =
     process.env.SSH_HOST !== undefined

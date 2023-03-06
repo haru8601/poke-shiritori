@@ -58,7 +58,7 @@ export default function PokeFinishModal({
 
     /* ランキング更新 */
     await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/ranking/api/${
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking/${
         nickname || CONFIG.score.defaultNickname
       }/${score}`,
       {

@@ -64,7 +64,7 @@ export default async function Page() {
 
   /* ランキング取得 */
   const scoreAll: Score[] = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/ranking/api`,
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`,
     {
       cache: "no-store",
     }

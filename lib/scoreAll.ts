@@ -2,16 +2,17 @@ import "server-only";
 
 import { readFileSync, writeFileSync } from "fs";
 import path from "path";
+import { PATH } from "@/const/path";
 import { Score } from "@/types/Score";
 
 function readScoreAll(): Score[] {
   let res = [];
   try {
     res = JSON.parse(
-      readFileSync(path.join(process.cwd(), "lib/scoreAll.json")).toString()
+      readFileSync(path.join(process.cwd(), PATH.scoreFile)).toString()
     );
   } catch (err) {
-    console.log("error while parse scoreAll.json");
+    console.log(`error while parse ${PATH.scoreFile}`);
     console.log(err);
   }
   return res;
@@ -38,7 +39,7 @@ export function pushScores(scores: Score[]): void {
   const scoreAll = readScoreAll();
   scoreAll.push(...scores);
   writeFileSync(
-    path.join(process.cwd(), "lib/scoreAll.json"),
+    path.join(process.cwd(), PATH.scoreFile),
     JSON.stringify(scoreAll, undefined, 2)
   );
   return;

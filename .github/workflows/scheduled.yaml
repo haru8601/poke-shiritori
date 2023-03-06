@@ -1,0 +1,14 @@
+# DBにランキングをアーカイブするcron
+name: ranking cron job
+on:
+  schedule:
+    - cron: "0 5 * * *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ranking cron job
+        run: |
+          curl --request POST \
+          --url 'https://www.pikachu-unown.com/app/api/cron/score' \
+          --header 'SHIRITORI_API_SECRET: ${{ secrets.SHIRITORI_API_SECRET }}'
