@@ -39,5 +39,3 @@ next-env.d.ts
 .history
 *_old.tsx
 .vscode
-
-scoreAll.json
