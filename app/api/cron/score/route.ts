@@ -21,7 +21,9 @@ export async function POST() {
   let tmpScores: Score[] = [];
   try {
     tmpScores = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "lib", "scoreAll.json")).toString()
+      fs
+        .readFileSync(path.join(process.cwd(), "lib", "scoreAll.json"))
+        .toString()
     );
   } catch (err) {
     console.log(`error while parse scoreAll.json`);
@@ -81,7 +83,7 @@ export async function POST() {
   /* ファイル側更新 */
   const scoreAll = await fetchScoreAll();
   fs.writeFileSync(
-    path.join(__dirname, "lib", "scoreAll.json"),
+    path.join(process.cwd(), "lib", "scoreAll.json"),
     JSON.stringify(scoreAll, undefined, 2)
   );
   return NextResponse.json({ ok: true });
