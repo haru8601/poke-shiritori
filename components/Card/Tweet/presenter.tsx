@@ -1,5 +1,6 @@
 import { ComponentProps } from "react";
 import { Button } from "react-bootstrap";
+import { getCurrentUrl } from "@/utils/getCurrentUrl";
 import Tweet from "./container";
 
 type Props = Pick<ComponentProps<typeof Tweet>, "className" | "style"> & {
@@ -9,7 +10,7 @@ type Props = Pick<ComponentProps<typeof Tweet>, "className" | "style"> & {
 export default function TweetPresenter({ text, style, className }: Props) {
   return (
     <Button
-      href={`https://twitter.com/share?text=${text}&url=${process.env.NEXT_PUBLIC_SITE_URL}&via=haroot_net`}
+      href={`https://twitter.com/share?text=${text}&url=${getCurrentUrl()}&via=haroot_net`}
       variant="primary"
       data-show-count="false"
       rel="noreferrer"

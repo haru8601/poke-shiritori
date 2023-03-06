@@ -7,6 +7,7 @@ import { PATH } from "@/const/path";
 import limitChecker from "@/lib/limitChecher";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
+import { getCurrentUrl } from "@/utils/getCurrentUrl";
 
 export const metadata = {
   title: "ポケモンしりとり by haroot",
@@ -19,7 +20,7 @@ export const metadata = {
     card: "summary",
     title: "ポケモンしりとり",
     description: "harootが作成したポケモンの名前でしりとりが出来るサイトです。",
-    images: [process.env.NEXT_PUBLIC_SITE_URL + PATH.defaultImg],
+    images: [`${getCurrentUrl()}${PATH.defaultImg}`],
     siteId: "1370600922418536449",
     creator: "@haroot_net",
     creatorId: "1370600922418536449",
@@ -63,12 +64,9 @@ export default async function Page() {
   }
 
   /* ランキング取得 */
-  const scoreAll: Score[] = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`,
-    {
-      cache: "no-store",
-    }
-  )
+  const scoreAll: Score[] = await fetch(`${getCurrentUrl()}/api/ranking`, {
+    cache: "no-store",
+  })
     .then((response) => {
       if (!response.ok) {
         console.log("response status from ranking is NOT ok.");
