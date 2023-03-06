@@ -4,7 +4,6 @@ import path from "path";
 import bcrypt from "bcrypt";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { PATH } from "@/const/path";
 import execQuery from "@/lib/mysql/execQuery";
 import fetchScoreAll from "@/lib/mysql/select";
 import { Score } from "@/types/Score";
@@ -22,10 +21,10 @@ export async function POST() {
   let tmpScores: Score[] = [];
   try {
     tmpScores = JSON.parse(
-      fs.readFileSync(path.join(__dirname, PATH.scoreFile)).toString()
+      fs.readFileSync(path.join(__dirname, "lib", "scoreAll.json")).toString()
     );
   } catch (err) {
-    console.log(`error while parse ${PATH.scoreFile}`);
+    console.log(`error while parse scoreAll.json`);
     console.log(err);
     return errorRes;
   }
@@ -82,7 +81,7 @@ export async function POST() {
   /* ファイル側更新 */
   const scoreAll = await fetchScoreAll();
   fs.writeFileSync(
-    path.join(__dirname, PATH.scoreFile),
+    path.join(__dirname, "lib", "scoreAll.json"),
     JSON.stringify(scoreAll, undefined, 2)
   );
   return NextResponse.json({ ok: true });
