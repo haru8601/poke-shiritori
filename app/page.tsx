@@ -50,9 +50,7 @@ export default async function Page() {
 
   /* ポケ一覧取得 */
   const pokeList = JSON.parse(
-    fs
-      .readFileSync(path.join(process.cwd(), "const", "pokedex.json"))
-      .toString()
+    fs.readFileSync(path.join(__dirname, "const", "pokedex.json")).toString()
   ) as Poke[];
   /* 最初のポケ設定 */
   let firstPoke: Poke | undefined = void 0;

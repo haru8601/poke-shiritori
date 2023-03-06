@@ -9,7 +9,7 @@ function readScoreAll(): Score[] {
   let res = [];
   try {
     res = JSON.parse(
-      readFileSync(path.join(process.cwd(), PATH.scoreFile)).toString()
+      readFileSync(path.join(__dirname, PATH.scoreFile)).toString()
     );
   } catch (err) {
     console.log(`error while parse ${PATH.scoreFile}`);
@@ -39,7 +39,7 @@ export function pushScores(scores: Score[]): void {
   const scoreAll = readScoreAll();
   scoreAll.push(...scores);
   writeFileSync(
-    path.join(process.cwd(), PATH.scoreFile),
+    path.join(__dirname, PATH.scoreFile),
     JSON.stringify(scoreAll, undefined, 2)
   );
   return;
