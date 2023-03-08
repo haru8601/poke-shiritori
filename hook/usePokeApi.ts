@@ -1,11 +1,10 @@
 import { useCallback } from "react";
+import { PATH } from "@/const/path";
 import { PokeApi } from "@/types/PokeApi";
 
 export const usePokeApi = () => {
-  const POKEAPI_BASE_URL = "https://pokeapi.co/api/v2/pokemon";
-
   const fetchPoke = useCallback(async (id: number): Promise<PokeApi | void> => {
-    return await fetch(`${POKEAPI_BASE_URL}/${id}`)
+    return await fetch(`${PATH.pokeapiBaseUrl}/${id}`)
       .then((response: Response) => {
         if (!response.ok) {
           console.log("failed to fetch data from pokeApi.");

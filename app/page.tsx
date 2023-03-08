@@ -64,9 +64,12 @@ export default async function Page() {
   }
 
   /* ランキング取得 */
-  const scoreAll: Score[] = await fetch(`${getCurrentUrl()}/api/ranking`, {
-    cache: "no-store",
-  })
+  const scoreAll: Score[] = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`,
+    {
+      cache: "no-store",
+    }
+  )
     .then((response) => {
       if (!response.ok) {
         console.log("response status from ranking is NOT ok.");

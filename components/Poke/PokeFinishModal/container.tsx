@@ -3,7 +3,6 @@ import { ChangeEvent, ComponentProps, useEffect, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
 import { CookieNames } from "@/const/cookieNames";
-import { getCurrentUrl } from "@/utils/getCurrentUrl";
 import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
@@ -59,7 +58,7 @@ export default function PokeFinishModal({
 
     /* ランキング更新 */
     await fetch(
-      `${getCurrentUrl()}/api/ranking/${
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking/${
         nickname || CONFIG.score.defaultNickname
       }/${score}`,
       {
