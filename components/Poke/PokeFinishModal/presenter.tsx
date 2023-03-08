@@ -88,6 +88,7 @@ export default function PokeFinishModalPresenter({
             <tbody>
               {scoreAll
                 .concat({
+                  id: -1,
                   user: nickname || CONFIG.score.defaultNickname,
                   score: score,
                 })
@@ -109,7 +110,7 @@ export default function PokeFinishModalPresenter({
                     <tr
                       key={index}
                       className={`${
-                        score.id && score.id < 0 ? styles.myScore : ""
+                        !score.id || score.id < 0 ? styles.myScore : ""
                       }`}
                     >
                       <td>{index + 1}</td>

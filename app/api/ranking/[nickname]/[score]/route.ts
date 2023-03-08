@@ -1,7 +1,7 @@
 import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 import { CONFIG } from "@/const/config";
-import { pushScores } from "@/lib/scoreAll";
+import storeDbScore from "@/lib/mysql/insert";
 
 export async function POST(
   request: NextRequest,
@@ -21,15 +21,19 @@ export async function POST(
       { status: 400 }
     );
   }
-  const nowDate = new Date();
-  pushScores([
-    {
-      id: -1,
-      user: nickname || CONFIG.score.defaultNickname,
-      score: parseInt(score, 10),
-      create_date: nowDate,
-      update_date: nowDate,
-    },
-  ]);
+  const res = await storeDbScore(
+    nickname || CONFIG.score.defaultNickname,
+    parseInt(score, 10)
+  );
+  if (!res) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Failed to store to db",
+      },
+      { status: 500 }
+    );
+  }
+
   return NextResponse.json({ ok: true });
 }

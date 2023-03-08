@@ -2,7 +2,7 @@ import "server-only";
 import execQuery from "@/lib/mysql/execQuery";
 import { Score } from "@/types/Score";
 
-export default async function fetchScoreAll(): Promise<Score[]> {
+export default async function fetchDbScoreAll(): Promise<Score[]> {
   return await execQuery(
     "select * from score_all order by score desc, update_date desc"
   ).catch((err: Error) => {

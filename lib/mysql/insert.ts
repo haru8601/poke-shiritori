@@ -7,9 +7,9 @@ import execQuery from "@/lib/mysql/execQuery";
  * @param nickname ニックネーム
  * @param score スコア
  */
-export default async function storeScore(
+export default async function storeDbScore(
   nickname: string,
-  score: string
+  score: number
 ): Promise<ResultSetHeader | void> {
   if (nickname.length > CONFIG.score.nicknameMaxLen) {
     console.log("too long nickname.");

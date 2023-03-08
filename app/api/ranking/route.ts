@@ -1,16 +1,8 @@
 import "server-only";
 import { NextResponse } from "next/server";
-import fetchScoreAll from "@/lib/mysql/select";
-import { getScoreAll, pushScores } from "../../../lib/scoreAll";
+import fetchDbScoreAll from "@/lib/mysql/select";
 
 export async function GET(): Promise<NextResponse> {
-  let scoreAll = getScoreAll();
-  if (!scoreAll.length) {
-    /* データがなければDBから取得 */
-    const dbScoreAll = await fetchScoreAll();
-    /* ファイルにpush */
-    pushScores(dbScoreAll);
-    scoreAll = dbScoreAll;
-  }
-  return NextResponse.json(scoreAll);
+  const dbScoreAll = await fetchDbScoreAll();
+  return NextResponse.json(dbScoreAll);
 }

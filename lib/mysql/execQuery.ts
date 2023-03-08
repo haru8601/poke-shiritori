@@ -13,14 +13,12 @@ export default async function execQuery(
   if (!pool) return;
   // 接続
   const conn = await pool.getConnection();
-  console.log("connected to DB.");
 
   try {
     await conn.beginTransaction();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [rows, fileds] = await conn.execute(query, values);
     await conn.commit();
-    console.log("committed to DB.");
     return rows;
   } catch (err) {
     await conn.rollback();
