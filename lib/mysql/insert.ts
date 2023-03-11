@@ -1,4 +1,5 @@
 import { ResultSetHeader } from "mysql2";
+import { NextRequest } from "next/server";
 import { CONFIG } from "@/const/config";
 import execQuery from "@/lib/mysql/execQuery";
 
@@ -8,6 +9,7 @@ import execQuery from "@/lib/mysql/execQuery";
  * @param score スコア
  */
 export default async function storeDbScore(
+  _request: NextRequest,
   nickname: string,
   score: number
 ): Promise<ResultSetHeader | void> {
