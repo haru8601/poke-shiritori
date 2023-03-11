@@ -4,7 +4,7 @@ import { CONFIG } from "@/const/config";
 import storeDbScore from "@/lib/mysql/insert";
 
 export async function POST(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { nickname: string; score: string } }
 ): Promise<NextResponse> {
   const nickname = params.nickname;
