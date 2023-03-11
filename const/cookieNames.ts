@@ -1,4 +1,5 @@
 export const CookieNames = {
-  shiritori_nickname: "shiritori_nickname",
-  shiritori_score: "shiritori_score",
+  nickname: "shiritori_nickname",
+  score: "shiritori_score",
+  updateFlg: "updateFlg",
 };

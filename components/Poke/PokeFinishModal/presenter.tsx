@@ -1,5 +1,5 @@
 import { ChangeEvent, ComponentProps } from "react";
-import { Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
+import { Badge, Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import Tweet from "@/components/Card/Tweet/container";
 import { CONFIG } from "@/const/config";
@@ -15,6 +15,7 @@ type Props = Pick<
   nickname: string | null;
   myIndex: number;
   nicknameErr: string;
+  isLoading: boolean;
   onCloseModal: () => void;
   onChangeNickname: (event: ChangeEvent<HTMLInputElement>) => void;
   onSubmitNickname: () => void;
@@ -28,6 +29,7 @@ export default function PokeFinishModalPresenter({
   nickname,
   nicknameErr,
   myIndex,
+  isLoading,
   onCloseModal,
   onChangeNickname,
   onSubmitNickname,
@@ -48,11 +50,11 @@ export default function PokeFinishModalPresenter({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex flex-column" style={{ maxHeight: "80vh" }}>
-        <Tweet score={score} myIndex={myIndex} className="m-3 mb-5" />
+        <Tweet score={score} myIndex={myIndex} className="m-3 mb-4" />
+        <Badge bg="secondary" className="mb-1 align-self-start">
+          ニックネーム
+        </Badge>
         <InputGroup className="mx-auto justify-content-center">
-          <InputGroup.Text style={{ fontSize: "14px" }} className="px-1">
-            ニックネーム
-          </InputGroup.Text>
           <Form.Control
             placeholder={CONFIG.score.defaultNickname}
             value={nickname ?? ""}
@@ -64,10 +66,11 @@ export default function PokeFinishModalPresenter({
             variant="primary"
             className="rounded-end"
             type="submit"
-            style={{ fontSize: "16px" }}
-            onClick={onSubmitNickname}
+            style={{ fontSize: "16px", width: "170px" }}
+            onClick={!isLoading ? onSubmitNickname : void 0}
+            disabled={isLoading}
           >
-            記録して次の対戦へ
+            {(isLoading && "Loading...") || "記録して次の対戦へ"}
           </Button>
           {nicknameErr && (
             <Form.Control.Feedback type="invalid">

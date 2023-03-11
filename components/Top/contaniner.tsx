@@ -50,7 +50,8 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
     /* next/headersのcookiesがreadonlyなためCSR側で削除 */
-    destroyCookie(null, CookieNames.shiritori_score);
+    destroyCookie(null, CookieNames.updateFlg);
+    destroyCookie(null, CookieNames.score);
 
     let tmpTargetResponse: PokeApi | void;
     (async () => {

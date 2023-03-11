@@ -18,9 +18,10 @@ export default function PokeFinishModal({
 }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string | null>(
-    (parseCookies() as typeof CookieNames).shiritori_nickname
+    (parseCookies() as typeof CookieNames).nickname
   );
   const [nicknameErr, setNicknameErr] = useState<string>("");
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   /* gameStatusが切り替わったらmodalを表示 */
   useEffect(() => {
@@ -48,21 +49,12 @@ export default function PokeFinishModal({
       return;
     }
 
+    setLoading(true);
     /* cookieに名前保存 */
-    setCookie(
-      null,
-      CookieNames.shiritori_nickname,
-      nickname ?? "",
-      CONFIG.cookie
-    );
+    setCookie(null, CookieNames.nickname, nickname ?? "", CONFIG.cookie);
 
     /* cookieにスコア保存 */
-    setCookie(
-      null,
-      CookieNames.shiritori_score,
-      score.toString(),
-      CONFIG.cookie
-    );
+    setCookie(null, CookieNames.score, score.toString(), CONFIG.cookie);
 
     /* ランキング更新 */
     await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
@@ -73,16 +65,17 @@ export default function PokeFinishModal({
         if (!response.ok) {
           console.log("response status from ranking is NOT ok.");
         }
-        return;
       })
       .catch((err: Error) => {
         console.log("error while updating ranking.");
         console.log(err);
-        return;
       });
 
     /* スコア削除 */
-    destroyCookie(null, CookieNames.shiritori_score);
+    destroyCookie(null, CookieNames.score);
+
+    /* ランキングの変更を記録 */
+    setCookie(null, CookieNames.updateFlg, "on");
 
     /* リロード */
     location.reload();
@@ -96,6 +89,7 @@ export default function PokeFinishModal({
       nickname={nickname}
       nicknameErr={nicknameErr}
       myIndex={myIndex}
+      isLoading={isLoading}
       onCloseModal={handleCloseModal}
       onChangeNickname={handleChangeNickname}
       onSubmitNickname={handleSubmitNickname}
