@@ -1,4 +1,4 @@
-import { parseCookies, setCookie } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { ChangeEvent, ComponentProps, useEffect, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
@@ -56,16 +56,19 @@ export default function PokeFinishModal({
       CONFIG.cookie
     );
 
+    /* cookieにスコア保存 */
+    setCookie(
+      null,
+      CookieNames.shiritori_score,
+      score.toString(),
+      CONFIG.cookie
+    );
+
     /* ランキング更新 */
-    fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking/${
-        nickname || CONFIG.score.defaultNickname
-      }/${score}`,
-      {
-        method: "POST",
-        cache: "no-store",
-      }
-    )
+    await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
+      method: "POST",
+      cache: "no-store",
+    })
       .then(async (response) => {
         if (!response.ok) {
           console.log("response status from ranking is NOT ok.");
@@ -77,6 +80,9 @@ export default function PokeFinishModal({
         console.log(err);
         return;
       });
+
+    /* スコア削除 */
+    destroyCookie(null, CookieNames.shiritori_score);
 
     /* リロード */
     location.reload();
