@@ -22,10 +22,10 @@ import TopPresenter from "./presenter";
 type Props = {
   pokeList: Poke[];
   firstPoke: Poke;
-  scoreAll: Score[];
+  scoreAllPromise: Promise<Score[]>;
 };
 
-export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
+export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
   const [targetPoke, setTargetPoke] = useState<Poke>(firstPoke);
   const [sentPokeName, setSentPokeName] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
@@ -50,8 +50,8 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
     /* next/headersのcookiesがreadonlyなためCSR側で削除 */
-    destroyCookie(null, CookieNames.updateFlg);
     destroyCookie(null, CookieNames.score);
+    destroyCookie(null, CookieNames.updateFlg);
 
     let tmpTargetResponse: PokeApi | void;
     (async () => {
@@ -177,10 +177,12 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       }
 
       /* 順位計算 */
-      const tmpRank = scoreAll.findIndex((row) => row.score <= score);
-      setMyIndex(tmpRank != -1 ? tmpRank : scoreAll.length);
+      const tmpRank = (await scoreAllPromise).findIndex(
+        (row) => row.score <= score
+      );
+      setMyIndex(tmpRank != -1 ? tmpRank : (await scoreAllPromise).length);
     })();
-  }, [gameStatus, scoreAll, score]);
+  }, [gameStatus, scoreAllPromise, score]);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
@@ -297,7 +299,7 @@ export default function Top({ pokeList, firstPoke, scoreAll }: Props) {
       gameStatus={gameStatus}
       diff={diff}
       score={score}
-      scoreAll={scoreAll}
+      scoreAllPromise={scoreAllPromise}
       myIndex={myIndex}
       leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
       countDown={countDown}

@@ -1,19 +1,27 @@
 import { destroyCookie, parseCookies, setCookie } from "nookies";
-import { ChangeEvent, ComponentProps, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  ComponentProps,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
+import styles from "@/app/styles/Top.module.css";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
 import { CookieNames } from "@/const/cookieNames";
+import { Score } from "@/types/Score";
 import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "gameStatus" | "score" | "scoreAll" | "myIndex"
+  "gameStatus" | "score" | "myIndex" | "scoreAllPromise"
 >;
 
 export default function PokeFinishModal({
   gameStatus,
   score,
-  scoreAll,
+  scoreAllPromise,
   myIndex,
 }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -22,6 +30,47 @@ export default function PokeFinishModal({
   );
   const [nicknameErr, setNicknameErr] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [rankRowAll, setRankRowAll] = useState<ReactNode>();
+
+  useEffect(() => {
+    (async () => {
+      setRankRowAll(
+        (await scoreAllPromise)
+          .concat({
+            id: -1,
+            user: nickname || CONFIG.score.defaultNickname,
+            score: score,
+          })
+          .sort((a, b) => {
+            const scoreDiff = b.score - a.score;
+            /* 2つ目で新規のスコアが既存の以上ならswap */
+            if (b.id == -1 && scoreDiff > 0) {
+              return 1;
+            }
+            /* 1つ目が新規で既存のスコアと同じならswapさせない */
+            if (a.id == -1 && scoreDiff <= 0) {
+              return -1;
+            }
+            return scoreDiff;
+          })
+          .slice(0, CONFIG.rankLimit)
+          .map((score: Score, index) => {
+            return (
+              <tr
+                key={index}
+                className={`${!score.id || score.id < 0 ? styles.myScore : ""}`}
+              >
+                <td>{index + 1}</td>
+                <td>{score.user}</td>
+                <td>{score.score}</td>
+              </tr>
+            );
+          })
+      );
+    })();
+    // 初回のみ実行
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /* gameStatusが切り替わったらmodalを表示 */
   useEffect(() => {
@@ -80,9 +129,10 @@ export default function PokeFinishModal({
     /* リロード */
     location.reload();
   };
+
   return (
     <PokeFinishModalPresenter
-      scoreAll={scoreAll}
+      rankRowAll={rankRowAll}
       score={score}
       gameStatus={gameStatus}
       showModal={showModal}

@@ -64,13 +64,11 @@ export default async function Page() {
     if (checkCount > pokeList.length) break;
   }
 
-  /* ランキング取得 */
-  const scoreAll: Score[] = await fetch(
+  /* ランキング取得はawaitしなくていい */
+  const scoreAllPromise: Promise<Score[]> = fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`,
     {
-      cache: cookies().get(CookieNames.updateFlg)?.value
-        ? "no-store"
-        : "force-cache",
+      cache: cookies().get(CookieNames.updateFlg) ? "no-store" : "force-cache",
     }
   )
     .then((response) => {
@@ -78,7 +76,11 @@ export default async function Page() {
         console.log("response status from ranking is NOT ok.");
         return [];
       }
-      return response.json() as Promise<Score[]>;
+      return response.json().catch((err) => {
+        console.log("err while parsing scoreAll.");
+        console.log(err);
+        return [];
+      }) as Promise<Score[]>;
     })
     .catch((err: Error) => {
       console.log("error while fetching ranking.");
@@ -86,5 +88,11 @@ export default async function Page() {
       return [];
     });
 
-  return <Top pokeList={pokeList} firstPoke={firstPoke} scoreAll={scoreAll} />;
+  return (
+    <Top
+      pokeList={pokeList}
+      firstPoke={firstPoke}
+      scoreAllPromise={scoreAllPromise}
+    />
+  );
 }

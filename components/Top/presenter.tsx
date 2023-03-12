@@ -53,7 +53,7 @@ export default function TopPresenter({
   gameStatus,
   score,
   diff,
-  scoreAll,
+  scoreAllPromise,
   myIndex,
   leftPercent,
   countDown,
@@ -72,7 +72,7 @@ export default function TopPresenter({
         <PokeFinishModal
           gameStatus={gameStatus}
           score={score}
-          scoreAll={scoreAll}
+          scoreAllPromise={scoreAllPromise}
           myIndex={myIndex}
         />
       )}
@@ -99,7 +99,7 @@ export default function TopPresenter({
         <PokeHeader
           gameStatus={gameStatus}
           diff={diff}
-          scoreAll={scoreAll}
+          scoreAllPromise={scoreAllPromise}
           innerWidth={innerWidth}
           onChangeDiff={onChangeDiff}
           onClickStart={onClickStart}

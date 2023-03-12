@@ -1,4 +1,4 @@
-import { ComponentProps, Fragment, MutableRefObject } from "react";
+import { ComponentProps, Fragment, MutableRefObject, ReactNode } from "react";
 import {
   Accordion,
   Button,
@@ -17,10 +17,13 @@ import { CONFIG } from "@/const/config";
 import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
 import { Diff } from "@/types/Diff";
-import { Score } from "@/types/Score";
 import PokeConfig from "./container";
 
-type Props = ComponentProps<typeof PokeConfig> & {
+type Props = Pick<
+  ComponentProps<typeof PokeConfig>,
+  "diff" | "innerWidth" | "onChangeDiff"
+> & {
+  rankRowAll: ReactNode;
   showSide: boolean;
   toolTarget: MutableRefObject<null>;
   onOpenSide: () => void;
@@ -30,7 +33,7 @@ type Props = ComponentProps<typeof PokeConfig> & {
 export default function PokeConfigPresenter({
   diff,
   showSide,
-  scoreAll,
+  rankRowAll,
   innerWidth,
   toolTarget,
   onChangeDiff,
@@ -99,17 +102,7 @@ export default function PokeConfigPresenter({
                       <th>スコア</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {scoreAll.map((score: Score, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{score.user}</td>
-                          <td>{score.score}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
+                  <tbody>{rankRowAll}</tbody>
                 </Table>
               </div>
             </Tab>

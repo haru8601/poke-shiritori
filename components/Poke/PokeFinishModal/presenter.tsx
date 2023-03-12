@@ -1,19 +1,17 @@
-import { ChangeEvent, ComponentProps } from "react";
+import { ChangeEvent, ComponentProps, ReactNode } from "react";
 import { Badge, Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import Tweet from "@/components/Card/Tweet/container";
 import { CONFIG } from "@/const/config";
-import { Score } from "@/types/Score";
 import PokeFinishModal from "./container";
 
 type Props = Pick<
   ComponentProps<typeof PokeFinishModal>,
-  "gameStatus" | "score"
+  "gameStatus" | "score" | "myIndex"
 > & {
-  scoreAll: Score[];
+  rankRowAll: ReactNode;
   showModal: boolean;
   nickname: string | null;
-  myIndex: number;
   nicknameErr: string;
   isLoading: boolean;
   onCloseModal: () => void;
@@ -22,7 +20,7 @@ type Props = Pick<
 };
 
 export default function PokeFinishModalPresenter({
-  scoreAll,
+  rankRowAll,
   score,
   gameStatus,
   showModal,
@@ -88,41 +86,7 @@ export default function PokeFinishModalPresenter({
                 <th>スコア</th>
               </tr>
             </thead>
-            <tbody>
-              {scoreAll
-                .concat({
-                  id: -1,
-                  user: nickname || CONFIG.score.defaultNickname,
-                  score: score,
-                })
-                .sort((a, b) => {
-                  const scoreDiff = b.score - a.score;
-                  /* 2つ目で新規のスコアが既存の以上ならswap */
-                  if (b.id == -1 && scoreDiff > 0) {
-                    return 1;
-                  }
-                  /* 1つ目が新規で既存のスコアと同じならswapさせない */
-                  if (a.id == -1 && scoreDiff <= 0) {
-                    return -1;
-                  }
-                  return scoreDiff;
-                })
-                .slice(0, CONFIG.rankLimit)
-                .map((score: Score, index) => {
-                  return (
-                    <tr
-                      key={index}
-                      className={`${
-                        !score.id || score.id < 0 ? styles.myScore : ""
-                      }`}
-                    >
-                      <td>{index + 1}</td>
-                      <td>{score.user}</td>
-                      <td>{score.score}</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
+            <tbody>{rankRowAll}</tbody>
             {myIndex >= CONFIG.rankLimit && (
               <tfoot style={{ borderTop: "3px double black" }}>
                 <tr className={styles.myScore}>

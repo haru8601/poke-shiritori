@@ -6,7 +6,7 @@ type Props = Pick<
   ComponentProps<typeof TopPresenter>,
   | "gameStatus"
   | "diff"
-  | "scoreAll"
+  | "scoreAllPromise"
   | "innerWidth"
   | "onChangeDiff"
   | "onClickStart"
@@ -15,7 +15,7 @@ type Props = Pick<
 export default function PokeHeader({
   gameStatus,
   diff,
-  scoreAll,
+  scoreAllPromise,
   innerWidth,
   onChangeDiff,
   onClickStart,
@@ -38,7 +38,7 @@ export default function PokeHeader({
       diff={diff}
       innerWidth={innerWidth}
       entered={entered}
-      scoreAll={scoreAll}
+      scoreAllPromise={scoreAllPromise}
       toolTarget={toolTarget}
       onReload={handleReload}
       onChangeDiff={onChangeDiff}

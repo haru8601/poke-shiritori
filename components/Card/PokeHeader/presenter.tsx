@@ -21,7 +21,7 @@ export default function PokeHeaderPresenter({
   diff,
   innerWidth,
   entered,
-  scoreAll,
+  scoreAllPromise,
   toolTarget,
   onReload,
   onChangeDiff,
@@ -78,7 +78,7 @@ export default function PokeHeaderPresenter({
           )}
           <PokeConfig
             diff={diff}
-            scoreAll={scoreAll}
+            scoreAllPromise={scoreAllPromise}
             innerWidth={innerWidth}
             onChangeDiff={onChangeDiff}
           />
