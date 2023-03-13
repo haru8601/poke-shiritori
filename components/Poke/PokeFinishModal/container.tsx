@@ -42,7 +42,7 @@ export default function PokeFinishModal({
             score: score,
           })
           .sort((a, b) => {
-            const scoreDiff = b.score - a.score;
+            const scoreDiff: number = b.score - a.score;
             /* 2つ目で新規のスコアが既存の以上ならswap */
             if (b.id == -1 && scoreDiff > 0) {
               return 1;
@@ -101,7 +101,6 @@ export default function PokeFinishModal({
     setLoading(true);
     /* cookieに名前保存 */
     setCookie(null, CookieNames.nickname, nickname ?? "", CONFIG.cookie);
-
     /* cookieにスコア保存 */
     setCookie(null, CookieNames.score, score.toString(), CONFIG.cookie);
 

@@ -10,7 +10,6 @@ import { useTimer } from "@/hook/useTimer";
 import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
-import { PokeApi } from "@/types/PokeApi";
 import { Score } from "@/types/Score";
 import { getAnswer } from "@/utils/getAnswer";
 import getCompatibility from "@/utils/getCompatibility";
@@ -45,7 +44,7 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
   const [score, setScore] = useState<number>(0);
   const toolTarget = useRef(null);
   const { sleep } = useTimer();
-  const { fetchPoke } = usePokeApi();
+  const { setPokeImg } = usePokeApi();
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
@@ -53,16 +52,12 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
     destroyCookie(null, CookieNames.score);
     destroyCookie(null, CookieNames.updateFlg);
 
-    let tmpTargetResponse: PokeApi | void;
-    (async () => {
-      /* 最初のポケ画像取得 */
-      tmpTargetResponse = await fetchPoke(firstPoke.id);
-      firstPoke.imgPath =
-        tmpTargetResponse?.sprites.other["official-artwork"].front_default ||
-        PATH.defaultImg;
-      /* レンダリングさせる(変更を伝える)ためディープコピー */
-      setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
-    })();
+    setTargetPoke(firstPoke);
+    /* 最初のポケ画像取得 */
+    setPokeImg(firstPoke, setTargetPoke);
+
+    /* レンダリングさせる(変更を伝える)ためディープコピー */
+    setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
 
     /* 難易度をセッションから取得 */
     setDiff((sessionStorage.getItem("diff") as Diff) || "normal");
@@ -122,14 +117,13 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
   /* CPUの回答 */
   useEffect(() => {
     if (gameStatus != "playing_enermy") return;
-    (async () => {
-      /* ランダムな時間後に返答 */
-      await sleep(2000 + Math.random() * 6000);
 
-      const lastWord = getShiritoriWord(targetPoke.name.japanese);
-      /* ポケ一覧からアンサーの候補を取得 */
-      let tmpTarget = getAnswer(pokeList, lastWord, usedPokeNameList);
+    const lastWord = getShiritoriWord(targetPoke.name.japanese);
+    /* ポケ一覧からアンサーの候補を取得 */
+    let tmpTarget = getAnswer(pokeList, lastWord, usedPokeNameList);
 
+    /* ランダムな時間後に返答 */
+    sleep(2000 + Math.random() * 6000).then(() => {
       if (!tmpTarget) {
         /* 解答なし */
         tmpTarget = {
@@ -139,15 +133,9 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
           type: ["Normal"],
           imgPath: PATH.defaultImg,
         };
+        setTargetPoke(tmpTarget);
       } else {
         /* 解答あり */
-
-        /* 画像パス取得 */
-        const tmpTargetResponse = await fetchPoke(tmpTarget.id);
-        tmpTarget.imgPath =
-          tmpTargetResponse?.sprites.other["official-artwork"].front_default ||
-          PATH.defaultImg;
-
         /* 使用済みリスト更新 */
         const tmpUsedPokeNameList = Array.from(usedPokeNameList);
         tmpUsedPokeNameList.push(tmpTarget.name.japanese);
@@ -156,8 +144,10 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
         const tmpEnermyPokeList = Array.from(enermyPokeList);
         tmpEnermyPokeList.push(tmpTarget);
         setEnermyPokeList(tmpEnermyPokeList);
+        setTargetPoke(tmpTarget);
+        setPokeImg(tmpTarget, setTargetPoke);
       }
-      setTargetPoke(tmpTarget);
+
       /* CPUの負け */
       if (tmpTarget.id == -1 || tmpTarget.name.japanese.endsWith("ン")) {
         setScore((score) => score + 10000);
@@ -165,7 +155,7 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
       } else {
         setGameStatus("playing_myturn");
       }
-    })();
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameStatus]);
 
@@ -237,12 +227,8 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
     tmpUsedPokeNameList.push(sentPoke.name.japanese);
     setUsedPokeNameList(tmpUsedPokeNameList);
 
-    const sentPokeResponse = await fetchPoke(sentPoke.id);
-    sentPoke.imgPath =
-      sentPokeResponse?.sprites.other["official-artwork"].front_default ||
-      PATH.defaultImg;
-
     setTargetPoke(sentPoke);
+    setPokeImg(sentPoke, setTargetPoke);
 
     /* 履歴を配列に格納 */
     const tmpMyPokeList = Array.from(myPokeList);

@@ -1,4 +1,5 @@
 export type PokeApi = {
+  id: number;
   sprites: {
     other: {
       "official-artwork": {

@@ -13,11 +13,11 @@ export async function GET(): Promise<NextResponse> {
 
 export async function POST(): Promise<NextResponse> {
   // キャッシュを使わせないためcookieを使用
-  const nickname = cookies().get(CookieNames.nickname)?.value;
+  const nickname =
+    cookies().get(CookieNames.nickname)?.value || CONFIG.score.defaultNickname;
   const score = cookies().get(CookieNames.score)?.value;
 
   if (
-    !nickname ||
     !score ||
     nickname.length > CONFIG.score.nicknameMaxLen ||
     isNaN(Number(score)) ||

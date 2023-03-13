@@ -1,10 +1,9 @@
-import fs from "fs";
-import path from "path";
 import { cookies, headers } from "next/headers";
 import Top from "@/components/Top/contaniner";
 import { CONFIG } from "@/const/config";
 import { CookieNames } from "@/const/cookieNames";
 import { PATH } from "@/const/path";
+import { getPokeList } from "@/lib/getPokeList";
 import limitChecker from "@/lib/limitChecher";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
@@ -50,11 +49,7 @@ export default async function Page() {
   }
 
   /* ポケ一覧取得 */
-  const pokeList = JSON.parse(
-    fs
-      .readFileSync(path.join(process.cwd(), "const", "pokedex.json"))
-      .toString()
-  ) as Poke[];
+  const pokeList = getPokeList();
   /* 最初のポケ設定 */
   let firstPoke: Poke | undefined = void 0;
   let checkCount = 0;
