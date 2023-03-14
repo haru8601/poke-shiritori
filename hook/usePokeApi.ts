@@ -6,18 +6,18 @@ import { PokeApi } from "@/types/PokeApi";
 export const usePokeApi = () => {
   /* 今回はprivateでしか使わない */
   const fetchPoke = async (id: number): Promise<PokeApi | void> => {
-    return await fetch(`${PATH.pokeapiBaseUrl}/${id}`)
-      .then((response: Response) => {
-        if (!response.ok) {
-          console.log("failed to fetch data from pokeApi.");
-          return;
-        }
-        return response.json() as Promise<PokeApi>;
-      })
-      .catch((err: Error) => {
+    const res = await fetch(`${PATH.pokeapiBaseUrl}/${id}`).catch(
+      (err: Error) => {
+        console.log("failed to fetch data from pokeApi.");
         console.log(err);
         return;
-      });
+      }
+    );
+    if (!res || !res.ok) {
+      console.log("fetched data from pokeApi is NOT ok.");
+      return;
+    }
+    return res.json() as Promise<PokeApi>;
   };
 
   /* 画像を取得し、レンダリングするため再度セッターに追加する */

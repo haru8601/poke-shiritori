@@ -105,19 +105,17 @@ export default function PokeFinishModal({
     setCookie(null, CookieNames.score, score.toString(), CONFIG.cookie);
 
     /* ランキング更新 */
-    await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
       method: "POST",
       cache: "no-store",
-    })
-      .then(async (response) => {
-        if (!response.ok) {
-          console.log("response status from ranking is NOT ok.");
-        }
-      })
-      .catch((err: Error) => {
-        console.log("error while updating ranking.");
-        console.log(err);
-      });
+    }).catch((err: Error) => {
+      console.log("error while updating ranking.");
+      console.log(err);
+    });
+
+    if (res && !res.ok) {
+      console.log("response status from ranking is NOT ok.");
+    }
 
     /* スコア削除 */
     destroyCookie(null, CookieNames.score);
