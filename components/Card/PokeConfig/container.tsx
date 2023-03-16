@@ -1,21 +1,19 @@
-import { ComponentProps, ReactNode, useEffect, useRef, useState } from "react";
+import { ComponentProps, ReactNode, useEffect, useState } from "react";
 import { Score } from "@/types/Score";
 import PokeConfigPresenter from "./presenter";
 import PokeHeaderPresenter from "../PokeHeader/presenter";
 
 type Props = Pick<
   ComponentProps<typeof PokeHeaderPresenter>,
-  "diff" | "onChangeDiff" | "scoreAllPromise" | "innerWidth"
+  "scoreAllPromise" | "innerWidth" | "onPlayAudio"
 >;
 
 export default function PokeConfig({
-  diff,
   scoreAllPromise,
   innerWidth,
-  onChangeDiff,
+  onPlayAudio,
 }: Props) {
   const [showSide, setShowSide] = useState<boolean>(false);
-  const toolTarget = useRef(null);
   const [rankRowAll, setRankRowAll] = useState<ReactNode>("Loading...");
 
   /* スコアのpromiseがfulfilledならセット */
@@ -46,14 +44,12 @@ export default function PokeConfig({
 
   return (
     <PokeConfigPresenter
-      diff={diff}
       showSide={showSide}
       rankRowAll={rankRowAll}
       innerWidth={innerWidth}
-      toolTarget={toolTarget}
-      onChangeDiff={onChangeDiff}
       onOpenSide={handleOpenSide}
       onCloseSide={handleCloseSide}
+      onPlayAudio={onPlayAudio}
     />
   );
 }

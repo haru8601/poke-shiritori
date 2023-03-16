@@ -121,7 +121,7 @@ export default function PokeFinishModal({
     destroyCookie(null, CookieNames.score);
 
     /* ランキングの変更を記録 */
-    setCookie(null, CookieNames.updateFlg, "on");
+    setCookie(null, CookieNames.updateFlg, "on", CONFIG.cookie);
 
     /* リロード */
     location.reload();

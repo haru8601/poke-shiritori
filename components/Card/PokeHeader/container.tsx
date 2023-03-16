@@ -10,6 +10,7 @@ type Props = Pick<
   | "innerWidth"
   | "onChangeDiff"
   | "onClickStart"
+  | "onPlayAudio"
 >;
 
 export default function PokeHeader({
@@ -19,6 +20,7 @@ export default function PokeHeader({
   innerWidth,
   onChangeDiff,
   onClickStart,
+  onPlayAudio,
 }: Props) {
   const [entered, setEntered] = useState<boolean>(false);
   const toolTarget = useRef(null);
@@ -44,6 +46,7 @@ export default function PokeHeader({
       onChangeDiff={onChangeDiff}
       onEnterPokeImg={handlEnterPokeImg}
       onClickStart={onClickStart}
+      onPlayAudio={onPlayAudio}
     />
   );
 }

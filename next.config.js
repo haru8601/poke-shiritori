@@ -5,7 +5,6 @@ const nextConfig = {
     /* ポケ一覧取得が128kB以上必要なので拡張 */
     largePageDataBytes: 256 * 1000 /* bytes */,
     appDir: true,
-    serverComponentsExternalPackages: ["bcrypt"],
   },
   images: {
     remotePatterns: [

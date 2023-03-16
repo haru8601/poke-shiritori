@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ChangeEvent, ComponentProps, MutableRefObject } from "react";
+import { ComponentProps, MutableRefObject } from "react";
 import { Button, Overlay, Tooltip } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
@@ -12,21 +12,19 @@ type Props = ComponentProps<typeof PokeHeader> & {
   entered: boolean;
   toolTarget: MutableRefObject<null>;
   onReload: () => void;
-  onChangeDiff: (event: ChangeEvent<HTMLInputElement>) => void;
   onEnterPokeImg: () => void;
 };
 
 export default function PokeHeaderPresenter({
   gameStatus,
-  diff,
   innerWidth,
   entered,
   scoreAllPromise,
   toolTarget,
   onReload,
-  onChangeDiff,
   onEnterPokeImg,
   onClickStart,
+  onPlayAudio,
 }: Props) {
   return (
     <div className="mb-3">
@@ -77,10 +75,9 @@ export default function PokeHeaderPresenter({
             </Button>
           )}
           <PokeConfig
-            diff={diff}
             scoreAllPromise={scoreAllPromise}
             innerWidth={innerWidth}
-            onChangeDiff={onChangeDiff}
+            onPlayAudio={onPlayAudio}
           />
         </div>
       </header>

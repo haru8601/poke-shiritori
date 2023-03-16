@@ -2,6 +2,7 @@ import {
   ChangeEvent,
   ComponentProps,
   KeyboardEvent,
+  MouseEvent,
   MutableRefObject,
 } from "react";
 import { Stack } from "react-bootstrap";
@@ -40,6 +41,7 @@ type Props = ComponentProps<typeof Top> & {
   onSubmitPoke: () => void;
   onChangeDiff: (event: ChangeEvent<HTMLInputElement>) => void;
   onClickStart: () => void;
+  onPlayAudio: (e: MouseEvent<HTMLInputElement>) => void;
 };
 
 export default function TopPresenter({
@@ -65,6 +67,7 @@ export default function TopPresenter({
   onSubmitPoke,
   onChangeDiff,
   onClickStart,
+  onPlayAudio,
 }: Props) {
   return (
     <>
@@ -103,6 +106,7 @@ export default function TopPresenter({
           innerWidth={innerWidth}
           onChangeDiff={onChangeDiff}
           onClickStart={onClickStart}
+          onPlayAudio={onPlayAudio}
         />
         <Timer
           leftPercent={leftPercent}

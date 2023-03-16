@@ -1,7 +1,14 @@
 "use client";
-
-import { destroyCookie } from "nookies";
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import path from "path";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  MouseEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { CONFIG } from "@/const/config";
 import { CookieNames } from "@/const/cookieNames";
 import { PATH } from "@/const/path";
@@ -46,11 +53,14 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
   const { sleep } = useTimer();
   const { setPokeImg } = usePokeApi();
 
+  const [pokeAudio, setPokeAudio] = useState<HTMLAudioElement>();
+
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
     /* next/headersのcookiesがreadonlyなためCSR側で削除 */
     destroyCookie(null, CookieNames.score);
     destroyCookie(null, CookieNames.updateFlg);
+    destroyCookie(null, CookieNames.audio);
 
     setTargetPoke(firstPoke);
     /* 最初のポケ画像取得 */
@@ -61,21 +71,46 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
 
     /* 難易度をセッションから取得 */
     setDiff((sessionStorage.getItem("diff") as Diff) || "normal");
+
+    const tmpPokeAudio = new Audio(path.join(process.cwd(), "audio/06.wav"));
+    tmpPokeAudio.volume = 0.2;
+    tmpPokeAudio.loop = true;
+    setPokeAudio(tmpPokeAudio);
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      /* 初期値 */
-      setInnerWidth(window.innerWidth);
+    /* 初期値 */
+    setInnerWidth(window.innerWidth);
 
-      /* リサイズ処理追加 */
-      window.addEventListener("resize", () => {
-        setInnerWidth(window.innerWidth);
-      });
-    }
+    /* リサイズ処理追加 */
+    window.addEventListener("resize", () => {
+      setInnerWidth(window.innerWidth);
+    });
   }, []);
+
+  useEffect(() => {
+    if (parseCookies(null)[CookieNames.audio] != "on" || !pokeAudio) return;
+    switch (gameStatus) {
+      case "will_start":
+        pokeAudio.src = path.join(process.cwd(), "audio/27.wav");
+        pokeAudio.play();
+        break;
+      case "playing_myturn":
+        // 初回スタート時のみ変更
+        if (pokeAudio.src.includes("audio/27.wav")) {
+          pokeAudio.src = path.join(process.cwd(), "audio/15.wav");
+          pokeAudio.play();
+        }
+        break;
+      case "end_win":
+      case "end_lose":
+        pokeAudio.src = path.join(process.cwd(), "audio/16.wav");
+        pokeAudio.play();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameStatus]);
 
   /* スタートカウントダウン */
   useEffect(() => {
@@ -269,8 +304,19 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
     setDiff(checkedDiff);
   };
 
-  const handleClickStart = async () => {
+  const handleClickStart = () => {
     setGameStatus("will_start");
+  };
+
+  const handlePlayAudio = (e: MouseEvent<HTMLInputElement>) => {
+    const audioSwitcher = e.currentTarget;
+    if (audioSwitcher.checked) {
+      setCookie(null, CookieNames.audio, "on", CONFIG.cookie);
+      pokeAudio && pokeAudio.play();
+    } else {
+      destroyCookie(null, CookieNames.audio);
+      pokeAudio && pokeAudio.pause();
+    }
   };
 
   return (
@@ -297,6 +343,7 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
       onSubmitPoke={handleSubmitPoke}
       onChangeDiff={handleChangeDiff}
       onClickStart={handleClickStart}
+      onPlayAudio={handlePlayAudio}
     />
   );
 }

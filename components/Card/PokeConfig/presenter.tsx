@@ -1,44 +1,36 @@
-import { ComponentProps, Fragment, MutableRefObject, ReactNode } from "react";
+import { ComponentProps, Fragment, ReactNode } from "react";
 import {
   Accordion,
   Button,
-  ButtonGroup,
+  Form,
   ListGroup,
   Offcanvas,
-  Overlay,
   Tab,
   Table,
   Tabs,
-  ToggleButton,
-  Tooltip,
 } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
-import { CONFIG } from "@/const/config";
 import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
-import { Diff } from "@/types/Diff";
 import PokeConfig from "./container";
 
 type Props = Pick<
   ComponentProps<typeof PokeConfig>,
-  "diff" | "innerWidth" | "onChangeDiff"
+  "innerWidth" | "onPlayAudio"
 > & {
   rankRowAll: ReactNode;
   showSide: boolean;
-  toolTarget: MutableRefObject<null>;
   onOpenSide: () => void;
   onCloseSide: () => void;
 };
 
 export default function PokeConfigPresenter({
-  diff,
   showSide,
   rankRowAll,
   innerWidth,
-  toolTarget,
-  onChangeDiff,
   onOpenSide,
   onCloseSide,
+  onPlayAudio,
 }: Props) {
   return (
     <>
@@ -63,29 +55,17 @@ export default function PokeConfigPresenter({
         <Offcanvas.Body className="py-0">
           <Tabs defaultActiveKey="config" className="mb-3">
             <Tab eventKey="config" title="設定">
-              <div>難易度</div>
-              <p>※ 停止中</p>
-              <ButtonGroup>
-                {Object.keys(CONFIG.diff).map((type, index) => (
-                  <Fragment key={index}>
-                    <ToggleButton
-                      id={`${index}`}
-                      type="radio"
-                      value={type}
-                      checked={type == diff}
-                      variant="outline-primary"
-                      onChange={onChangeDiff}
-                      disabled
-                      ref={toolTarget}
-                    >
-                      {type}
-                    </ToggleButton>
-                    <Overlay placement="bottom" target={toolTarget}>
-                      <Tooltip>{CONFIG.diff[type as Diff]}</Tooltip>
-                    </Overlay>
-                  </Fragment>
-                ))}
-              </ButtonGroup>
+              <div className="d-flex">
+                <Form>
+                  <Form.Check
+                    type="switch"
+                    id="audio-switch"
+                    label="BGM"
+                    reverse
+                    onClick={onPlayAudio}
+                  ></Form.Check>
+                </Form>
+              </div>
             </Tab>
             <Tab eventKey="ranking" title="ランキング">
               <div
