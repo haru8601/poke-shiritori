@@ -99,7 +99,7 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
         break;
       case "playing_myturn":
         // 初回スタート時のみ変更
-        if (pokeAudio.src.includes("audio/27.wav")) {
+        if (pokeAudio.src.includes("27")) {
           pokeAudio.src = getAudioPath("15");
           pokeAudio.play();
         }

@@ -1,3 +1,4 @@
+import { parseCookies } from "nookies";
 import { ComponentProps, Fragment, ReactNode } from "react";
 import {
   Accordion,
@@ -10,6 +11,7 @@ import {
   Tabs,
 } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
+import { CookieNames } from "@/const/cookieNames";
 import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
 import PokeConfig from "./container";
@@ -62,6 +64,9 @@ export default function PokeConfigPresenter({
                     id="audio-switch"
                     label="BGM"
                     reverse
+                    defaultChecked={
+                      parseCookies(null)[CookieNames.audio] == "on"
+                    }
                     onClick={onPlayAudio}
                   ></Form.Check>
                 </Form>
