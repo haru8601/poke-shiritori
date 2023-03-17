@@ -1,5 +1,4 @@
 "use client";
-import path from "path";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import {
   ChangeEvent,
@@ -19,6 +18,7 @@ import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
 import { getAnswer } from "@/utils/getAnswer";
+import { getAudioPath } from "@/utils/getAudioPath";
 import getCompatibility from "@/utils/getCompatibility";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
 import { hira2kata } from "@/utils/hira2kata";
@@ -72,7 +72,7 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
     /* 難易度をセッションから取得 */
     setDiff((sessionStorage.getItem("diff") as Diff) || "normal");
 
-    const tmpPokeAudio = new Audio(path.join(process.cwd(), "audio/06.wav"));
+    const tmpPokeAudio = new Audio(getAudioPath("06"));
     tmpPokeAudio.volume = 0.2;
     tmpPokeAudio.loop = true;
     setPokeAudio(tmpPokeAudio);
@@ -94,19 +94,19 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
     if (parseCookies(null)[CookieNames.audio] != "on" || !pokeAudio) return;
     switch (gameStatus) {
       case "will_start":
-        pokeAudio.src = path.join(process.cwd(), "audio/27.wav");
+        pokeAudio.src = getAudioPath("27");
         pokeAudio.play();
         break;
       case "playing_myturn":
         // 初回スタート時のみ変更
         if (pokeAudio.src.includes("audio/27.wav")) {
-          pokeAudio.src = path.join(process.cwd(), "audio/15.wav");
+          pokeAudio.src = getAudioPath("15");
           pokeAudio.play();
         }
         break;
       case "end_win":
       case "end_lose":
-        pokeAudio.src = path.join(process.cwd(), "audio/16.wav");
+        pokeAudio.src = getAudioPath("16");
         pokeAudio.play();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
