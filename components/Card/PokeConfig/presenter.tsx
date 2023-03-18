@@ -57,7 +57,7 @@ export default function PokeConfigPresenter({
         <Offcanvas.Body className="pt-0">
           <Tabs defaultActiveKey="config" className="mb-3">
             <Tab eventKey="config" title="設定">
-              <div className="d-flex">
+              <div className="d-flex mb-3">
                 <Form>
                   <Form.Check
                     type="switch"
@@ -71,6 +71,11 @@ export default function PokeConfigPresenter({
                   ></Form.Check>
                 </Form>
               </div>
+              <p style={{ fontSize: "12px" }}>
+                ©2023 Pokémon. ©1995-2023 Nintendo/Creatures Inc./GAME FREAK
+                inc. これは「Pokémon Game Sound
+                Library」の利用規約に同意し作成されたコンテンツです。
+              </p>
             </Tab>
             <Tab eventKey="ranking" title="ランキング">
               <div
