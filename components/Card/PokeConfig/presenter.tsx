@@ -54,7 +54,7 @@ export default function PokeConfigPresenter({
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>設定</Offcanvas.Title>
         </Offcanvas.Header>
-        <Offcanvas.Body className="py-0">
+        <Offcanvas.Body className="pt-0">
           <Tabs defaultActiveKey="config" className="mb-3">
             <Tab eventKey="config" title="設定">
               <div className="d-flex">
