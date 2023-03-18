@@ -36,7 +36,6 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "node-loader": "^2.0.0",
-    "vercel-submodules": "^1.0.10"
+    "node-loader": "^2.0.0"
   }
 }
