@@ -20,17 +20,15 @@ export const TIPS: readonly Tip[] = [
   {
     title: "Macだから自動変換されて打ちづらい",
     body: (
-      <div>
-        <p>
-          入力中(<code>Enter</code>押す前)に、
-          <br />
-          <code>control+J</code>でひらがな
-          <br />
-          <code>control+K</code>でカタカナ
-          <br />
-          に変換できます
-        </p>
-      </div>
+      <p>
+        入力中(<code>Enter</code>押す前)に、
+        <br />
+        <code>control+J</code>でひらがな
+        <br />
+        <code>control+K</code>でカタカナ
+        <br />
+        に変換できます
+      </p>
     ),
   },
   {
@@ -48,7 +46,7 @@ export const TIPS: readonly Tip[] = [
     body: <p>試してみてね</p>,
   },
   {
-    title: "公式しりとり動画(short Ver.)",
+    title: "公式しりとり動画",
     body: (
       <Button
         variant="link"

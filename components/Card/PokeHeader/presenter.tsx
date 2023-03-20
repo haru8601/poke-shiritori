@@ -36,25 +36,29 @@ export default function PokeHeaderPresenter({
           >
             ポケモンしりとりSV(β版)
           </h1>
-          <Image
-            className={entered ? styles.jumpImg : ""}
-            height={CONFIG.spaceBasis}
-            width={CONFIG.spaceBasis}
-            src={pikachuPic}
-            alt="ピカチュウの尻尾の画像です"
-            onClick={onEnterPokeImg}
-            onMouseEnter={onEnterPokeImg}
-            ref={toolTarget}
-          />
-          <Overlay placement="right" target={toolTarget} show={entered}>
-            <Tooltip>made by haroot</Tooltip>
-          </Overlay>
+          {innerWidth >= CONFIG.pcMinWidth && (
+            <>
+              <Image
+                className={entered ? styles.jumpImg : ""}
+                height={CONFIG.spaceBasis}
+                width={CONFIG.spaceBasis}
+                src={pikachuPic}
+                alt="ピカチュウの尻尾の画像です"
+                onClick={onEnterPokeImg}
+                onMouseEnter={onEnterPokeImg}
+                ref={toolTarget}
+              />
+              <Overlay placement="right" target={toolTarget} show={entered}>
+                <Tooltip>made by haroot</Tooltip>
+              </Overlay>
+            </>
+          )}
         </div>
         <div className="d-flex">
           {(gameStatus == "before_start" && (
             <Button
               className={`mx-1 text-nowrap ${styles.clickBtn} ${
-                innerWidth < 700 ? "align-self-center p-1" : ""
+                innerWidth < CONFIG.pcMinWidth ? "align-self-center p-1" : ""
               }`}
               variant="success"
               type="submit"
@@ -65,13 +69,14 @@ export default function PokeHeaderPresenter({
           )) || (
             <Button
               className={`mx-1 text-nowrap ${styles.clickBtn} ${
-                innerWidth < 700 ? "align-self-center p-1" : ""
+                innerWidth < CONFIG.pcMinWidth ? "align-self-center p-1" : ""
               }`}
               variant="dark"
               type="submit"
               onClick={onReload}
             >
-              {(innerWidth >= 700 && "目の前を真っ暗にする") || "リセット"}
+              {(innerWidth >= CONFIG.pcMinWidth && "目の前を真っ暗にする") ||
+                "リセット"}
             </Button>
           )}
           <PokeConfig

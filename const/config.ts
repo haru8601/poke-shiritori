@@ -20,4 +20,5 @@ export const CONFIG = {
     nicknameMaxLen: 10,
     scoreMax: 1000 * 1000,
   },
+  pcMinWidth: 700,
 } as const;

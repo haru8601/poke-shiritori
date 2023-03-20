@@ -11,6 +11,7 @@ import {
   Tabs,
 } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
+import { CONFIG } from "@/const/config";
 import { CookieNames } from "@/const/cookieNames";
 import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
@@ -39,7 +40,7 @@ export default function PokeConfigPresenter({
       <Button
         variant="secondary"
         className={`mx-1 ${styles.clickBtn} ${
-          innerWidth < 700 ? "align-self-center p-1" : ""
+          innerWidth < CONFIG.pcMinWidth ? "align-self-center p-1" : ""
         }`}
         onClick={onOpenSide}
       >
