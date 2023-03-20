@@ -1,5 +1,5 @@
 import { parseCookies } from "nookies";
-import { ComponentProps, Fragment, ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 import {
   Accordion,
   Button,
@@ -58,7 +58,7 @@ export default function PokeConfigPresenter({
         <Offcanvas.Body className="pt-0">
           <Tabs defaultActiveKey="config" className="mb-3">
             <Tab eventKey="config" title="設定">
-              <div className="d-flex mb-3">
+              <div className={`d-flex mb-3 ${styles.pointer}`}>
                 <Form>
                   <Form.Check
                     type="switch"
@@ -115,7 +115,6 @@ export default function PokeConfigPresenter({
               </ListGroup>
             </Tab>
             <Tab eventKey="tips" title="tips">
-              <p style={{ fontSize: "14px" }}>※SVまでの情報です</p>
               <Accordion>
                 {TIPS.map((tip, index) => (
                   <Accordion.Item key={index} eventKey={`${index}`}>
