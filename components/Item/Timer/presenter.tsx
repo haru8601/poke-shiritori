@@ -11,7 +11,7 @@ export default function TimerPresenter({
   bonus,
 }: Props) {
   return (
-    <div className="my-3">
+    <div className="mb-3">
       <div
         style={{ height: "25px", width: "100%" }}
         className="border border-1 border-dark rounded"

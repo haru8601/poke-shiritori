@@ -108,6 +108,7 @@ export default function TopPresenter({
           onClickStart={onClickStart}
           onPlayAudio={onPlayAudio}
         />
+        <p className="ps-3">現在のスコア: {score}</p>
         <Timer
           leftPercent={leftPercent}
           gameStatus={gameStatus}
