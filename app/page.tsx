@@ -7,7 +7,6 @@ import { getPokeList } from "@/lib/getPokeList";
 import limitChecker from "@/lib/limitChecher";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
-import { getCurrentUrl } from "@/utils/getCurrentUrl";
 
 export const metadata = {
   title: "ポケモンしりとり by haroot",
@@ -20,7 +19,7 @@ export const metadata = {
     card: "summary",
     title: "ポケモンしりとり",
     description: "harootが作成したポケモンの名前でしりとりが出来るサイトです。",
-    images: [`${getCurrentUrl()}${PATH.defaultImg}`],
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL}${PATH.defaultImg}`],
     siteId: "1370600922418536449",
     creator: "@haroot_net",
     creatorId: "1370600922418536449",
