@@ -5,7 +5,7 @@ import {
   MouseEvent,
   MutableRefObject,
 } from "react";
-import { Stack } from "react-bootstrap";
+import { Badge, Stack } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
@@ -108,7 +108,10 @@ export default function TopPresenter({
           onClickStart={onClickStart}
           onPlayAudio={onPlayAudio}
         />
-        <p className="ps-3">現在のスコア: {score}</p>
+        <p className="ps-3">
+          {"現在のスコア: "}
+          <Badge bg="primary">{score}</Badge>
+        </p>
         <Timer
           leftPercent={leftPercent}
           gameStatus={gameStatus}
