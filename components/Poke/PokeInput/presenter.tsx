@@ -16,7 +16,9 @@ export default function PokeInputPresenter({
   onSubmitPoke,
 }: Props) {
   return (
-    <InputGroup className="mx-auto my-1 justify-content-center">
+    <InputGroup
+      className={`mx-auto my-1 justify-content-center ${styles.pointer}`}
+    >
       <Form.Control
         style={{ maxWidth: "300px" }}
         id="poke-input"
