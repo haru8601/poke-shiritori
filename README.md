@@ -61,3 +61,19 @@ npm install
 ```sh
 npm run dev
 ```
+
+# デプロイ
+
+デプロイは vercel で行なっている。<br>
+メインへマージする事で、vercel が自動でデプロイを開始する。<br>
+
+## vercel-submodules
+
+デプロイ時のサブモジュールの読み込みは、vercel の `install command` を
+
+```sh
+npx vercel-submodules --all && npm install
+```
+
+に変更することで実現。<br>
+vercel-submodules の運用上、(vercel が private リポジトリのサブモジュールを取れるように)`Environment Variables`で、`GITHUB_TOKEN`に github の`Personal access tokens`を入れる必要がある。
