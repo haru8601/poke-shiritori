@@ -52,7 +52,9 @@ export default function PokeFinishModalPresenter({
         <Badge bg="secondary" className="mb-1 align-self-start">
           ニックネーム
         </Badge>
-        <InputGroup className="mx-auto justify-content-center">
+        <InputGroup
+          className={`mx-auto justify-content-center ${styles.pointer}`}
+        >
           <Form.Control
             placeholder={CONFIG.score.defaultNickname}
             value={nickname ?? ""}

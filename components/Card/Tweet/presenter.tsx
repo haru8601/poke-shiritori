@@ -9,7 +9,7 @@ type Props = Pick<ComponentProps<typeof Tweet>, "className" | "style"> & {
 export default function TweetPresenter({ text, style, className }: Props) {
   return (
     <Button
-      href={`https://twitter.com/share?text=${text}&url=${process.env.NEXT_PUBLIC_SITE_URL}&via=haroot_net`}
+      href={`https://twitter.com/share?text=${text}&url=${process.env.NEXT_PUBLIC_SITE_URL}`}
       variant="primary"
       data-show-count="false"
       rel="noreferrer"
