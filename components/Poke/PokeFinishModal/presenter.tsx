@@ -7,13 +7,14 @@ import PokeFinishModal from "./container";
 
 type Props = Pick<
   ComponentProps<typeof PokeFinishModal>,
-  "gameStatus" | "score" | "myIndex"
+  "gameStatus" | "score"
 > & {
   rankRowAll: ReactNode;
   showModal: boolean;
   nickname: string | null;
   nicknameErr: string;
   isLoading: boolean;
+  myIndex: number;
   onCloseModal: () => void;
   onChangeNickname: (event: ChangeEvent<HTMLInputElement>) => void;
   onSubmitNickname: () => void;

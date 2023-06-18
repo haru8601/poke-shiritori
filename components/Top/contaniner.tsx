@@ -41,7 +41,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     firstPoke.name.japanese,
   ]);
   const [diff, setDiff] = useState<Diff>("normal");
-  const [myIndex, setMyIndex] = useState<number>(-1);
   /* 現在の残り時間 */
   const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimit);
   const [countDown, setCountDown] = useState<number>(3);
@@ -203,19 +202,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameStatus]);
 
-  /* 終了後の処理 */
-  useEffect(() => {
-    (async () => {
-      if (!gameStatus.includes("end")) {
-        return;
-      }
-
-      /* 順位計算 */
-      const tmpRank = scoreAll.findIndex((row) => row.score <= score);
-      setMyIndex(tmpRank != -1 ? tmpRank : scoreAll.length);
-    })();
-  }, [gameStatus, scoreAll, score]);
-
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
       return;
@@ -371,7 +357,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
       diff={diff}
       score={score}
       scoreAll={scoreAll}
-      myIndex={myIndex}
       leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
       countDown={countDown}
       bonus={bonus}

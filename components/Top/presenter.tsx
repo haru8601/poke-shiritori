@@ -32,7 +32,6 @@ type Props = ComponentProps<typeof Top> & {
   score: number;
   scoreAll: Score[];
   diff: Diff;
-  myIndex: number;
   leftPercent: number;
   countDown: number;
   bonus: number;
@@ -59,7 +58,6 @@ export default function TopPresenter({
   score,
   scoreAll,
   diff,
-  myIndex,
   leftPercent,
   countDown,
   bonus,
@@ -75,12 +73,11 @@ export default function TopPresenter({
 }: Props) {
   return (
     <>
-      {myIndex != -1 && (
+      {gameStatus.includes("end") && (
         <PokeFinishModal
           gameStatus={gameStatus}
           score={score}
           scoreAll={scoreAll}
-          myIndex={myIndex}
         />
       )}
       {gameStatus == "will_start" && (
@@ -141,7 +138,7 @@ export default function TopPresenter({
           gameStatus={gameStatus}
           toolTarget={toolTarget}
         />
-        <PokeFooter score={score} myIndex={myIndex} />
+        <PokeFooter />
       </Stack>
     </>
   );

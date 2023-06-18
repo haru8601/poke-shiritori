@@ -15,14 +15,13 @@ import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "gameStatus" | "score" | "myIndex" | "scoreAll"
+  "gameStatus" | "score" | "scoreAll"
 >;
 
 export default function PokeFinishModal({
   gameStatus,
   score,
   scoreAll,
-  myIndex,
 }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   // cookieが空の場合はnull表記
@@ -32,44 +31,52 @@ export default function PokeFinishModal({
   const [nicknameErr, setNicknameErr] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const [rankRowAll, setRankRowAll] = useState<ReactNode>();
+  const [myIndex, setMyIndex] = useState<number>(-1);
 
   useEffect(() => {
-    (async () => {
-      // 表示するランキング生成
-      setRankRowAll(
-        scoreAll
-          .concat({
-            id: -1,
-            user: nickname || CONFIG.score.defaultNickname,
-            score: score,
-          })
-          .sort((a, b) => {
-            const scoreDiff: number = b.score - a.score;
-            /* 2つ目で新規のスコアが既存の以上ならswap */
-            if (b.id == -1 && scoreDiff > 0) {
-              return 1;
-            }
-            /* 1つ目が新規で既存のスコアと同じならswapさせない */
-            if (a.id == -1 && scoreDiff <= 0) {
-              return -1;
-            }
-            return scoreDiff;
-          })
-          .slice(0, CONFIG.rankLimit)
-          .map((score: Score, index) => {
-            return (
-              <tr
-                key={index}
-                className={`${!score.id || score.id < 0 ? styles.myScore : ""}`}
-              >
-                <td>{index + 1}</td>
-                <td>{score.user}</td>
-                <td>{score.score}</td>
-              </tr>
-            );
-          })
-      );
-    })();
+    if (scoreAll.length) {
+      /* 順位計算 */
+      const tmpRank = scoreAll.findIndex((row) => row.score <= score);
+      setMyIndex(tmpRank != -1 ? tmpRank : scoreAll.length);
+    } else {
+      /* ランキングが取得できてなければ順位計算しない */
+      setRankRowAll("ランキングを取得できませんでした");
+      return;
+    }
+    // 表示するランキング生成
+    setRankRowAll(
+      scoreAll
+        .concat({
+          id: -1,
+          user: nickname || CONFIG.score.defaultNickname,
+          score: score,
+        })
+        .sort((a, b) => {
+          const scoreDiff: number = b.score - a.score;
+          /* 2つ目で新規のスコアが既存の以上ならswap */
+          if (b.id == -1 && scoreDiff > 0) {
+            return 1;
+          }
+          /* 1つ目が新規で既存のスコアと同じならswapさせない */
+          if (a.id == -1 && scoreDiff <= 0) {
+            return -1;
+          }
+          return scoreDiff;
+        })
+        .slice(0, CONFIG.rankLimit)
+        .map((score: Score, index) => {
+          return (
+            <tr
+              key={index}
+              className={`${!score.id || score.id < 0 ? styles.myScore : ""}`}
+            >
+              <td>{index + 1}</td>
+              <td>{score.user}</td>
+              <td>{score.score}</td>
+            </tr>
+          );
+        })
+    );
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
