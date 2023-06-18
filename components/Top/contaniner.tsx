@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { CONFIG } from "@/const/config";
-import { CookieNames } from "@/const/cookieNames";
+import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
@@ -58,9 +58,9 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
     /* next/headersのcookiesがreadonlyなためCSR側で削除 */
-    destroyCookie(null, CookieNames.score);
-    destroyCookie(null, CookieNames.updateFlg);
-    destroyCookie(null, CookieNames.audio);
+    destroyCookie(null, COOKIE_NAMES.score);
+    destroyCookie(null, COOKIE_NAMES.updateFlg);
+    destroyCookie(null, COOKIE_NAMES.audio);
 
     setTargetPoke(firstPoke);
     /* 最初のポケ画像取得 */
@@ -91,7 +91,11 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
   }, []);
 
   useEffect(() => {
-    if (parseCookies(null)[CookieNames.audio] != "on" || !pokeAudio) return;
+    if (
+      parseCookies(null)[COOKIE_NAMES.audio] != COOKIE_VALUES.on ||
+      !pokeAudio
+    )
+      return;
     switch (gameStatus) {
       case "will_start":
         pokeAudio.src = getAudioRandomPath("launch");
@@ -311,10 +315,10 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
   const handlePlayAudio = (e: MouseEvent<HTMLInputElement>) => {
     const audioSwitcher = e.currentTarget;
     if (audioSwitcher.checked) {
-      setCookie(null, CookieNames.audio, "on", CONFIG.cookie);
+      setCookie(null, COOKIE_NAMES.audio, COOKIE_VALUES.on, CONFIG.cookie);
       pokeAudio && pokeAudio.play();
     } else {
-      destroyCookie(null, CookieNames.audio);
+      destroyCookie(null, COOKIE_NAMES.audio);
       pokeAudio && pokeAudio.pause();
     }
   };

@@ -1,7 +1,7 @@
 import { cookies, headers } from "next/headers";
 import Top from "@/components/Top/contaniner";
 import { CONFIG } from "@/const/config";
-import { CookieNames } from "@/const/cookieNames";
+import { COOKIE_NAMES } from "@/const/cookie";
 import { PATH } from "@/const/path";
 import { getPokeList } from "@/lib/getPokeList";
 import limitChecker from "@/lib/limitChecher";
@@ -61,7 +61,7 @@ export default async function Page() {
   const scoreAllPromise: Promise<Score[]> = fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`,
     {
-      cache: cookies().get(CookieNames.updateFlg) ? "no-store" : "force-cache",
+      cache: cookies().get(COOKIE_NAMES.updateFlg) ? "no-store" : "force-cache",
     }
   )
     .then((response) => {

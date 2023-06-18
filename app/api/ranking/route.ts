@@ -2,7 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { CONFIG } from "@/const/config";
-import { CookieNames } from "@/const/cookieNames";
+import { COOKIE_NAMES } from "@/const/cookie";
 import storeDbScore from "@/lib/mysql/insert";
 import fetchDbScoreAll from "@/lib/mysql/select";
 
@@ -14,8 +14,8 @@ export async function GET(): Promise<NextResponse> {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   // キャッシュを使わせないためcookieを使用
   const nickname =
-    cookies().get(CookieNames.nickname)?.value || CONFIG.score.defaultNickname;
-  const score = cookies().get(CookieNames.score)?.value;
+    cookies().get(COOKIE_NAMES.nickname)?.value || CONFIG.score.defaultNickname;
+  const score = cookies().get(COOKIE_NAMES.score)?.value;
 
   if (
     !score ||

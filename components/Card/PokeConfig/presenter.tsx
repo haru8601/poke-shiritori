@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
-import { CookieNames } from "@/const/cookieNames";
+import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
 import PokeConfig from "./container";
@@ -66,7 +66,7 @@ export default function PokeConfigPresenter({
                     label="BGM"
                     reverse
                     defaultChecked={
-                      parseCookies(null)[CookieNames.audio] == "on"
+                      parseCookies(null)[COOKIE_NAMES.audio] == COOKIE_VALUES.on
                     }
                     onClick={onPlayAudio}
                   ></Form.Check>

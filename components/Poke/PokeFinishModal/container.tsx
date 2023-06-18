@@ -9,7 +9,7 @@ import {
 import styles from "@/app/styles/Top.module.css";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
-import { CookieNames } from "@/const/cookieNames";
+import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { Score } from "@/types/Score";
 import PokeFinishModalPresenter from "./presenter";
 
@@ -27,7 +27,7 @@ export default function PokeFinishModal({
   const [showModal, setShowModal] = useState<boolean>(false);
   // cookieが空の場合はnull表記
   const [nickname, setNickname] = useState<string | null>(
-    (parseCookies() as typeof CookieNames).nickname
+    (parseCookies() as typeof COOKIE_NAMES).nickname
   );
   const [nicknameErr, setNicknameErr] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -102,9 +102,9 @@ export default function PokeFinishModal({
 
     setLoading(true);
     /* cookieに名前保存(unownにするのはDBに送信する時のみ) */
-    setCookie(null, CookieNames.nickname, nickname ?? "", CONFIG.cookie);
+    setCookie(null, COOKIE_NAMES.nickname, nickname ?? "", CONFIG.cookie);
     /* cookieにスコア保存 */
-    setCookie(null, CookieNames.score, score.toString(), CONFIG.cookie);
+    setCookie(null, COOKIE_NAMES.score, score.toString(), CONFIG.cookie);
 
     /* ランキング更新 */
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
@@ -120,10 +120,10 @@ export default function PokeFinishModal({
     }
 
     /* スコア削除 */
-    destroyCookie(null, CookieNames.score);
+    destroyCookie(null, COOKIE_NAMES.score);
 
     /* ランキングの変更を記録 */
-    setCookie(null, CookieNames.updateFlg, "on", CONFIG.cookie);
+    setCookie(null, COOKIE_NAMES.updateFlg, COOKIE_VALUES.on, CONFIG.cookie);
 
     /* リロード */
     location.reload();
