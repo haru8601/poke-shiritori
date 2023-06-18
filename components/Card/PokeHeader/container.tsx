@@ -6,21 +6,23 @@ type Props = Pick<
   ComponentProps<typeof TopPresenter>,
   | "gameStatus"
   | "diff"
-  | "scoreAllPromise"
+  | "scoreAll"
   | "innerWidth"
   | "onChangeDiff"
   | "onClickStart"
   | "onPlayAudio"
+  | "onReloadRanking"
 >;
 
 export default function PokeHeader({
   gameStatus,
   diff,
-  scoreAllPromise,
+  scoreAll,
   innerWidth,
   onChangeDiff,
   onClickStart,
   onPlayAudio,
+  onReloadRanking,
 }: Props) {
   const [entered, setEntered] = useState<boolean>(false);
   const toolTarget = useRef(null);
@@ -40,13 +42,14 @@ export default function PokeHeader({
       diff={diff}
       innerWidth={innerWidth}
       entered={entered}
-      scoreAllPromise={scoreAllPromise}
+      scoreAll={scoreAll}
       toolTarget={toolTarget}
       onReload={handleReload}
       onChangeDiff={onChangeDiff}
       onEnterPokeImg={handlEnterPokeImg}
       onClickStart={onClickStart}
       onPlayAudio={onPlayAudio}
+      onReloadRanking={onReloadRanking}
     />
   );
 }

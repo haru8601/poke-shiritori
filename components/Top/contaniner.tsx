@@ -28,10 +28,9 @@ import TopPresenter from "./presenter";
 type Props = {
   pokeList: Poke[];
   firstPoke: Poke;
-  scoreAllPromise: Promise<Score[]>;
 };
 
-export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
+export default function Top({ pokeList, firstPoke }: Props) {
   const [targetPoke, setTargetPoke] = useState<Poke>(firstPoke);
   const [sentPokeName, setSentPokeName] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
@@ -54,9 +53,15 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
   const { setPokeImg } = usePokeApi();
 
   const [pokeAudio, setPokeAudio] = useState<HTMLAudioElement>();
+  /* 取得するまでは空配列 */
+  const [scoreAll, setScoreAll] = useState<Score[]>([]);
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
+    /* 更新時はキャッシュを使わない */
+    fetchScoreAll(
+      parseCookies(null)[COOKIE_NAMES.updateFlg] != COOKIE_VALUES.on
+    );
     /* next/headersのcookiesがreadonlyなためCSR側で削除 */
     destroyCookie(null, COOKIE_NAMES.score);
     destroyCookie(null, COOKIE_NAMES.updateFlg);
@@ -206,12 +211,10 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
       }
 
       /* 順位計算 */
-      const tmpRank = (await scoreAllPromise).findIndex(
-        (row) => row.score <= score
-      );
-      setMyIndex(tmpRank != -1 ? tmpRank : (await scoreAllPromise).length);
+      const tmpRank = scoreAll.findIndex((row) => row.score <= score);
+      setMyIndex(tmpRank != -1 ? tmpRank : scoreAll.length);
     })();
-  }, [gameStatus, scoreAllPromise, score]);
+  }, [gameStatus, scoreAll, score]);
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key != "Enter") {
@@ -323,6 +326,38 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
     }
   };
 
+  const handleScoreReset = async () => {
+    /* リロード時はキャッシュを使わない */
+    fetchScoreAll(false);
+  };
+
+  const fetchScoreAll = (useCache: boolean) => {
+    /* ランキング取得はawaitしなくていい */
+    fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
+      cache: useCache ? "force-cache" : "no-store",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log("response status from ranking is NOT ok.");
+          return [];
+        }
+        (async () => {
+          // fetchが完了したら変数保存
+          const res: Score[] = await (response.json().catch((err) => {
+            console.log("err while parsing scoreAll.");
+            console.log(err);
+            return [];
+          }) as Promise<Score[]>);
+          setScoreAll(res);
+        })();
+      })
+      .catch((err: Error) => {
+        console.log("error while fetching ranking.");
+        console.log(err);
+        return [];
+      });
+  };
+
   return (
     <TopPresenter
       pokeList={pokeList}
@@ -335,7 +370,7 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
       gameStatus={gameStatus}
       diff={diff}
       score={score}
-      scoreAllPromise={scoreAllPromise}
+      scoreAll={scoreAll}
       myIndex={myIndex}
       leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
       countDown={countDown}
@@ -348,6 +383,7 @@ export default function Top({ pokeList, firstPoke, scoreAllPromise }: Props) {
       onChangeDiff={handleChangeDiff}
       onClickStart={handleClickStart}
       onPlayAudio={handlePlayAudio}
+      onReloadRanking={handleScoreReset}
     />
   );
 }

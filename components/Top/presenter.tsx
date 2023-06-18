@@ -10,6 +10,7 @@ import styles from "@/app/styles/Top.module.css";
 import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
+import { Score } from "@/types/Score";
 import Top from "./contaniner";
 import PokeFooter from "../Card/PokeFooter/container";
 import PokeHeader from "../Card/PokeHeader/container";
@@ -29,6 +30,7 @@ type Props = ComponentProps<typeof Top> & {
   enermyPokeList: Poke[];
   gameStatus: GameStatus;
   score: number;
+  scoreAll: Score[];
   diff: Diff;
   myIndex: number;
   leftPercent: number;
@@ -42,6 +44,7 @@ type Props = ComponentProps<typeof Top> & {
   onChangeDiff: (event: ChangeEvent<HTMLInputElement>) => void;
   onClickStart: () => void;
   onPlayAudio: (e: MouseEvent<HTMLInputElement>) => void;
+  onReloadRanking: () => void;
 };
 
 export default function TopPresenter({
@@ -54,8 +57,8 @@ export default function TopPresenter({
   enermyPokeList,
   gameStatus,
   score,
+  scoreAll,
   diff,
-  scoreAllPromise,
   myIndex,
   leftPercent,
   countDown,
@@ -68,6 +71,7 @@ export default function TopPresenter({
   onChangeDiff,
   onClickStart,
   onPlayAudio,
+  onReloadRanking,
 }: Props) {
   return (
     <>
@@ -75,7 +79,7 @@ export default function TopPresenter({
         <PokeFinishModal
           gameStatus={gameStatus}
           score={score}
-          scoreAllPromise={scoreAllPromise}
+          scoreAll={scoreAll}
           myIndex={myIndex}
         />
       )}
@@ -102,11 +106,12 @@ export default function TopPresenter({
         <PokeHeader
           gameStatus={gameStatus}
           diff={diff}
-          scoreAllPromise={scoreAllPromise}
+          scoreAll={scoreAll}
           innerWidth={innerWidth}
           onChangeDiff={onChangeDiff}
           onClickStart={onClickStart}
           onPlayAudio={onPlayAudio}
+          onReloadRanking={onReloadRanking}
         />
         <p className="ps-3">
           {"現在のスコア: "}

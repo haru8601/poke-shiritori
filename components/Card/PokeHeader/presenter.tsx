@@ -19,12 +19,13 @@ export default function PokeHeaderPresenter({
   gameStatus,
   innerWidth,
   entered,
-  scoreAllPromise,
+  scoreAll,
   toolTarget,
   onReload,
   onEnterPokeImg,
   onClickStart,
   onPlayAudio,
+  onReloadRanking,
 }: Props) {
   return (
     <div className="mb-3">
@@ -80,9 +81,10 @@ export default function PokeHeaderPresenter({
             </Button>
           )}
           <PokeConfig
-            scoreAllPromise={scoreAllPromise}
+            scoreAll={scoreAll}
             innerWidth={innerWidth}
             onPlayAudio={onPlayAudio}
+            onReloadRanking={onReloadRanking}
           />
         </div>
       </header>

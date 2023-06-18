@@ -19,7 +19,7 @@ import PokeConfig from "./container";
 
 type Props = Pick<
   ComponentProps<typeof PokeConfig>,
-  "innerWidth" | "onPlayAudio"
+  "innerWidth" | "onPlayAudio" | "onReloadRanking"
 > & {
   rankRowAll: ReactNode;
   showSide: boolean;
@@ -34,6 +34,7 @@ export default function PokeConfigPresenter({
   onOpenSide,
   onCloseSide,
   onPlayAudio,
+  onReloadRanking,
 }: Props) {
   return (
     <>
@@ -80,11 +81,18 @@ export default function PokeConfigPresenter({
             </Tab>
             <Tab eventKey="ranking" title="ランキング">
               <div
-                className="rounded overflow-scroll"
+                className="d-flex flex-column rounded overflow-scroll"
                 style={{
                   height: "70vh",
                 }}
               >
+                <Button
+                  variant="link"
+                  onClick={onReloadRanking}
+                  className={`align-self-end p-0 pe-3 ${styles.clickBtn}`}
+                >
+                  <i className="bi bi-arrow-clockwise fs-5"></i>
+                </Button>
                 <Table hover striped>
                   <thead className="position-sticky top-0 bg-success">
                     <tr>

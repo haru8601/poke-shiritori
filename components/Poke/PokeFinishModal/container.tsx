@@ -15,13 +15,13 @@ import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "gameStatus" | "score" | "myIndex" | "scoreAllPromise"
+  "gameStatus" | "score" | "myIndex" | "scoreAll"
 >;
 
 export default function PokeFinishModal({
   gameStatus,
   score,
-  scoreAllPromise,
+  scoreAll,
   myIndex,
 }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -37,7 +37,7 @@ export default function PokeFinishModal({
     (async () => {
       // 表示するランキング生成
       setRankRowAll(
-        (await scoreAllPromise)
+        scoreAll
           .concat({
             id: -1,
             user: nickname || CONFIG.score.defaultNickname,

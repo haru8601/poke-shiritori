@@ -1,12 +1,10 @@
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import Top from "@/components/Top/contaniner";
 import { CONFIG } from "@/const/config";
-import { COOKIE_NAMES } from "@/const/cookie";
 import { PATH } from "@/const/path";
 import { getPokeList } from "@/lib/getPokeList";
 import limitChecker from "@/lib/limitChecher";
 import { Poke } from "@/types/Poke";
-import { Score } from "@/types/Score";
 
 export const metadata = {
   title: "ポケモンしりとり by haroot",
@@ -57,35 +55,5 @@ export default async function Page() {
     if (checkCount > pokeList.length) break;
   }
 
-  /* ランキング取得はawaitしなくていい */
-  const scoreAllPromise: Promise<Score[]> = fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`,
-    {
-      cache: cookies().get(COOKIE_NAMES.updateFlg) ? "no-store" : "force-cache",
-    }
-  )
-    .then((response) => {
-      if (!response.ok) {
-        console.log("response status from ranking is NOT ok.");
-        return [];
-      }
-      return response.json().catch((err) => {
-        console.log("err while parsing scoreAll.");
-        console.log(err);
-        return [];
-      }) as Promise<Score[]>;
-    })
-    .catch((err: Error) => {
-      console.log("error while fetching ranking.");
-      console.log(err);
-      return [];
-    });
-
-  return (
-    <Top
-      pokeList={pokeList}
-      firstPoke={firstPoke}
-      scoreAllPromise={scoreAllPromise}
-    />
-  );
+  return <Top pokeList={pokeList} firstPoke={firstPoke} />;
 }
