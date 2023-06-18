@@ -13,6 +13,7 @@ import {
 import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
+import { HISTORIES } from "@/const/history";
 import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
 import PokeConfig from "./container";
@@ -139,6 +140,33 @@ export default function PokeConfigPresenter({
                   </Accordion.Item>
                 ))}
               </Accordion>
+            </Tab>
+            <Tab eventKey="history" title="変更履歴">
+              <Table hover striped>
+                <thead className="position-sticky top-0 bg-success">
+                  <tr>
+                    <th className={styles.fontSm}>バージョン</th>
+                    <th className={styles.fontMd}>変更内容</th>
+                    <th className={styles.fontSm}>変更日付</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {HISTORIES.map((history, index) => {
+                    return (
+                      <tr key={index}>
+                        <td className={styles.fontSm}>{history.version}</td>
+                        <td className={styles.fontMd}>{history.content}</td>
+                        <td className={styles.fontSm}>
+                          {history.created_at.replaceAll(
+                            /(\d{4})(\d{2})(\d{2})/g,
+                            "$1/$2/$3"
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  }).reverse()}
+                </tbody>
+              </Table>
             </Tab>
           </Tabs>
         </Offcanvas.Body>
