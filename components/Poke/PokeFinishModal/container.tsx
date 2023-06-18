@@ -25,6 +25,7 @@ export default function PokeFinishModal({
   myIndex,
 }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
+  // cookieが空の場合はnull表記
   const [nickname, setNickname] = useState<string | null>(
     (parseCookies() as typeof CookieNames).nickname
   );
@@ -34,6 +35,7 @@ export default function PokeFinishModal({
 
   useEffect(() => {
     (async () => {
+      // 表示するランキング生成
       setRankRowAll(
         (await scoreAllPromise)
           .concat({
@@ -99,7 +101,7 @@ export default function PokeFinishModal({
     }
 
     setLoading(true);
-    /* cookieに名前保存 */
+    /* cookieに名前保存(unownにするのはDBに送信する時のみ) */
     setCookie(null, CookieNames.nickname, nickname ?? "", CONFIG.cookie);
     /* cookieにスコア保存 */
     setCookie(null, CookieNames.score, score.toString(), CONFIG.cookie);

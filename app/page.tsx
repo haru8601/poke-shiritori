@@ -27,7 +27,6 @@ export const metadata = {
 };
 
 export default async function Page() {
-  //TODO: リクエストIP取得
   /* Poke Apiに負荷をかけない為リクエスト上限を設ける */
   const clientIp = headers().get("x-forwarded-for") || "IP_NOT_FOUND";
   try {

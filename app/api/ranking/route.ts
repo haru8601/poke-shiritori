@@ -1,6 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { CONFIG } from "@/const/config";
 import { CookieNames } from "@/const/cookieNames";
 import storeDbScore from "@/lib/mysql/insert";
@@ -11,7 +11,7 @@ export async function GET(): Promise<NextResponse> {
   return NextResponse.json(dbScoreAll);
 }
 
-export async function POST(): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   // キャッシュを使わせないためcookieを使用
   const nickname =
     cookies().get(CookieNames.nickname)?.value || CONFIG.score.defaultNickname;
@@ -30,9 +30,13 @@ export async function POST(): Promise<NextResponse> {
       { status: 400 }
     );
   }
+
+  const clientIp = req.headers.get("x-forwarded-for") || "IP_NOT_FOUND";
+
   const res = await storeDbScore(
     nickname || CONFIG.score.defaultNickname,
-    parseInt(score, 10)
+    parseInt(score, 10),
+    clientIp
   );
   if (!res) {
     return NextResponse.json(
