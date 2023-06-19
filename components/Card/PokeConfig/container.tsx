@@ -1,4 +1,6 @@
 import { ComponentProps, ReactNode, useEffect, useState } from "react";
+import { TEXT } from "@/const/text";
+import { parseDayjs } from "@/lib/date/dayjs";
 import { Score } from "@/types/Score";
 import PokeConfigPresenter from "./presenter";
 import PokeHeaderPresenter from "../PokeHeader/presenter";
@@ -15,7 +17,10 @@ export default function PokeConfig({
   onReloadRanking,
 }: Props) {
   const [showSide, setShowSide] = useState<boolean>(false);
-  const [rankRowAll, setRankRowAll] = useState<ReactNode>("Loading...");
+  const [rankRowAll, setRankRowAll] = useState<ReactNode>(TEXT.loading);
+  const [monthRankRowAll, setMonthRankRowAll] = useState<ReactNode>(
+    TEXT.loading
+  );
 
   /* スコアが変わるたびにランキングを更新 */
   useEffect(() => {
@@ -32,6 +37,24 @@ export default function PokeConfig({
           );
         })
       );
+      setMonthRankRowAll(
+        scoreAll
+          // 1ヶ月前までのスコアでフィルタリング
+          .filter((score) =>
+            parseDayjs(score.update_date).isAfter(
+              parseDayjs().subtract(1, "month")
+            )
+          )
+          .map((score: Score, index) => {
+            return (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{score.user}</td>
+                <td>{score.score}</td>
+              </tr>
+            );
+          })
+      );
     }
   }, [scoreAll]);
 
@@ -44,7 +67,7 @@ export default function PokeConfig({
 
   const handleReloadRanking = () => {
     /* 一旦ランキングを初期化(更新がUI上でもわかるように) */
-    setRankRowAll("Reloading...");
+    setRankRowAll(TEXT.reloading);
     onReloadRanking();
   };
 
@@ -52,6 +75,7 @@ export default function PokeConfig({
     <PokeConfigPresenter
       showSide={showSide}
       rankRowAll={rankRowAll}
+      monthRankRowAll={monthRankRowAll}
       innerWidth={innerWidth}
       onOpenSide={handleOpenSide}
       onCloseSide={handleCloseSide}

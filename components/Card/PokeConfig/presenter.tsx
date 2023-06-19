@@ -23,6 +23,7 @@ type Props = Pick<
   "innerWidth" | "onPlayAudio" | "onReloadRanking"
 > & {
   rankRowAll: ReactNode;
+  monthRankRowAll: ReactNode;
   showSide: boolean;
   onOpenSide: () => void;
   onCloseSide: () => void;
@@ -31,6 +32,7 @@ type Props = Pick<
 export default function PokeConfigPresenter({
   showSide,
   rankRowAll,
+  monthRankRowAll,
   innerWidth,
   onOpenSide,
   onCloseSide,
@@ -94,16 +96,32 @@ export default function PokeConfigPresenter({
                 >
                   <i className="bi bi-arrow-clockwise fs-5"></i>
                 </Button>
-                <Table hover striped>
-                  <thead className="position-sticky top-0 bg-success">
-                    <tr>
-                      <th>順位</th>
-                      <th>ユーザー</th>
-                      <th>スコア</th>
-                    </tr>
-                  </thead>
-                  <tbody>{rankRowAll}</tbody>
-                </Table>
+                <Tabs defaultActiveKey="month-rank" className="mb-3">
+                  <Tab eventKey="month-rank" title="月間">
+                    <Table hover striped>
+                      <thead className="position-sticky top-0 bg-success">
+                        <tr>
+                          <th>順位</th>
+                          <th>ユーザー</th>
+                          <th>スコア</th>
+                        </tr>
+                      </thead>
+                      <tbody>{monthRankRowAll}</tbody>
+                    </Table>
+                  </Tab>
+                  <Tab eventKey="total-rank" title="総合">
+                    <Table hover striped>
+                      <thead className="position-sticky top-0 bg-success">
+                        <tr>
+                          <th>順位</th>
+                          <th>ユーザー</th>
+                          <th>スコア</th>
+                        </tr>
+                      </thead>
+                      <tbody>{rankRowAll}</tbody>
+                    </Table>
+                  </Tab>
+                </Tabs>
               </div>
             </Tab>
             <Tab eventKey="rules" title="ルール">

@@ -52,17 +52,22 @@ EOF
 
 ```sh
 npm install
+npx npm-check-updates -u # アップデート
 ```
 
 <br>
 
-# 起動
+## 開発
+
+### 起動
 
 ```sh
 npm run dev
 ```
 
-# デプロイ
+http://localhost:3000 へアクセス
+
+## デプロイ
 
 デプロイは vercel で行なっている。<br>
 メインへマージする事で、vercel が自動でデプロイを開始する。<br>

@@ -3,6 +3,7 @@ import { Badge, Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import Tweet from "@/components/Card/Tweet/container";
 import { CONFIG } from "@/const/config";
+import { TEXT } from "@/const/text";
 import PokeFinishModal from "./container";
 
 type Props = Pick<
@@ -71,7 +72,7 @@ export default function PokeFinishModalPresenter({
             onClick={!isLoading ? onSubmitNickname : void 0}
             disabled={isLoading}
           >
-            {(isLoading && "Loading...") || "記録して次の対戦へ"}
+            {(isLoading && TEXT.loading) || "記録して次の対戦へ"}
           </Button>
           {nicknameErr && (
             <Form.Control.Feedback type="invalid">
