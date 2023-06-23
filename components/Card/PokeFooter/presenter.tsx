@@ -12,7 +12,7 @@ export default function PokeFooterPresenter({}: Props) {
         <i className="bi bi-box-arrow-up-right">作者のHP</i>
       </Button>
       {/* フッターのツイートでは結果を見ない */}
-      <Tweet score={0} myIndex={-1} />
+      <Tweet score={0} />
     </footer>
   );
 }

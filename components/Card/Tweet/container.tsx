@@ -6,14 +6,14 @@ type Props = {
   score: number;
   style?: CSSProperties;
   className?: string;
-  myIndex: number;
-  myMonthIndex: number;
+  myIndex?: number;
+  myMonthIndex?: number;
 };
 
 export default function Tweet({
   score,
-  myIndex,
-  myMonthIndex,
+  myIndex = -1,
+  myMonthIndex = -1,
   style,
   className,
 }: Props) {
