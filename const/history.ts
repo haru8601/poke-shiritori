@@ -15,4 +15,9 @@ export const HISTORIES: readonly History[] = [
     content: "変更履歴タブ表示、ランキングのリロードボタン追加",
     created_at: "20230619",
   },
+  {
+    version: "1.2.0",
+    content: "月間ランキングを追加",
+    created_at: "20230623",
+  },
 ] as const;
