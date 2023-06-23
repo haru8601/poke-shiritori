@@ -1,5 +1,6 @@
 import { CSSProperties } from "react";
 import { CONFIG } from "@/const/config";
+import { getRankText } from "@/utils/getMyRank";
 import TweetPresenter from "./presenter";
 
 type Props = {
@@ -22,7 +23,7 @@ export default function Tweet({
   const monthRankedInFlg: boolean =
     myMonthIndex >= 0 && myMonthIndex < CONFIG.rankLimit;
   if (score != 0) {
-    text = `ポケモンしりとりで ${score} 点を出し${
+    text = `ポケモンしりとりで ${score} 点(${getRankText(score)})を出し${
       monthRankedInFlg
         ? `て、月間${myMonthIndex + 1}位${
             rankedInFlg ? `(総合${myIndex + 1}位)` : ""
