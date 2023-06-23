@@ -7,16 +7,28 @@ type Props = {
   style?: CSSProperties;
   className?: string;
   myIndex: number;
+  myMonthIndex: number;
 };
 
-export default function Tweet({ score, myIndex, style, className }: Props) {
-  const text: string = `${
-    (score == 0 && "ポケモンしりとりに挑戦中！") ||
-    `ポケモンしりとりで ${score} 点を出し${
-      myIndex >= 0 && myIndex < CONFIG.rankLimit
-        ? `て、${myIndex + 1}位にランクインし`
-        : ""
-    }た！`
-  }`;
+export default function Tweet({
+  score,
+  myIndex,
+  myMonthIndex,
+  style,
+  className,
+}: Props) {
+  let text: string = "ポケモンしりとりに挑戦中！";
+  const rankedInFlg: boolean = myIndex >= 0 && myIndex < CONFIG.rankLimit;
+  const monthRankedInFlg: boolean =
+    myMonthIndex >= 0 && myMonthIndex < CONFIG.rankLimit;
+  if (score != 0) {
+    text = `ポケモンしりとりで ${score} 点を出し${
+      monthRankedInFlg
+        ? `て、月間${myMonthIndex + 1}位${
+            rankedInFlg ? `(総合${myIndex + 1}位)` : ""
+          }にランクインした！`
+        : "た！"
+    }`;
+  }
   return <TweetPresenter text={text} style={style} className={className} />;
 }

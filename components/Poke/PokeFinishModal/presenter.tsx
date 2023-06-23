@@ -4,31 +4,30 @@ import styles from "@/app/styles/Top.module.css";
 import Tweet from "@/components/Card/Tweet/container";
 import { CONFIG } from "@/const/config";
 import { TEXT } from "@/const/text";
+import { getRankText } from "@/utils/getMyRank";
 import PokeFinishModal from "./container";
 
-type Props = Pick<
-  ComponentProps<typeof PokeFinishModal>,
-  "gameStatus" | "score"
-> & {
-  rankRowAll: ReactNode;
+type Props = Pick<ComponentProps<typeof PokeFinishModal>, "score"> & {
+  monthRankRowAll: ReactNode;
   showModal: boolean;
   nickname: string | null;
   nicknameErr: string;
   isLoading: boolean;
   myIndex: number;
+  myMonthIndex: number;
   onCloseModal: () => void;
   onChangeNickname: (event: ChangeEvent<HTMLInputElement>) => void;
   onSubmitNickname: () => void;
 };
 
 export default function PokeFinishModalPresenter({
-  rankRowAll,
+  monthRankRowAll,
   score,
-  gameStatus,
   showModal,
   nickname,
   nicknameErr,
   myIndex,
+  myMonthIndex,
   isLoading,
   onCloseModal,
   onChangeNickname,
@@ -43,14 +42,22 @@ export default function PokeFinishModalPresenter({
     >
       <Modal.Header closeButton style={{ height: "15vh" }}>
         <Modal.Title
-          className="text-success text-uppercase flex-grow-1 text-center"
+          className="text-primary flex-grow-1 text-center"
           style={{ fontSize: "3rem" }}
         >
-          {gameStatus == "end_win" ? "YOU WIN!!!" : "FINISH!"}
+          {(myMonthIndex >= 0 &&
+            myMonthIndex < CONFIG.rankLimit &&
+            `月間${myMonthIndex + 1}位！`) ||
+            getRankText(score)}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex flex-column" style={{ maxHeight: "80vh" }}>
-        <Tweet score={score} myIndex={myIndex} className="m-3 mb-4" />
+        <Tweet
+          score={score}
+          myIndex={myIndex}
+          myMonthIndex={myMonthIndex}
+          className="m-3 mb-4"
+        />
         <Badge bg="secondary" className="mb-1 align-self-start">
           ニックネーム
         </Badge>
@@ -80,7 +87,7 @@ export default function PokeFinishModalPresenter({
             </Form.Control.Feedback>
           )}
         </InputGroup>
-        <h4 className="mt-3">ランキング</h4>
+        <h4 className="mt-3">月間ランキング</h4>
         <div style={{ height: "auto", overflowY: "scroll" }}>
           <Table>
             <thead>
@@ -90,11 +97,11 @@ export default function PokeFinishModalPresenter({
                 <th>スコア</th>
               </tr>
             </thead>
-            <tbody>{rankRowAll}</tbody>
-            {myIndex >= CONFIG.rankLimit && (
+            <tbody>{monthRankRowAll}</tbody>
+            {myMonthIndex >= CONFIG.rankLimit && (
               <tfoot style={{ borderTop: "3px double black" }}>
                 <tr className={styles.myScore}>
-                  <td>{myIndex + 1}</td>
+                  <td>{myMonthIndex + 1}</td>
                   <td>{nickname || CONFIG.score.defaultNickname}</td>
                   <td>{score}</td>
                 </tr>

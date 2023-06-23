@@ -11,6 +11,8 @@ import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { Score } from "@/types/Score";
+import { getMonthScoreAll } from "@/utils/getMonthScoreAll";
+import { getMyIndex } from "@/utils/getMyIndex";
 import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
@@ -30,22 +32,26 @@ export default function PokeFinishModal({
   );
   const [nicknameErr, setNicknameErr] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [rankRowAll, setRankRowAll] = useState<ReactNode>();
+  const [monthRankRowAll, setMonthRankRowAll] = useState<ReactNode>();
   const [myIndex, setMyIndex] = useState<number>(-1);
+  const [myMonthIndex, setMyMonthIndex] = useState<number>(-1);
 
   useEffect(() => {
     if (scoreAll.length) {
-      /* 順位計算 */
-      const tmpRank = scoreAll.findIndex((row) => row.score <= score);
-      setMyIndex(tmpRank != -1 ? tmpRank : scoreAll.length);
+      // 順位計算
+      setMyIndex(getMyIndex(score, scoreAll));
+
+      // 月間順位
+      const monthScoreAll = getMonthScoreAll(scoreAll);
+      setMyMonthIndex(getMyIndex(score, monthScoreAll));
     } else {
       /* ランキングが取得できてなければ順位計算しない */
-      setRankRowAll("ランキングを取得できませんでした");
+      setMonthRankRowAll("ランキングを取得できませんでした");
       return;
     }
     // 表示するランキング生成
-    setRankRowAll(
-      scoreAll
+    setMonthRankRowAll(
+      getMonthScoreAll(scoreAll)
         .concat({
           id: -1,
           user: nickname || CONFIG.score.defaultNickname,
@@ -138,13 +144,13 @@ export default function PokeFinishModal({
 
   return (
     <PokeFinishModalPresenter
-      rankRowAll={rankRowAll}
+      monthRankRowAll={monthRankRowAll}
       score={score}
-      gameStatus={gameStatus}
       showModal={showModal}
       nickname={nickname}
       nicknameErr={nicknameErr}
       myIndex={myIndex}
+      myMonthIndex={myMonthIndex}
       isLoading={isLoading}
       onCloseModal={handleCloseModal}
       onChangeNickname={handleChangeNickname}
