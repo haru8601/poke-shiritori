@@ -48,6 +48,7 @@ export default function PokeConfig({
   const handleReloadRanking = () => {
     /* 一旦ランキングを初期化(更新がUI上でもわかるように) */
     setRankRowAll(TEXT.reloading);
+    setMonthRankRowAll(TEXT.reloading);
     onReloadRanking();
   };
 
