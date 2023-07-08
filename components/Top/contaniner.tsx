@@ -108,6 +108,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // BGMの変更
   useEffect(() => {
     if (
       parseCookies(null)[COOKIE_NAMES.audio] != COOKIE_VALUES.on ||

@@ -19,7 +19,7 @@ export default function PokeFirstPresenter({
       style={{ width: "90%" }}
       className="d-flex my-2 mx-auto justify-content-end"
     >
-      <span className="mx-2 align-self-center">最初のポケモン:</span>
+      <span className="mx-2 align-self-center">1匹目:</span>
       <div
         className={`px-2 rounded d-flex border border-dark border-1  justify-content-center ${
           gameStatus == GAME_STATUS.beforeStart && styles.grayActive

@@ -80,8 +80,8 @@ export default function TopPresenter({
           style={{
             fontSize: "100px",
             zIndex: 100,
-            width: "300px",
-            height: "300px",
+            width: innerWidth * 0.5,
+            height: innerWidth * 0.5,
           }}
         >
           <div className="position-absolute top-50 start-50 translate-middle">
@@ -135,7 +135,7 @@ export default function TopPresenter({
           gameStatus={gameStatus}
           toolTarget={toolTarget}
         />
-        <PokeFooter />
+        <PokeFooter innerWidth={innerWidth} />
       </Stack>
     </>
   );

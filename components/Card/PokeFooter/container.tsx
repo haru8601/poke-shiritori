@@ -1,8 +1,9 @@
+import { ComponentProps } from "react";
+import TopPresenter from "@/components/Top/presenter";
 import PokeFooterPresenter from "./presenter";
 
-/* 形式上残しておく */
-type Props = {};
+type Props = Pick<ComponentProps<typeof TopPresenter>, "innerWidth">;
 
-export default function PokeFooter({}: Props) {
-  return <PokeFooterPresenter />;
+export default function PokeFooter({ innerWidth }: Props) {
+  return <PokeFooterPresenter innerWidth={innerWidth} />;
 }
