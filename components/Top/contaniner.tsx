@@ -13,7 +13,6 @@ import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
-import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
@@ -40,7 +39,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([
     firstPoke.name.japanese,
   ]);
-  const [diff, setDiff] = useState<Diff>("normal");
   /* 現在の残り時間 */
   const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimit);
   const [countDown, setCountDown] = useState<number>(3);
@@ -72,9 +70,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
 
     /* レンダリングさせる(変更を伝える)ためディープコピー */
     setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
-
-    /* 難易度をセッションから取得 */
-    setDiff((sessionStorage.getItem("diff") as Diff) || "normal");
 
     const tmpPokeAudio = new Audio(getAudioRandomPath("op"));
     tmpPokeAudio.volume = 0.2;
@@ -291,12 +286,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     setGameStatus("playing_enermy");
   };
 
-  const handleChangeDiff = (event: ChangeEvent<HTMLInputElement>) => {
-    const checkedDiff = event.currentTarget.value as Diff;
-    sessionStorage.setItem("diff", checkedDiff);
-    setDiff(checkedDiff);
-  };
-
   const handleClickStart = () => {
     setGameStatus("will_start");
   };
@@ -354,7 +343,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
       myPokeList={myPokeList}
       enermyPokeList={enermyPokeList}
       gameStatus={gameStatus}
-      diff={diff}
       score={score}
       scoreAll={scoreAll}
       leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
@@ -365,7 +353,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
-      onChangeDiff={handleChangeDiff}
       onClickStart={handleClickStart}
       onPlayAudio={handlePlayAudio}
       onReloadRanking={handleScoreReset}

@@ -5,7 +5,6 @@ import { Poke } from "@/types/Poke";
  * @param pokeList ポケリスト
  * @param lastWord ユーザー側の最後の文字
  * @param usedPokeNameList 使用済みポケリスト
- * @param diff 難易度
  * @returns アンサーポケ
  */
 export const getAnswer = (

@@ -7,7 +7,6 @@ import {
 } from "react";
 import { Badge, Stack } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
-import { Diff } from "@/types/Diff";
 import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
@@ -31,7 +30,6 @@ type Props = ComponentProps<typeof Top> & {
   gameStatus: GameStatus;
   score: number;
   scoreAll: Score[];
-  diff: Diff;
   leftPercent: number;
   countDown: number;
   bonus: number;
@@ -40,7 +38,6 @@ type Props = ComponentProps<typeof Top> & {
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
-  onChangeDiff: (event: ChangeEvent<HTMLInputElement>) => void;
   onClickStart: () => void;
   onPlayAudio: (e: MouseEvent<HTMLInputElement>) => void;
   onReloadRanking: () => void;
@@ -57,7 +54,6 @@ export default function TopPresenter({
   gameStatus,
   score,
   scoreAll,
-  diff,
   leftPercent,
   countDown,
   bonus,
@@ -66,7 +62,6 @@ export default function TopPresenter({
   onChangePoke,
   onKeydown,
   onSubmitPoke,
-  onChangeDiff,
   onClickStart,
   onPlayAudio,
   onReloadRanking,
@@ -102,10 +97,8 @@ export default function TopPresenter({
       >
         <PokeHeader
           gameStatus={gameStatus}
-          diff={diff}
           scoreAll={scoreAll}
           innerWidth={innerWidth}
-          onChangeDiff={onChangeDiff}
           onClickStart={onClickStart}
           onPlayAudio={onPlayAudio}
           onReloadRanking={onReloadRanking}
@@ -126,7 +119,6 @@ export default function TopPresenter({
           sentPokeName={sentPokeName}
           pokeErr={pokeErr}
           gameStatus={gameStatus}
-          diff={diff}
           onKeydown={onKeydown}
           onChangePoke={onChangePoke}
           onSubmitPoke={onSubmitPoke}

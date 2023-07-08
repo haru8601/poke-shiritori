@@ -10,7 +10,6 @@ export default function PokeInputPresenter({
   sentPokeName,
   pokeErr,
   gameStatus,
-  diff,
   onKeydown,
   onChangePoke,
   onSubmitPoke,
@@ -34,13 +33,6 @@ export default function PokeInputPresenter({
         autoComplete="off"
         className={styles.pokeInput}
       />
-      {diff == "easy" && (
-        <datalist id="poke-list">
-          {pokeList.map((poke) => {
-            return <option key={poke.id}>{poke.name.japanese}</option>;
-          })}
-        </datalist>
-      )}
       <Button
         variant="primary"
         className="rounded-end"
