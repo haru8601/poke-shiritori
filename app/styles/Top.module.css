@@ -23,6 +23,10 @@
   pointer-events: none;
 }
 
+.grayActive {
+  opacity: 0.5;
+}
+
 .flash {
   animation: flash 2s linear 0s infinite forwards;
 }

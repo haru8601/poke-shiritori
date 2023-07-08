@@ -98,13 +98,19 @@ export default function TopPresenter({
           gameStatus={gameStatus}
           scoreAll={scoreAll}
           innerWidth={innerWidth}
-          onClickStart={onClickStart}
           onPlayAudio={onPlayAudio}
           onReloadRanking={onReloadRanking}
         />
         <p className="ps-3">
           {"現在のスコア: "}
-          <Badge bg="primary">{score}</Badge>
+          <Badge
+            bg="primary"
+            className={`${
+              gameStatus == GAME_STATUS.beforeStart && styles.grayActive
+            }`}
+          >
+            {score}
+          </Badge>
         </p>
         <Timer
           leftPercent={leftPercent}
@@ -118,6 +124,7 @@ export default function TopPresenter({
           pokeErr={pokeErr}
           gameStatus={gameStatus}
           onKeydown={onKeydown}
+          onClickStart={onClickStart}
           onChangePoke={onChangePoke}
           onSubmitPoke={onSubmitPoke}
         />

@@ -11,6 +11,7 @@ export default function PokeInputPresenter({
   pokeErr,
   gameStatus,
   onKeydown,
+  onClickStart,
   onChangePoke,
   onSubmitPoke,
 }: Props) {
@@ -29,19 +30,31 @@ export default function PokeInputPresenter({
             "スタートを押してください") ||
           "ポケモンを入力してください"
         }
+        disabled={gameStatus == GAME_STATUS.beforeStart}
         isInvalid={pokeErr != ""}
         autoComplete="off"
         className={styles.pokeInput}
       />
-      <Button
-        variant="primary"
-        className="rounded-end"
-        type="submit"
-        onClick={onSubmitPoke}
-        disabled={gameStatus !== GAME_STATUS.playingMyturn}
-      >
-        送信
-      </Button>
+      {(gameStatus == GAME_STATUS.beforeStart && (
+        <Button
+          variant="primary"
+          className="rounded-end"
+          type="submit"
+          onClick={onClickStart}
+        >
+          スタート
+        </Button>
+      )) || (
+        <Button
+          variant="primary"
+          className="rounded-end"
+          type="submit"
+          onClick={onSubmitPoke}
+          disabled={gameStatus !== GAME_STATUS.playingMyturn}
+        >
+          送信
+        </Button>
+      )}
       <Form.Control.Feedback type="invalid" tooltip>
         {pokeErr}
       </Form.Control.Feedback>

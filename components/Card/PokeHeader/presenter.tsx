@@ -24,7 +24,6 @@ export default function PokeHeaderPresenter({
   toolTarget,
   onReload,
   onEnterPokeImg,
-  onClickStart,
   onPlayAudio,
   onReloadRanking,
 }: Props) {
@@ -57,30 +56,17 @@ export default function PokeHeaderPresenter({
           )}
         </div>
         <div className="d-flex">
-          {(gameStatus == GAME_STATUS.beforeStart && (
-            <Button
-              className={`mx-1 text-nowrap ${styles.clickBtn} ${
-                innerWidth < CONFIG.pcMinWidth ? "align-self-center p-1" : ""
-              }`}
-              variant="success"
-              type="submit"
-              onClick={onClickStart}
-            >
-              スタート
-            </Button>
-          )) || (
-            <Button
-              className={`mx-1 text-nowrap ${styles.clickBtn} ${
-                innerWidth < CONFIG.pcMinWidth ? "align-self-center p-1" : ""
-              }`}
-              variant="dark"
-              type="submit"
-              onClick={onReload}
-            >
-              {(innerWidth >= CONFIG.pcMinWidth && "目の前を真っ暗にする") ||
-                "リセット"}
-            </Button>
-          )}
+          <Button
+            className={`mx-1 text-nowrap ${styles.clickBtn} ${
+              innerWidth < CONFIG.pcMinWidth ? "align-self-center p-1" : ""
+            } ${gameStatus == GAME_STATUS.beforeStart && styles.grayOut}`}
+            variant="dark"
+            type="submit"
+            onClick={onReload}
+          >
+            {(innerWidth >= CONFIG.pcMinWidth && "目の前を真っ暗にする") ||
+              "リセット"}
+          </Button>
           <PokeConfig
             scoreAll={scoreAll}
             innerWidth={innerWidth}

@@ -32,7 +32,13 @@ export default function TimerPresenter({
               : leftPercent < 50
               ? "bg-warning"
               : "bg-primary"
-          } ${gameStatus == GAME_STATUS.playingMyturn ? styles.flash : ""}`}
+          } ${
+            gameStatus == GAME_STATUS.beforeStart
+              ? styles.grayActive
+              : GAME_STATUS.playingMyturn
+              ? styles.flash
+              : ""
+          } `}
         >
           {gameStatus == GAME_STATUS.playingEnermy && (
             <>
