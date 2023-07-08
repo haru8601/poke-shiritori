@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
+import { GAME_STATUS } from "@/const/gameStatus";
 import Timer from "./container";
 
 type Props = ComponentProps<typeof Timer>;
@@ -21,7 +22,8 @@ export default function TimerPresenter({
             height: "100%",
             width: `${leftPercent}%`,
             transition: `${
-              (gameStatus == "playing_enermy" && "width 1s ease") || "none"
+              (gameStatus == GAME_STATUS.playingEnermy && "width 1s ease") ||
+              "none"
             }`,
           }}
           className={`position-relative ${
@@ -30,9 +32,9 @@ export default function TimerPresenter({
               : leftPercent < 50
               ? "bg-warning"
               : "bg-primary"
-          } ${gameStatus == "playing_myturn" ? styles.flash : ""}`}
+          } ${gameStatus == GAME_STATUS.playingMyturn ? styles.flash : ""}`}
         >
-          {gameStatus == "playing_enermy" && (
+          {gameStatus == GAME_STATUS.playingEnermy && (
             <>
               <div
                 style={{

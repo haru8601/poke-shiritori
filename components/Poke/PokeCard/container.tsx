@@ -1,6 +1,7 @@
 import { ComponentProps, useState } from "react";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
+import { GAME_STATUS } from "@/const/gameStatus";
 import { PATH } from "@/const/path";
 import PokeCardPresenter from "./presenter";
 
@@ -13,7 +14,7 @@ type Props = Pick<ComponentProps<typeof TopPresenter>, "targetPoke"> &
 
 export default function PokeCard({
   targetPoke,
-  gameStatus = "playing_myturn",
+  gameStatus = GAME_STATUS.playingMyturn,
   small = false,
   zIndex = 0,
   imgBase = CONFIG.spaceBasis,
@@ -21,12 +22,12 @@ export default function PokeCard({
   const [entered, setEntered] = useState<boolean>(false);
 
   const pokeName =
-    gameStatus != "before_start" && gameStatus != "will_start"
+    gameStatus != GAME_STATUS.beforeStart && gameStatus != GAME_STATUS.willStart
       ? targetPoke.name.japanese
       : "？？？";
 
   const pokeImg =
-    gameStatus != "before_start" && gameStatus != "will_start"
+    gameStatus != GAME_STATUS.beforeStart && gameStatus != GAME_STATUS.willStart
       ? targetPoke.imgPath ?? PATH.defaultImg
       : PATH.defaultImg;
 

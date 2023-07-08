@@ -1,12 +1,12 @@
 import { ComponentProps } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
+import { GAME_STATUS } from "@/const/gameStatus";
 import PokeInput from "./container";
 
 type Props = ComponentProps<typeof PokeInput>;
 
 export default function PokeInputPresenter({
-  pokeList,
   sentPokeName,
   pokeErr,
   gameStatus,
@@ -26,7 +26,8 @@ export default function PokeInputPresenter({
         onChange={onChangePoke}
         onKeyDown={onKeydown}
         placeholder={
-          (gameStatus == "before_start" && "スタートを押してください") ||
+          (gameStatus == GAME_STATUS.beforeStart &&
+            "スタートを押してください") ||
           "ポケモンを入力してください"
         }
         isInvalid={pokeErr != ""}
@@ -38,7 +39,7 @@ export default function PokeInputPresenter({
         className="rounded-end"
         type="submit"
         onClick={onSubmitPoke}
-        disabled={gameStatus !== "playing_myturn"}
+        disabled={gameStatus !== GAME_STATUS.playingMyturn}
       >
         送信
       </Button>

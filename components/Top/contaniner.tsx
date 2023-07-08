@@ -10,10 +10,10 @@ import {
 } from "react";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
+import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
-import { GameStatus } from "@/types/GameStatus";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
 import { getAnswer } from "@/utils/getAnswer";
@@ -35,7 +35,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [pokeErr, setPokeErr] = useState<string>("");
   const [myPokeList, setMyPokeList] = useState<Poke[]>([]);
   const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
-  const [gameStatus, setGameStatus] = useState<GameStatus>("before_start");
+  const [gameStatus, setGameStatus] = useState<GameStatus>(
+    GAME_STATUS.beforeStart
+  );
   const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([
     firstPoke.name.japanese,
   ]);
@@ -96,19 +98,19 @@ export default function Top({ pokeList, firstPoke }: Props) {
     )
       return;
     switch (gameStatus) {
-      case "will_start":
+      case GAME_STATUS.willStart:
         pokeAudio.src = getAudioRandomPath("launch");
         pokeAudio.play();
         break;
-      case "playing_myturn":
+      case GAME_STATUS.playingMyturn:
         // 初回スタート時のみ変更
         if (pokeAudio.src.includes("launch")) {
           pokeAudio.src = getAudioRandomPath("battle");
           pokeAudio.play();
         }
         break;
-      case "end_win":
-      case "end_lose":
+      case GAME_STATUS.endWin:
+      case GAME_STATUS.endLose:
         pokeAudio.src = getAudioRandomPath("ed");
         pokeAudio.play();
     }
@@ -117,7 +119,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
 
   /* スタートカウントダウン */
   useEffect(() => {
-    if (gameStatus == "will_start") {
+    if (gameStatus == GAME_STATUS.willStart) {
       if (countDown > 0) {
         const timeoutId = setTimeout(
           () => setCountDown((countDown) => countDown - 1),
@@ -125,7 +127,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
         );
         return () => clearTimeout(timeoutId);
       } else {
-        setGameStatus("playing_myturn");
+        setGameStatus(GAME_STATUS.playingMyturn);
       }
     }
   }, [countDown, gameStatus]);
@@ -138,9 +140,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
         timeoutId = setTimeout(() => {
           setLeftMillS((leftMillS) => {
             if (leftMillS <= 0) {
-              setGameStatus("end_lose");
+              setGameStatus(GAME_STATUS.endLose);
               return leftMillS;
-            } else if (gameStatus != "playing_myturn") {
+            } else if (gameStatus != GAME_STATUS.playingMyturn) {
               return leftMillS;
             }
             return leftMillS - 20;
@@ -154,7 +156,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
 
   /* CPUの回答 */
   useEffect(() => {
-    if (gameStatus != "playing_enermy") return;
+    if (gameStatus != GAME_STATUS.playingEnermy) return;
 
     const lastWord = getShiritoriWord(targetPoke.name.japanese);
     /* ポケ一覧からアンサーの候補を取得 */
@@ -189,9 +191,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
       /* CPUの負け */
       if (tmpTarget.id == -1 || tmpTarget.name.japanese.endsWith("ン")) {
         setScore((score) => score + 10000);
-        setGameStatus("end_win");
+        setGameStatus(GAME_STATUS.endWin);
       } else {
-        setGameStatus("playing_myturn");
+        setGameStatus(GAME_STATUS.playingMyturn);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -202,7 +204,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       return;
     }
     /* keyCodeは非推奨だが代替案があまりない(isComposing等は挙動が微妙)のでこのまま使用 */
-    if (e.keyCode == 13 && gameStatus == "playing_myturn") {
+    if (e.keyCode == 13 && gameStatus == GAME_STATUS.playingMyturn) {
       handleSubmitPoke();
     }
   };
@@ -239,7 +241,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     }
     /****************/
 
-    setGameStatus("playing_will_enermy");
+    setGameStatus(GAME_STATUS.playingWillEnermy);
     setPokeErr("");
     const sentPoke = pokeList.find(
       (poke) => poke.name.japanese == kataPokeName
@@ -258,7 +260,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     tmpMyPokeList.push(sentPoke);
     setMyPokeList(tmpMyPokeList);
     if (sentPoke.name.japanese.endsWith("ン")) {
-      setGameStatus("end_lose");
+      setGameStatus(GAME_STATUS.endLose);
       return;
     }
 
@@ -283,11 +285,11 @@ export default function Top({ pokeList, firstPoke }: Props) {
 
     /* 自分のポケリセット */
     setSentPokeName("");
-    setGameStatus("playing_enermy");
+    setGameStatus(GAME_STATUS.playingEnermy);
   };
 
   const handleClickStart = () => {
-    setGameStatus("will_start");
+    setGameStatus(GAME_STATUS.willStart);
   };
 
   const handlePlayAudio = (e: MouseEvent<HTMLInputElement>) => {
@@ -335,7 +337,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
 
   return (
     <TopPresenter
-      pokeList={pokeList}
       firstPoke={firstPoke}
       targetPoke={targetPoke!}
       sentPokeName={sentPokeName}

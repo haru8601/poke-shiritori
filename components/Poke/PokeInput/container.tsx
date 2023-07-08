@@ -4,7 +4,6 @@ import PokeInputPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  | "pokeList"
   | "sentPokeName"
   | "pokeErr"
   | "gameStatus"
@@ -14,7 +13,6 @@ type Props = Pick<
 >;
 
 export default function PokeInput({
-  pokeList,
   sentPokeName,
   pokeErr,
   gameStatus,
@@ -24,7 +22,6 @@ export default function PokeInput({
 }: Props) {
   return (
     <PokeInputPresenter
-      pokeList={pokeList}
       sentPokeName={sentPokeName}
       pokeErr={pokeErr}
       gameStatus={gameStatus}

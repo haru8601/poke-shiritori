@@ -3,6 +3,7 @@ import { ComponentProps, MutableRefObject } from "react";
 import { Button, Overlay, Tooltip } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
+import { GAME_STATUS } from "@/const/gameStatus";
 import pikachuPic from "@/public/pikachu.png";
 import PokeHeader from "./container";
 import PokeConfig from "../PokeConfig/container";
@@ -56,7 +57,7 @@ export default function PokeHeaderPresenter({
           )}
         </div>
         <div className="d-flex">
-          {(gameStatus == "before_start" && (
+          {(gameStatus == GAME_STATUS.beforeStart && (
             <Button
               className={`mx-1 text-nowrap ${styles.clickBtn} ${
                 innerWidth < CONFIG.pcMinWidth ? "align-self-center p-1" : ""
@@ -93,7 +94,7 @@ export default function PokeHeaderPresenter({
           gameStatus.includes("end") ? "" : "d-none"
         }`}
       >
-        {gameStatus == "end_win" ? "YOU WIN!!!" : "FINISH!"}
+        {gameStatus == GAME_STATUS.endWin ? "YOU WIN!!!" : "FINISH!"}
       </h3>
     </div>
   );

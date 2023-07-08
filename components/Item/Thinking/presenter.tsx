@@ -1,5 +1,6 @@
 import { ComponentProps } from "react";
 import { Overlay, Tooltip } from "react-bootstrap";
+import { GAME_STATUS } from "@/const/gameStatus";
 import Thinking from "./container";
 
 type Props = ComponentProps<typeof Thinking> & {
@@ -17,7 +18,7 @@ export default function ThinkingPresenter({
       <Overlay
         placement="top"
         target={toolTarget.current}
-        show={gameStatus == "playing_enermy"}
+        show={gameStatus == GAME_STATUS.playingEnermy}
       >
         <Tooltip style={{ width: "100px" }}>{". ".repeat(count)}</Tooltip>
       </Overlay>

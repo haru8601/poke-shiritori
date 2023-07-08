@@ -1,5 +1,6 @@
 import { ComponentProps } from "react";
 import { Stack } from "react-bootstrap";
+import { GAME_STATUS } from "@/const/gameStatus";
 import PokeHistoryList from "./container";
 import PokeHistory from "../PokeHistory/container";
 
@@ -19,12 +20,12 @@ export default function PokeHistoryListPresenter({
     >
       <PokeHistory
         myPokeList={myPokeList}
-        isTarget={gameStatus == "playing_myturn"}
+        isTarget={gameStatus == GAME_STATUS.playingMyturn}
         toolTarget={toolTarget}
       />
       <PokeHistory
         myPokeList={enermyPokeList}
-        isTarget={gameStatus == "playing_enermy"}
+        isTarget={gameStatus == GAME_STATUS.playingEnermy}
         toolTarget={toolTarget}
       />
     </Stack>

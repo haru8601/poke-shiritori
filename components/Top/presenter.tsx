@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Badge, Stack } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
-import { GameStatus } from "@/types/GameStatus";
+import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
 import Top from "./contaniner";
@@ -21,7 +21,7 @@ import PokeHistoryList from "../Poke/PokeHistoryList/container";
 import PokeInput from "../Poke/PokeInput/container";
 import PokeTarget from "../Poke/PokeTarget/container";
 
-type Props = ComponentProps<typeof Top> & {
+type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
   targetPoke: Poke;
   sentPokeName: string;
   pokeErr: string;
@@ -44,7 +44,6 @@ type Props = ComponentProps<typeof Top> & {
 };
 
 export default function TopPresenter({
-  pokeList,
   firstPoke,
   targetPoke,
   sentPokeName,
@@ -75,7 +74,7 @@ export default function TopPresenter({
           scoreAll={scoreAll}
         />
       )}
-      {gameStatus == "will_start" && (
+      {gameStatus == GAME_STATUS.willStart && (
         <div
           className="position-fixed top-50 start-50 translate-middle border border-dark rounded-circle border-5"
           style={{
@@ -92,7 +91,7 @@ export default function TopPresenter({
       )}
       <Stack
         className={`justify-content-around ${
-          gameStatus == "will_start" && styles.grayOut
+          gameStatus == GAME_STATUS.willStart && styles.grayOut
         }`}
       >
         <PokeHeader
@@ -115,7 +114,6 @@ export default function TopPresenter({
         <PokeTarget targetPoke={targetPoke} gameStatus={gameStatus} />
         <PokeFirst firstPoke={firstPoke} gameStatus={gameStatus} />
         <PokeInput
-          pokeList={pokeList}
           sentPokeName={sentPokeName}
           pokeErr={pokeErr}
           gameStatus={gameStatus}
