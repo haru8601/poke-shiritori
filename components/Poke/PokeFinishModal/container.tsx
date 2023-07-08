@@ -93,7 +93,7 @@ export default function PokeFinishModal({
   }, [gameStatus]);
 
   const handleCloseModal = () => {
-    setShowModal(false);
+    location.reload();
   };
 
   const handleChangeNickname = (event: ChangeEvent<HTMLInputElement>) => {

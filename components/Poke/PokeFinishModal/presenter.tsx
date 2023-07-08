@@ -73,13 +73,12 @@ export default function PokeFinishModalPresenter({
           />
           <Button
             variant="primary"
-            className="rounded-end"
+            className={`rounded-end ${styles.submitBtn}`}
             type="submit"
-            style={{ fontSize: "16px", width: "170px" }}
             onClick={!isLoading ? onSubmitNickname : void 0}
             disabled={isLoading}
           >
-            {(isLoading && TEXT.loading) || "記録して次の対戦へ"}
+            {(isLoading && TEXT.loading) || "登録"}
           </Button>
           {nicknameErr && (
             <Form.Control.Feedback type="invalid">
@@ -89,8 +88,8 @@ export default function PokeFinishModalPresenter({
         </InputGroup>
         <h4 className="mt-3">月間ランキング</h4>
         <div style={{ height: "auto", overflowY: "scroll" }}>
-          <Table>
-            <thead>
+          <Table hover striped>
+            <thead className="position-sticky top-0 bg-success">
               <tr>
                 <th>順位</th>
                 <th>ユーザー</th>
@@ -100,6 +99,11 @@ export default function PokeFinishModalPresenter({
             <tbody>{monthRankRowAll}</tbody>
             {myMonthIndex >= CONFIG.rankLimit && (
               <tfoot style={{ borderTop: "3px double black" }}>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
                 <tr className={styles.myScore}>
                   <td>{myMonthIndex + 1}</td>
                   <td>{nickname || CONFIG.score.defaultNickname}</td>
