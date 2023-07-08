@@ -54,6 +54,9 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [pokeAudio, setPokeAudio] = useState<HTMLAudioElement>();
   /* 取得するまでは空配列 */
   const [scoreAll, setScoreAll] = useState<Score[]>([]);
+  /* リスナーで使用 */
+  const statusRef = useRef<GameStatus>(GAME_STATUS.beforeStart);
+  statusRef.current = gameStatus;
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
@@ -77,18 +80,32 @@ export default function Top({ pokeList, firstPoke }: Props) {
     tmpPokeAudio.volume = 0.2;
     tmpPokeAudio.loop = true;
     setPokeAudio(tmpPokeAudio);
+
+    /* リサイズ処理 */
+    const onResize = () => {
+      setInnerWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", onResize);
+    onResize(); // 初期値設定
+
+    /* バックグランドからの帰還を検知 */
+    const onForeground = () => {
+      if (document.visibilityState === "visible") {
+        // ペナルティ(useStateだと初期値になるのでuseRefを使用)
+        if (statusRef.current == GAME_STATUS.playingMyturn) {
+          setLeftMillS((leftMillS) => leftMillS - 5000);
+        }
+      }
+    };
+    window.addEventListener("visibilitychange", onForeground);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("visibilitychange", onForeground);
+    };
+
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    /* 初期値 */
-    setInnerWidth(window.innerWidth);
-
-    /* リサイズ処理追加 */
-    window.addEventListener("resize", () => {
-      setInnerWidth(window.innerWidth);
-    });
   }, []);
 
   useEffect(() => {
