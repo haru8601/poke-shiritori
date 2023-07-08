@@ -21,7 +21,6 @@ export default function PokeInputPresenter({
       <Form.Control
         style={{ maxWidth: "300px" }}
         id="poke-input"
-        list="poke-list"
         value={sentPokeName}
         onChange={onChangePoke}
         onKeyDown={onKeydown}

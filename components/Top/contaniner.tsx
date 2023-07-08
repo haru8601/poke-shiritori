@@ -42,7 +42,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     firstPoke.name.japanese,
   ]);
   /* 現在の残り時間 */
-  const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimit);
+  const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimitMillS);
   const [countDown, setCountDown] = useState<number>(3);
   const [innerWidth, setInnerWidth] = useState<number>(0);
   const [bonus, setBonus] = useState<number>(0);
@@ -277,7 +277,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     /* タイムボーナス */
     setLeftMillS((leftMillS) => {
       setBonus(tmpBonus);
-      return Math.min(CONFIG.timeLimit, leftMillS + tmpBonus);
+      return Math.min(CONFIG.timeLimitMillS, leftMillS + tmpBonus);
     });
     setScore((score) => {
       return score + tmpBonus;
@@ -346,7 +346,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       gameStatus={gameStatus}
       score={score}
       scoreAll={scoreAll}
-      leftPercent={(leftMillS / CONFIG.timeLimit) * 100}
+      leftPercent={(leftMillS / CONFIG.timeLimitMillS) * 100}
       countDown={countDown}
       bonus={bonus}
       toolTarget={toolTarget}

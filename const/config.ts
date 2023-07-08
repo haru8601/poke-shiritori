@@ -9,7 +9,7 @@ export const CONFIG = {
   cookie: {
     maxAge: 60 * 60 * 24,
   },
-  timeLimit: 30 * 1000,
+  timeLimitMillS: 30 * 1000,
   score: {
     defaultNickname: "unown",
     nicknameMaxLen: 10,

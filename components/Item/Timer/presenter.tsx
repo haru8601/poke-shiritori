@@ -40,7 +40,8 @@ export default function TimerPresenter({
                 style={{
                   height: "100%",
                   width: `${
-                    (bonus / ((leftPercent / 100) * CONFIG.timeLimit)) * 100
+                    (bonus / ((leftPercent / 100) * CONFIG.timeLimitMillS)) *
+                    100
                   }%`,
                 }}
                 className={`position-absolute bg-info top-0 end-0 ${styles.flashOnce}`}
