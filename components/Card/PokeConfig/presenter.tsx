@@ -13,9 +13,9 @@ import {
 import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
-import { HISTORIES } from "@/const/history";
 import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
+import { getSortedHistories } from "@/utils/getSortedHistories";
 import PokeConfig from "./container";
 
 type Props = Pick<
@@ -24,6 +24,7 @@ type Props = Pick<
 > & {
   rankRowAll: ReactNode;
   monthRankRowAll: ReactNode;
+  oldRankRowAll: ReactNode;
   showSide: boolean;
   onOpenSide: () => void;
   onCloseSide: () => void;
@@ -33,6 +34,7 @@ export default function PokeConfigPresenter({
   showSide,
   rankRowAll,
   monthRankRowAll,
+  oldRankRowAll,
   innerWidth,
   onOpenSide,
   onCloseSide,
@@ -98,6 +100,18 @@ export default function PokeConfigPresenter({
                         </tr>
                       </thead>
                       <tbody>{rankRowAll}</tbody>
+                    </Table>
+                  </Tab>
+                  <Tab eventKey="old-rank" title="旧">
+                    <Table hover striped>
+                      <thead className="position-sticky top-0 bg-success">
+                        <tr>
+                          <th>順位</th>
+                          <th>ユーザー</th>
+                          <th>スコア</th>
+                        </tr>
+                      </thead>
+                      <tbody>{oldRankRowAll}</tbody>
                     </Table>
                   </Tab>
                 </Tabs>
@@ -169,20 +183,20 @@ export default function PokeConfigPresenter({
                   </tr>
                 </thead>
                 <tbody>
-                  {HISTORIES.map((history, index) => {
+                  {getSortedHistories().map((history, index) => {
                     return (
                       <tr key={index}>
                         <td className={styles.fontSm}>{history.version}</td>
                         <td className={styles.fontMd}>{history.content}</td>
                         <td className={styles.fontSm}>
-                          {history.created_at.replaceAll(
+                          {history.createdAt.replaceAll(
                             /(\d{4})(\d{2})(\d{2})/g,
                             "$1/$2/$3"
                           )}
                         </td>
                       </tr>
                     );
-                  }).reverse()}
+                  })}
                 </tbody>
               </Table>
             </Tab>

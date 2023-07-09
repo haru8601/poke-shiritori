@@ -11,8 +11,11 @@ import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { Score } from "@/types/Score";
+import { findResetDate } from "@/utils/findResetHistory";
+import { getLatestScoreAll } from "@/utils/getLatestScoreAll";
 import { getMonthScoreAll } from "@/utils/getMonthScoreAll";
 import { getMyIndex } from "@/utils/getMyIndex";
+import { getSortedHistories } from "@/utils/getSortedHistories";
 import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
@@ -41,16 +44,19 @@ export default function PokeFinishModal({
       /* ランキングが取得できてなければ順位計算しない */
       setMonthRankRowAll("ランキングを取得できませんでした");
     } else {
+      const resetDate = findResetDate(getSortedHistories());
+      const latestScoreAll = getLatestScoreAll(scoreAll, resetDate);
+
       // 順位計算
-      setMyIndex(getMyIndex(score, scoreAll));
+      setMyIndex(getMyIndex(score, latestScoreAll));
 
       // 月間順位
-      const monthScoreAll = getMonthScoreAll(scoreAll);
+      const monthScoreAll = getMonthScoreAll(latestScoreAll);
       setMyMonthIndex(getMyIndex(score, monthScoreAll));
 
       // 表示するランキング生成
       setMonthRankRowAll(
-        getMonthScoreAll(scoreAll)
+        monthScoreAll
           .concat({
             id: -1,
             user: nickname || CONFIG.score.defaultNickname,

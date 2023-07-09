@@ -7,19 +7,22 @@ import { Score } from "@/types/Score";
  * @param scoreAll 全スコア
  * @returns テーブルNode
  */
-export const convertToRankNode = (scoreAll: Score[]) => {
+export const convertToRankNode = (scoreAll: Score[], hasDummy: boolean) => {
   return scoreAll.map((score: Score, index) => {
     let rankNum: number = index + 1;
-    // ダミースコア分indexがずれるので修正
-    for (let dummyScore of dummyScores) {
-      if (score.score < dummyScore.score) {
-        rankNum--;
-      }
-    }
     let rankStr: string = rankNum.toString();
-    // ダミースコアはランキングなし
-    if (score.id == undefined) {
-      rankStr = "-";
+    if (hasDummy) {
+      // ダミースコア分indexがずれるので修正
+      for (let dummyScore of dummyScores) {
+        if (score.score < dummyScore.score) {
+          rankNum--;
+        }
+      }
+      rankStr = rankNum.toString();
+      // ダミースコアはランキングなし
+      if (score.id == undefined) {
+        rankStr = "-";
+      }
     }
     return (
       <tr
