@@ -25,7 +25,8 @@ export const HISTORIES: History[] = [
   {
     version: "2.0.0",
     content: "スコア計算一部修正",
-    createdAt: "20230709",
+    // 本当は0709だがスコアを一部残すため
+    createdAt: "20230630",
     rankReset: true,
   },
 ];

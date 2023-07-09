@@ -47,6 +47,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [countDown, setCountDown] = useState<number>(3);
   const [innerWidth, setInnerWidth] = useState<number>(0);
   const [bonus, setBonus] = useState<number>(0);
+  const [penalty, setPenalty] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
   const [os, setOs] = useState<OS>(OS_LIST.mac);
   const toolTarget = useRef(null);
@@ -117,20 +118,23 @@ export default function Top({ pokeList, firstPoke }: Props) {
     window.addEventListener("resize", onResize);
     onResize(); // 初期値設定
 
-    /* バックグランドからの帰還を検知 */
-    const onForeground = () => {
+    const onChangeVisibility = () => {
+      /* バックグランドからの帰還を検知 */
       if (document.visibilityState === "visible") {
         // ペナルティ(useStateだと初期値になるのでuseRefを使用)
         if (statusRef.current == GAME_STATUS.playingMyturn) {
+          setPenalty(true);
           setLeftMillS((leftMillS) => leftMillS - 5000);
         }
+      } else {
+        setPenalty(false);
       }
     };
-    window.addEventListener("visibilitychange", onForeground);
+    window.addEventListener("visibilitychange", onChangeVisibility);
 
     return () => {
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("visibilitychange", onForeground);
+      window.removeEventListener("visibilitychange", onChangeVisibility);
       window.removeEventListener("keydown", onKeydown);
     };
 
@@ -399,6 +403,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       leftPercent={(leftMillS / CONFIG.timeLimitMillS) * 100}
       countDown={countDown}
       bonus={bonus}
+      penalty={penalty}
       toolTarget={toolTarget}
       inputRef={inputRef}
       os={os}

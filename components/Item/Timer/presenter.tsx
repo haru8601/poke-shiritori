@@ -10,6 +10,7 @@ export default function TimerPresenter({
   leftPercent,
   gameStatus,
   bonus,
+  penalty,
 }: Props) {
   return (
     <div className="mb-3">
@@ -56,6 +57,24 @@ export default function TimerPresenter({
                 className={`position-absolute bottom-0 end-0 ${styles.flashOnce}`}
               >
                 +{bonus}
+              </p>
+            </>
+          )}
+          {gameStatus == GAME_STATUS.playingMyturn && penalty && (
+            <>
+              <div
+                style={{
+                  height: "100%",
+                  width: `${
+                    (5000 / ((leftPercent / 100) * CONFIG.timeLimitMillS)) * 100
+                  }%`,
+                }}
+                className={`position-absolute bg-danger top-0 start-100 ${styles.flashOnce}`}
+              ></div>
+              <p
+                className={`position-absolute bottom-0 end-0 ${styles.flashOnce}`}
+              >
+                -5000
               </p>
             </>
           )}

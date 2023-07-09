@@ -35,6 +35,7 @@ type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
   leftPercent: number;
   countDown: number;
   bonus: number;
+  penalty: boolean;
   toolTarget: MutableRefObject<null>;
   inputRef: RefObject<HTMLInputElement>;
   os: OS;
@@ -60,6 +61,7 @@ export default function TopPresenter({
   leftPercent,
   countDown,
   bonus,
+  penalty,
   toolTarget,
   inputRef,
   os,
@@ -122,6 +124,7 @@ export default function TopPresenter({
           leftPercent={leftPercent}
           gameStatus={gameStatus}
           bonus={bonus}
+          penalty={penalty}
         />
         <PokeTarget targetPoke={targetPoke} gameStatus={gameStatus} />
         <PokeFirst firstPoke={firstPoke} gameStatus={gameStatus} />
