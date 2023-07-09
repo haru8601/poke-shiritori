@@ -62,6 +62,7 @@ export default function PokeConfig({
     /* 一旦ランキングを初期化(更新がUI上でもわかるように) */
     setRankRowAll(TEXT.reloading);
     setMonthRankRowAll(TEXT.reloading);
+    setOldRankRowAll(TEXT.reloading);
     onReloadRanking();
   };
 

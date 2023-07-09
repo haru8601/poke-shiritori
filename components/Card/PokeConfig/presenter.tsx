@@ -77,7 +77,7 @@ export default function PokeConfigPresenter({
                 >
                   <i className="bi bi-arrow-clockwise fs-5"></i>
                 </Button>
-                <Tabs defaultActiveKey="month-rank" className="mb-3">
+                <Tabs defaultActiveKey="month-rank" className="mb-3" justify>
                   <Tab eventKey="month-rank" title="月間">
                     <Table hover striped>
                       <thead className="position-sticky top-0 bg-success">
@@ -102,7 +102,7 @@ export default function PokeConfigPresenter({
                       <tbody>{rankRowAll}</tbody>
                     </Table>
                   </Tab>
-                  <Tab eventKey="old-rank" title="旧">
+                  <Tab eventKey="v1-rank" title="v1">
                     <Table hover striped>
                       <thead className="position-sticky top-0 bg-success">
                         <tr>
