@@ -6,7 +6,7 @@ import {
   MutableRefObject,
   RefObject,
 } from "react";
-import { Badge, Stack } from "react-bootstrap";
+import { Alert, Badge, Stack } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
 import { OS } from "@/const/os";
@@ -39,6 +39,7 @@ type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
   toolTarget: MutableRefObject<null>;
   inputRef: RefObject<HTMLInputElement>;
   os: OS;
+  hintShow: boolean;
   innerWidth: number;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -65,6 +66,7 @@ export default function TopPresenter({
   toolTarget,
   inputRef,
   os,
+  hintShow,
   innerWidth,
   onChangePoke,
   onKeydown,
@@ -97,6 +99,17 @@ export default function TopPresenter({
           </div>
         </div>
       )}
+      <Alert
+        show={hintShow}
+        variant="primary"
+        className="position-fixed"
+        style={{ top: "90%", left: "5%" }}
+      >
+        <span className="p-1" style={{ backgroundColor: "lightgray" }}>
+          /
+        </span>
+        で入力ボックスに移動します
+      </Alert>
       <Stack
         className={`justify-content-around ${
           gameStatus == GAME_STATUS.willStart && styles.grayOut

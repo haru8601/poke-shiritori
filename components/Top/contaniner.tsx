@@ -50,6 +50,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [penalty, setPenalty] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
   const [os, setOs] = useState<OS>(OS_LIST.mac);
+  const [hintShow, setHintShow] = useState<boolean>(false);
   const toolTarget = useRef(null);
   const { sleep } = useTimer();
   const { setPokeImg } = usePokeApi();
@@ -104,6 +105,22 @@ export default function Top({ pokeList, firstPoke }: Props) {
             if (e.metaKey || e.ctrlKey) {
               handleClickStart();
               return;
+            }
+          }
+          break;
+        case GAME_STATUS.playingMyturn:
+        case GAME_STATUS.playingEnermy:
+        case GAME_STATUS.playingWillEnermy:
+          if (document.activeElement != inputRef.current) {
+            if (e.key === "/") {
+              e.preventDefault();
+              inputRef.current?.focus();
+            } else if (e.key.match(/^[a-z]{1}$/)) {
+              console.log(e.key);
+              setHintShow(true);
+              setTimeout(() => {
+                setHintShow(false);
+              }, 2000);
             }
           }
           break;
@@ -407,6 +424,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
       toolTarget={toolTarget}
       inputRef={inputRef}
       os={os}
+      hintShow={hintShow}
       innerWidth={innerWidth}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
