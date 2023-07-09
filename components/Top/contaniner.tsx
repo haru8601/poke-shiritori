@@ -141,10 +141,11 @@ export default function Top({ pokeList, firstPoke }: Props) {
         // ペナルティ(useStateだと初期値になるのでuseRefを使用)
         if (statusRef.current == GAME_STATUS.playingMyturn) {
           setPenalty(true);
+          setTimeout(() => {
+            setPenalty(false);
+          }, 2000);
           setLeftMillS((leftMillS) => leftMillS - 5000);
         }
-      } else {
-        setPenalty(false);
       }
     };
     window.addEventListener("visibilitychange", onChangeVisibility);
