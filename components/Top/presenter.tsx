@@ -4,10 +4,12 @@ import {
   KeyboardEvent,
   MouseEvent,
   MutableRefObject,
+  RefObject,
 } from "react";
 import { Badge, Stack } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
+import { OS } from "@/const/os";
 import { Poke } from "@/types/Poke";
 import { Score } from "@/types/Score";
 import Top from "./contaniner";
@@ -34,6 +36,8 @@ type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
   countDown: number;
   bonus: number;
   toolTarget: MutableRefObject<null>;
+  inputRef: RefObject<HTMLInputElement>;
+  os: OS;
   innerWidth: number;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -57,6 +61,8 @@ export default function TopPresenter({
   countDown,
   bonus,
   toolTarget,
+  inputRef,
+  os,
   innerWidth,
   onChangePoke,
   onKeydown,
@@ -123,6 +129,9 @@ export default function TopPresenter({
           sentPokeName={sentPokeName}
           pokeErr={pokeErr}
           gameStatus={gameStatus}
+          inputRef={inputRef}
+          os={os}
+          innerWidth={innerWidth}
           onKeydown={onKeydown}
           onClickStart={onClickStart}
           onChangePoke={onChangePoke}

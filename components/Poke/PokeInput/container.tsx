@@ -7,6 +7,9 @@ type Props = Pick<
   | "sentPokeName"
   | "pokeErr"
   | "gameStatus"
+  | "inputRef"
+  | "os"
+  | "innerWidth"
   | "onKeydown"
   | "onClickStart"
   | "onChangePoke"
@@ -17,6 +20,9 @@ export default function PokeInput({
   sentPokeName,
   pokeErr,
   gameStatus,
+  inputRef,
+  os,
+  innerWidth,
   onKeydown,
   onClickStart,
   onChangePoke,
@@ -27,6 +33,9 @@ export default function PokeInput({
       sentPokeName={sentPokeName}
       pokeErr={pokeErr}
       gameStatus={gameStatus}
+      inputRef={inputRef}
+      os={os}
+      innerWidth={innerWidth}
       onKeydown={onKeydown}
       onClickStart={onClickStart}
       onChangePoke={onChangePoke}

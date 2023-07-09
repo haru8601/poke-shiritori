@@ -37,52 +37,68 @@ export default function PokeFinishModal({
   const [myMonthIndex, setMyMonthIndex] = useState<number>(-1);
 
   useEffect(() => {
-    if (scoreAll.length) {
+    if (!scoreAll.length) {
+      /* ランキングが取得できてなければ順位計算しない */
+      setMonthRankRowAll("ランキングを取得できませんでした");
+    } else {
       // 順位計算
       setMyIndex(getMyIndex(score, scoreAll));
 
       // 月間順位
       const monthScoreAll = getMonthScoreAll(scoreAll);
       setMyMonthIndex(getMyIndex(score, monthScoreAll));
-    } else {
-      /* ランキングが取得できてなければ順位計算しない */
-      setMonthRankRowAll("ランキングを取得できませんでした");
-      return;
+
+      // 表示するランキング生成
+      setMonthRankRowAll(
+        getMonthScoreAll(scoreAll)
+          .concat({
+            id: -1,
+            user: nickname || CONFIG.score.defaultNickname,
+            score: score,
+          })
+          .sort((a, b) => {
+            const scoreDiff: number = b.score - a.score;
+            /* 2つ目で新規のスコアが既存の以上ならswap */
+            if (b.id == -1 && scoreDiff > 0) {
+              return 1;
+            }
+            /* 1つ目が新規で既存のスコアと同じならswapさせない */
+            if (a.id == -1 && scoreDiff <= 0) {
+              return -1;
+            }
+            return scoreDiff;
+          })
+          .slice(0, CONFIG.rankLimit)
+          .map((score: Score, index) => {
+            return (
+              <tr
+                key={index}
+                className={`${!score.id || score.id < 0 ? styles.myScore : ""}`}
+              >
+                <td>{index + 1}</td>
+                <td>{score.user}</td>
+                <td>{score.score}</td>
+              </tr>
+            );
+          })
+      );
     }
-    // 表示するランキング生成
-    setMonthRankRowAll(
-      getMonthScoreAll(scoreAll)
-        .concat({
-          id: -1,
-          user: nickname || CONFIG.score.defaultNickname,
-          score: score,
-        })
-        .sort((a, b) => {
-          const scoreDiff: number = b.score - a.score;
-          /* 2つ目で新規のスコアが既存の以上ならswap */
-          if (b.id == -1 && scoreDiff > 0) {
-            return 1;
-          }
-          /* 1つ目が新規で既存のスコアと同じならswapさせない */
-          if (a.id == -1 && scoreDiff <= 0) {
-            return -1;
-          }
-          return scoreDiff;
-        })
-        .slice(0, CONFIG.rankLimit)
-        .map((score: Score, index) => {
-          return (
-            <tr
-              key={index}
-              className={`${!score.id || score.id < 0 ? styles.myScore : ""}`}
-            >
-              <td>{index + 1}</td>
-              <td>{score.user}</td>
-              <td>{score.score}</td>
-            </tr>
-          );
-        })
-    );
+
+    // キーボードショートカット
+    const onKeydown = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Enter") {
+        // CtrlまたはCommand(Windowsキー)が押されていたら
+        if (e.metaKey || e.ctrlKey) {
+          handleSubmitNickname();
+        }
+      }
+    };
+    window.addEventListener("keydown", onKeydown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeydown);
+    };
+
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

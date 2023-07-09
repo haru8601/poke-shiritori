@@ -43,7 +43,7 @@ export default function PokeFinishModalPresenter({
       <Modal.Header closeButton style={{ height: "15vh" }}>
         <Modal.Title
           className="text-primary flex-grow-1 text-center"
-          style={{ fontSize: "3rem" }}
+          style={{ fontSize: "2rem" }}
         >
           {(myMonthIndex >= 0 &&
             myMonthIndex < CONFIG.rankLimit &&
@@ -56,7 +56,7 @@ export default function PokeFinishModalPresenter({
           score={score}
           myIndex={myIndex}
           myMonthIndex={myMonthIndex}
-          className="m-3 mb-4"
+          className="mx-5 mb-4"
         />
         <Badge bg="secondary" className="mb-1 align-self-start">
           ニックネーム

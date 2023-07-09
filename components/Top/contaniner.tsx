@@ -11,6 +11,7 @@ import {
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
+import { OS, OS_LIST } from "@/const/os";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
@@ -47,6 +48,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [innerWidth, setInnerWidth] = useState<number>(0);
   const [bonus, setBonus] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
+  const [os, setOs] = useState<OS>(OS_LIST.mac);
   const toolTarget = useRef(null);
   const { sleep } = useTimer();
   const { setPokeImg } = usePokeApi();
@@ -54,6 +56,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
   const [pokeAudio, setPokeAudio] = useState<HTMLAudioElement>();
   /* 取得するまでは空配列 */
   const [scoreAll, setScoreAll] = useState<Score[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
   /* リスナーで使用 */
   const statusRef = useRef<GameStatus>(GAME_STATUS.beforeStart);
   statusRef.current = gameStatus;
@@ -81,6 +84,32 @@ export default function Top({ pokeList, firstPoke }: Props) {
     tmpPokeAudio.loop = true;
     setPokeAudio(tmpPokeAudio);
 
+    const ua = window.navigator.userAgent.toLowerCase();
+
+    // OS_LISTだとreadonlyなので抽出
+    const osListVals = Object.values(OS_LIST);
+    for (let os of osListVals) {
+      if (ua.indexOf(os) !== -1) {
+        setOs(OS_LIST[os]);
+      }
+    }
+
+    // キーボードショートカット
+    const onKeydown = (e: globalThis.KeyboardEvent) => {
+      switch (statusRef.current) {
+        case GAME_STATUS.beforeStart:
+          if (e.key === "Enter") {
+            // CtrlまたはCommand(Windowsキー)が押されていたら
+            if (e.metaKey || e.ctrlKey) {
+              handleClickStart();
+              return;
+            }
+          }
+          break;
+      }
+    };
+    window.addEventListener("keydown", onKeydown);
+
     /* リサイズ処理 */
     const onResize = () => {
       setInnerWidth(window.innerWidth);
@@ -102,6 +131,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     return () => {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("visibilitychange", onForeground);
+      window.removeEventListener("keydown", onKeydown);
     };
 
     // 初回のみ実行
@@ -146,6 +176,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
         return () => clearTimeout(timeoutId);
       } else {
         setGameStatus(GAME_STATUS.playingMyturn);
+        inputRef.current?.focus();
       }
     }
   }, [countDown, gameStatus]);
@@ -221,6 +252,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
     if (e.key != "Enter") {
       return;
     }
+    // IMEの入力中のEnterは弾きたい
     /* keyCodeは非推奨だが代替案があまりない(isComposing等は挙動が微妙)のでこのまま使用 */
     if (e.keyCode == 13 && gameStatus == GAME_STATUS.playingMyturn) {
       handleSubmitPoke();
@@ -368,6 +400,8 @@ export default function Top({ pokeList, firstPoke }: Props) {
       countDown={countDown}
       bonus={bonus}
       toolTarget={toolTarget}
+      inputRef={inputRef}
+      os={os}
       innerWidth={innerWidth}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
