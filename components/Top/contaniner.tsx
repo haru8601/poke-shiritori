@@ -248,7 +248,10 @@ export default function Top({ initMap, firstPoke }: Props) {
       setPokeImg(tmpTarget, setPokeMap);
 
       /* CPUの負け */
-      if (tmpTarget.id == -1 || tmpTarget.name.japanese.endsWith("ン")) {
+      if (
+        tmpTarget.id == NOT_FOUND_POKE.id ||
+        tmpTarget.name.japanese.endsWith("ン")
+      ) {
         setScore((score) => score + 10000);
         setGameStatus(GAME_STATUS.endWin);
       } else {

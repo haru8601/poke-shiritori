@@ -10153,13 +10153,13 @@
     "type": ["Steel", "Dragon"]
   },
   {
-    "id": "-1",
+    "id": "-2",
     "name": { "japanese": "タケルライコ" },
     "base": { "h": -1, "a": -1, "b": -1, "c": -1, "d": -1, "s": -1 },
     "type": ["Electric", "Dragon"]
   },
   {
-    "id": "-1",
+    "id": "-3",
     "name": { "japanese": "テツノカシラ" },
     "base": { "h": -1, "a": -1, "b": -1, "c": -1, "d": -1, "s": -1 },
     "type": ["Steel", "Psychic"]
