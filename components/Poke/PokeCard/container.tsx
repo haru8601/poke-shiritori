@@ -1,16 +1,19 @@
 import { ComponentProps, useState } from "react";
-import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
 import { GAME_STATUS } from "@/const/gameStatus";
 import { PATH } from "@/const/path";
+import { Poke } from "@/types/Poke";
 import PokeCardPresenter from "./presenter";
+import PokeFirstPresenter from "../PokeFirst/presenter";
 
-type Props = Pick<ComponentProps<typeof TopPresenter>, "targetPoke"> &
-  Partial<Pick<ComponentProps<typeof TopPresenter>, "gameStatus">> & {
-    small?: boolean;
-    zIndex?: number;
-    imgBase?: number;
-  };
+type Props = Partial<
+  Pick<ComponentProps<typeof PokeFirstPresenter>, "gameStatus">
+> & {
+  targetPoke: Poke;
+  small?: boolean;
+  zIndex?: number;
+  imgBase?: number;
+};
 
 export default function PokeCard({
   targetPoke,
@@ -27,8 +30,10 @@ export default function PokeCard({
       : "？？？";
 
   const pokeImg =
-    gameStatus != GAME_STATUS.beforeStart && gameStatus != GAME_STATUS.willStart
-      ? targetPoke.imgPath ?? PATH.defaultImg
+    gameStatus != GAME_STATUS.beforeStart &&
+    gameStatus != GAME_STATUS.willStart &&
+    targetPoke.imgPath
+      ? targetPoke.imgPath
       : PATH.defaultImg;
 
   const handleEnterPokeImg = () => {

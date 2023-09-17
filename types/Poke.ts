@@ -1,12 +1,3 @@
-/* 種族値やタイプ情報 */
-export type Poke = {
-  id: number;
-  name: PokeName;
-  type: PokeType[];
-  base: PokeBase;
-  imgPath: string;
-};
-
 /* 言語別の名前 */
 type PokeName = {
   japanese: string;
@@ -45,3 +36,20 @@ type PokeBase = {
   d: number;
   s: number;
 };
+
+type PokeStatus = {
+  owner: "me" | "enermy" | "first";
+  order: number;
+};
+
+/* 種族値やタイプ情報 */
+export type Poke = {
+  id: number;
+  name: PokeName;
+  type: PokeType[];
+  base: PokeBase;
+  imgPath: string;
+  status?: PokeStatus;
+};
+
+export type PokeMap = { [key: number]: Poke };

@@ -2,10 +2,12 @@ import { ComponentProps } from "react";
 import styles from "@/app/styles/Top.module.css";
 import { GAME_STATUS } from "@/const/gameStatus";
 import { pokeColorMap } from "@/const/pokeColorMap";
+import { Poke } from "@/types/Poke";
 import PokeTarget from "./container";
 import PokeCard from "../PokeCard/container";
 
-type Props = ComponentProps<typeof PokeTarget> & {
+type Props = Pick<ComponentProps<typeof PokeTarget>, "gameStatus"> & {
+  targetPoke: Poke;
   imgBase: number;
 };
 

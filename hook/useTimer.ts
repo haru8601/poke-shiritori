@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 export const useTimer = () => {
   const sleep = useCallback(async (mills: number) => {
-    await new Promise((resolve) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve("");
       }, mills);

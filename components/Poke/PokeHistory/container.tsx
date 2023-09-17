@@ -1,9 +1,9 @@
 import { ComponentProps } from "react";
-import TopPresenter from "@/components/Top/presenter";
 import PokeHistoryPresenter from "./presenter";
+import PokeHistoryListPresenter from "../PokeHistoryList/presenter";
 
 type Props = Pick<
-  ComponentProps<typeof TopPresenter>,
+  ComponentProps<typeof PokeHistoryListPresenter>,
   "myPokeList" | "toolTarget"
 > & {
   isTarget: boolean;

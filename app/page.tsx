@@ -4,7 +4,8 @@ import { CONFIG } from "@/const/config";
 import { PATH } from "@/const/path";
 import { getPokeList } from "@/lib/getPokeList";
 import limitChecker from "@/lib/limitChecher";
-import { Poke } from "@/types/Poke";
+import { getPokeImg } from "@/lib/pokeapi/getPokeImg";
+import { Poke, PokeMap } from "@/types/Poke";
 
 export const metadata = {
   title: "ポケモンしりとり by haroot",
@@ -54,6 +55,20 @@ export default async function Page() {
     firstPoke = pokeList[Math.floor(Math.random() * pokeList.length)];
     if (checkCount > pokeList.length) break;
   }
+  const pokeMap: PokeMap = {};
+  /* ポケモンMapの初期化 */
+  for (const poke of pokeList) {
+    pokeMap[poke.id] = poke;
+  }
+  /* 最初のポケモンを登録 */
+  pokeMap[firstPoke.id].status = {
+    owner: "first",
+    order: 0,
+  };
+  /* 最初のポケモンだけ別管理のため画像も先に取得 */
+  firstPoke.imgPath = await getPokeImg(firstPoke);
 
-  return <Top pokeList={pokeList} firstPoke={firstPoke} />;
+  // (最初)サーバーのみの情報が出る時にCSSが変わってしまうので
+  // firstPokeも渡す
+  return <Top initMap={pokeMap} firstPoke={firstPoke} />;
 }

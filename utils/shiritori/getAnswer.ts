@@ -1,4 +1,5 @@
-import { Poke } from "@/types/Poke";
+import { Poke, PokeMap } from "@/types/Poke";
+import getCandidates from "./getCandidates";
 
 /**
  * CPU側のアンサー取得
@@ -8,24 +9,11 @@ import { Poke } from "@/types/Poke";
  * @returns アンサーポケ
  */
 export const getAnswer = (
-  pokeList: Poke[],
-  lastWord: string,
-  usedPokeNameList: string[]
+  pokeMap: PokeMap,
+  lastWord: string
 ): Poke | undefined => {
   /* ポケ一覧からアンサーの候補を取得 */
-  let candidateList = pokeList.filter(
-    (poke) =>
-      poke.name.japanese.startsWith(lastWord) &&
-      !usedPokeNameList.includes(poke.name.japanese)
-  );
-
-  /* なるべく負けない選択 */
-  const tmpCandidateList = candidateList.filter(
-    (poke) => !poke.name.japanese.endsWith("ン")
-  );
-  if (tmpCandidateList.length) {
-    candidateList = tmpCandidateList;
-  }
+  const candidateList = getCandidates(pokeMap, lastWord);
 
   /* 候補からランダムに選択 */
   const tmpTarget =

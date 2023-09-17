@@ -1,6 +1,6 @@
-import { SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { PATH } from "@/const/path";
-import { Poke } from "@/types/Poke";
+import { Poke, PokeMap } from "@/types/Poke";
 import { PokeApi } from "@/types/PokeApi";
 
 export const usePokeApi = () => {
@@ -20,23 +20,31 @@ export const usePokeApi = () => {
     return res.json() as Promise<PokeApi>;
   };
 
-  /* 画像を取得し、レンダリングするため再度セッターに追加する */
+  /**
+   * 画像を取得してMapに反映
+   * @param poke
+   * @param setter
+   */
   const setPokeImg = async (
-    targetPoke: Poke,
-    setTargetPoke?: (value: SetStateAction<Poke>) => void
+    poke: Poke,
+    setter: Dispatch<SetStateAction<PokeMap>>
   ) => {
-    const tmpResponse = await fetchPoke(targetPoke.id);
-    targetPoke.imgPath =
-      tmpResponse?.sprites.other["official-artwork"].front_default ||
-      PATH.defaultImg;
-    /* targetPokeが既に他のに変わってたら処理しない */
-    setTargetPoke &&
-      setTargetPoke(
-        (currentTargetPoke) =>
-          (currentTargetPoke.id == tmpResponse?.id &&
-            (JSON.parse(JSON.stringify(targetPoke)) as Poke)) ||
-          currentTargetPoke
-      );
+    fetchPoke(poke.id)
+      .then((res) =>
+        setter((map) => {
+          // 非同期で不整合を起こさないよう
+          // thenが実行された時の最新のmapを用いて更新
+          map[poke.id].imgPath =
+            res?.sprites.other["official-artwork"].front_default ||
+            PATH.defaultImg;
+          // レンダリングさせるためディープコピー
+          return JSON.parse(JSON.stringify(map));
+        })
+      )
+      .catch((err: Error) => {
+        console.log("get image error.");
+        console.log(err);
+      });
   };
 
   return { setPokeImg } as const;

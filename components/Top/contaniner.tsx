@@ -15,33 +15,32 @@ import { OS, OS_LIST } from "@/const/os";
 import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
-import { Poke } from "@/types/Poke";
+import { Poke, PokeMap } from "@/types/Poke";
 import { Score } from "@/types/Score";
-import { getAnswer } from "@/utils/getAnswer";
 import { getAudioRandomPath } from "@/utils/getAudioRandomPath";
 import getCompatibility from "@/utils/getCompatibility";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
 import { hira2kata } from "@/utils/hira2kata";
+import changePokeMap from "@/utils/poke/changePokeMap";
+import getTargetPoke from "@/utils/poke/getTargetPoke";
+import getUnusedPokeList from "@/utils/poke/getUnusedPokeList";
 import { replaceSpecial } from "@/utils/replaceSpecial";
+import { getAnswer } from "@/utils/shiritori/getAnswer";
+import getNewestPoke from "@/utils/shiritori/getNewestPoke";
 import TopPresenter from "./presenter";
 
 type Props = {
-  pokeList: Poke[];
+  initMap: PokeMap;
   firstPoke: Poke;
 };
 
-export default function Top({ pokeList, firstPoke }: Props) {
-  const [targetPoke, setTargetPoke] = useState<Poke>(firstPoke);
+export default function Top({ initMap, firstPoke }: Props) {
+  const [pokeMap, setPokeMap] = useState<PokeMap>(initMap);
   const [sentPokeName, setSentPokeName] = useState<string>("");
   const [pokeErr, setPokeErr] = useState<string>("");
-  const [myPokeList, setMyPokeList] = useState<Poke[]>([]);
-  const [enermyPokeList, setEnermyPokeList] = useState<Poke[]>([]);
   const [gameStatus, setGameStatus] = useState<GameStatus>(
     GAME_STATUS.beforeStart
   );
-  const [usedPokeNameList, setUsedPokeNameList] = useState<string[]>([
-    firstPoke.name.japanese,
-  ]);
   /* 現在の残り時間 */
   const [leftMillS, setLeftMillS] = useState<number>(CONFIG.timeLimitMillS);
   const [countDown, setCountDown] = useState<number>(3);
@@ -73,13 +72,6 @@ export default function Top({ pokeList, firstPoke }: Props) {
     destroyCookie(null, COOKIE_NAMES.score);
     destroyCookie(null, COOKIE_NAMES.updateFlg);
     destroyCookie(null, COOKIE_NAMES.audio);
-
-    setTargetPoke(firstPoke);
-    /* 最初のポケ画像取得 */
-    setPokeImg(firstPoke, setTargetPoke);
-
-    /* レンダリングさせる(変更を伝える)ためディープコピー */
-    setTargetPoke(JSON.parse(JSON.stringify(firstPoke)));
 
     const tmpPokeAudio = new Audio(getAudioRandomPath("op"));
     tmpPokeAudio.volume = 0.2;
@@ -231,10 +223,11 @@ export default function Top({ pokeList, firstPoke }: Props) {
   /* CPUの回答 */
   useEffect(() => {
     if (gameStatus != GAME_STATUS.playingEnermy) return;
+    const targetPoke = getTargetPoke(pokeMap, firstPoke);
 
     const lastWord = getShiritoriWord(targetPoke.name.japanese);
     /* ポケ一覧からアンサーの候補を取得 */
-    let tmpTarget = getAnswer(pokeList, lastWord, usedPokeNameList);
+    let tmpTarget = getAnswer(pokeMap, lastWord);
 
     /* ランダムな時間後に返答 */
     sleep(2000 + Math.random() * 6000).then(() => {
@@ -247,19 +240,17 @@ export default function Top({ pokeList, firstPoke }: Props) {
           type: ["Normal"],
           imgPath: PATH.defaultImg,
         };
-        setTargetPoke(tmpTarget);
       } else {
         /* 解答あり */
-        /* 使用済みリスト更新 */
-        const tmpUsedPokeNameList = Array.from(usedPokeNameList);
-        tmpUsedPokeNameList.push(tmpTarget.name.japanese);
-        setUsedPokeNameList(tmpUsedPokeNameList);
-
-        const tmpEnermyPokeList = Array.from(enermyPokeList);
-        tmpEnermyPokeList.push(tmpTarget);
-        setEnermyPokeList(tmpEnermyPokeList);
-        setTargetPoke(tmpTarget);
-        setPokeImg(tmpTarget, setTargetPoke);
+        const newestEnermy = getNewestPoke(pokeMap, false);
+        pokeMap[tmpTarget.id].status = {
+          owner: "enermy",
+          order: newestEnermy?.status?.order
+            ? newestEnermy.status.order + 1
+            : 1,
+        };
+        changePokeMap(pokeMap, setPokeMap);
+        setPokeImg(tmpTarget, setPokeMap);
       }
 
       /* CPUの負け */
@@ -289,28 +280,31 @@ export default function Top({ pokeList, firstPoke }: Props) {
   };
 
   const handleSubmitPoke = async () => {
+    const enermyTarget = getTargetPoke(pokeMap, firstPoke);
     /* カタカナに変換後、特殊記号変換 */
     const kataPokeName = replaceSpecial(hira2kata(sentPokeName));
 
     /******** バリデーション ********/
     /* しりとりになっているかのチェック */
-    const enermyLastWord = getShiritoriWord(
-      (enermyPokeList.length &&
-        enermyPokeList[enermyPokeList.length - 1].name.japanese) ||
-        firstPoke.name.japanese
-    );
+    const enermyLastWord = getShiritoriWord(enermyTarget.name.japanese);
     if (!kataPokeName.startsWith(enermyLastWord)) {
       setPokeErr(`${enermyLastWord}から始まる名前にしてください`);
       return;
     }
     /* 一覧に存在するかチェック */
-    if (!pokeList.find((poke) => poke.name.japanese == kataPokeName)) {
+    if (
+      !Object.values(pokeMap).find((poke) => poke.name.japanese == kataPokeName)
+    ) {
       setPokeErr("存在しないポケモンです");
       return;
     }
 
     /* 使用済みかのチェック */
-    if (usedPokeNameList.find((pokeName) => pokeName == kataPokeName)) {
+    if (
+      !getUnusedPokeList(pokeMap).find(
+        (poke) => poke.name.japanese == kataPokeName
+      )
+    ) {
       setPokeErr("このポケモンは使用済みです");
       return;
     }
@@ -318,22 +312,18 @@ export default function Top({ pokeList, firstPoke }: Props) {
 
     setGameStatus(GAME_STATUS.playingWillEnermy);
     setPokeErr("");
-    const sentPoke = pokeList.find(
+    const sentPoke = Object.values(pokeMap).find(
       (poke) => poke.name.japanese == kataPokeName
     )!;
 
-    /* 使用済みリスト更新 */
-    const tmpUsedPokeNameList = Array.from(usedPokeNameList);
-    tmpUsedPokeNameList.push(sentPoke.name.japanese);
-    setUsedPokeNameList(tmpUsedPokeNameList);
+    const newestPoke = getNewestPoke(pokeMap, true);
+    pokeMap[sentPoke.id].status = {
+      owner: "me",
+      order: newestPoke?.status ? newestPoke.status?.order + 1 : 1,
+    };
+    changePokeMap(pokeMap, setPokeMap);
+    setPokeImg(sentPoke, setPokeMap);
 
-    setTargetPoke(sentPoke);
-    setPokeImg(sentPoke, setTargetPoke);
-
-    /* 履歴を配列に格納 */
-    const tmpMyPokeList = Array.from(myPokeList);
-    tmpMyPokeList.push(sentPoke);
-    setMyPokeList(tmpMyPokeList);
     if (sentPoke.name.japanese.endsWith("ン")) {
       setGameStatus(GAME_STATUS.endLose);
       return;
@@ -341,11 +331,7 @@ export default function Top({ pokeList, firstPoke }: Props) {
 
     /* ボーナスはタイプ相性*1000点かノーダメなら100点 */
     const tmpBonus = Math.max(
-      getCompatibility(
-        sentPoke,
-        (enermyPokeList.length && enermyPokeList[enermyPokeList.length - 1]) ||
-          firstPoke
-      ) * 1000,
+      getCompatibility(sentPoke, enermyTarget) * 1000,
       100
     );
 
@@ -412,12 +398,10 @@ export default function Top({ pokeList, firstPoke }: Props) {
 
   return (
     <TopPresenter
+      pokeMap={pokeMap}
       firstPoke={firstPoke}
-      targetPoke={targetPoke!}
       sentPokeName={sentPokeName}
       pokeErr={pokeErr}
-      myPokeList={myPokeList}
-      enermyPokeList={enermyPokeList}
       gameStatus={gameStatus}
       score={score}
       scoreAll={scoreAll}

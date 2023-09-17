@@ -1,10 +1,17 @@
 import { ComponentProps } from "react";
 import { Stack } from "react-bootstrap";
 import { GAME_STATUS } from "@/const/gameStatus";
+import { Poke } from "@/types/Poke";
 import PokeHistoryList from "./container";
 import PokeHistory from "../PokeHistory/container";
 
-type Props = ComponentProps<typeof PokeHistoryList>;
+type Props = Pick<
+  ComponentProps<typeof PokeHistoryList>,
+  "gameStatus" | "toolTarget"
+> & {
+  myPokeList: Poke[];
+  enermyPokeList: Poke[];
+};
 
 export default function PokeHistoryListPresenter({
   myPokeList,

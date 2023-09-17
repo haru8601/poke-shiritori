@@ -10,7 +10,7 @@ import { Alert, Badge, Stack } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
 import { OS } from "@/const/os";
-import { Poke } from "@/types/Poke";
+import { PokeMap } from "@/types/Poke";
 import { Score } from "@/types/Score";
 import Top from "./contaniner";
 import PokeFooter from "../Card/PokeFooter/container";
@@ -24,11 +24,9 @@ import PokeInput from "../Poke/PokeInput/container";
 import PokeTarget from "../Poke/PokeTarget/container";
 
 type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
-  targetPoke: Poke;
+  pokeMap: PokeMap;
   sentPokeName: string;
   pokeErr: string;
-  myPokeList: Poke[];
-  enermyPokeList: Poke[];
   gameStatus: GameStatus;
   score: number;
   scoreAll: Score[];
@@ -50,12 +48,10 @@ type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
 };
 
 export default function TopPresenter({
+  pokeMap,
   firstPoke,
-  targetPoke,
   sentPokeName,
   pokeErr,
-  myPokeList,
-  enermyPokeList,
   gameStatus,
   score,
   scoreAll,
@@ -139,7 +135,11 @@ export default function TopPresenter({
           bonus={bonus}
           penalty={penalty}
         />
-        <PokeTarget targetPoke={targetPoke} gameStatus={gameStatus} />
+        <PokeTarget
+          pokeMap={pokeMap}
+          firstPoke={firstPoke}
+          gameStatus={gameStatus}
+        />
         <PokeFirst firstPoke={firstPoke} gameStatus={gameStatus} />
         <PokeInput
           sentPokeName={sentPokeName}
@@ -155,8 +155,7 @@ export default function TopPresenter({
         />
         <Thinking gameStatus={gameStatus} toolTarget={toolTarget} />
         <PokeHistoryList
-          myPokeList={myPokeList}
-          enermyPokeList={enermyPokeList}
+          pokeMap={pokeMap}
           gameStatus={gameStatus}
           toolTarget={toolTarget}
         />
