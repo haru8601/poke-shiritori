@@ -126,7 +126,8 @@ export default function PokeConfigPresenter({
                     label="BGM"
                     reverse
                     defaultChecked={
-                      parseCookies(null)[COOKIE_NAMES.audio] == COOKIE_VALUES.on
+                      parseCookies(null)[COOKIE_NAMES.shiritori_audio] ==
+                      COOKIE_VALUES.on
                     }
                     onClick={onPlayAudio}
                   ></Form.Check>

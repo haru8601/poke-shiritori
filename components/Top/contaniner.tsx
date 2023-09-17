@@ -11,8 +11,8 @@ import {
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
+import { NOT_FOUND_POKE } from "@/const/notFoundPoke";
 import { OS, OS_LIST } from "@/const/os";
-import { PATH } from "@/const/path";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
 import { Poke, PokeMap } from "@/types/Poke";
@@ -66,12 +66,12 @@ export default function Top({ initMap, firstPoke }: Props) {
   useEffect(() => {
     /* 更新時はキャッシュを使わない */
     fetchScoreAll(
-      parseCookies(null)[COOKIE_NAMES.updateFlg] != COOKIE_VALUES.on
+      parseCookies(null)[COOKIE_NAMES.update_flg] != COOKIE_VALUES.on
     );
     /* next/headersのcookiesがreadonlyなためCSR側で削除 */
-    destroyCookie(null, COOKIE_NAMES.score);
-    destroyCookie(null, COOKIE_NAMES.updateFlg);
-    destroyCookie(null, COOKIE_NAMES.audio);
+    destroyCookie(null, COOKIE_NAMES.shiritori_score);
+    destroyCookie(null, COOKIE_NAMES.update_flg);
+    destroyCookie(null, COOKIE_NAMES.shiritori_audio);
 
     const tmpPokeAudio = new Audio(getAudioRandomPath("op"));
     tmpPokeAudio.volume = 0.2;
@@ -158,7 +158,7 @@ export default function Top({ initMap, firstPoke }: Props) {
   // BGMの変更
   useEffect(() => {
     if (
-      parseCookies(null)[COOKIE_NAMES.audio] != COOKIE_VALUES.on ||
+      parseCookies(null)[COOKIE_NAMES.shiritori_audio] != COOKIE_VALUES.on ||
       !pokeAudio
     )
       return;
@@ -232,16 +232,10 @@ export default function Top({ initMap, firstPoke }: Props) {
     /* ランダムな時間後に返答 */
     sleep(2000 + Math.random() * 6000).then(() => {
       if (!tmpTarget) {
-        /* 解答なし */
-        tmpTarget = {
-          id: -1,
-          base: { h: 0, a: 0, b: 0, c: 0, d: 0, s: 0 },
-          name: { japanese: "見つかりませんでした。。" },
-          type: ["Normal"],
-          imgPath: PATH.defaultImg,
-        };
+        /* 有効な解答無し */
+        pokeMap[NOT_FOUND_POKE.id] = NOT_FOUND_POKE;
+        tmpTarget = NOT_FOUND_POKE;
       } else {
-        /* 解答あり */
         const newestEnermy = getNewestPoke(pokeMap, false);
         pokeMap[tmpTarget.id].status = {
           owner: "enermy",
@@ -249,9 +243,9 @@ export default function Top({ initMap, firstPoke }: Props) {
             ? newestEnermy.status.order + 1
             : 1,
         };
-        changePokeMap(pokeMap, setPokeMap);
-        setPokeImg(tmpTarget, setPokeMap);
       }
+      changePokeMap(pokeMap, setPokeMap);
+      setPokeImg(tmpTarget, setPokeMap);
 
       /* CPUの負け */
       if (tmpTarget.id == -1 || tmpTarget.name.japanese.endsWith("ン")) {
@@ -356,10 +350,15 @@ export default function Top({ initMap, firstPoke }: Props) {
   const handlePlayAudio = (e: MouseEvent<HTMLInputElement>) => {
     const audioSwitcher = e.currentTarget;
     if (audioSwitcher.checked) {
-      setCookie(null, COOKIE_NAMES.audio, COOKIE_VALUES.on, CONFIG.cookie);
+      setCookie(
+        null,
+        COOKIE_NAMES.shiritori_audio,
+        COOKIE_VALUES.on,
+        CONFIG.cookie
+      );
       pokeAudio && pokeAudio.play();
     } else {
-      destroyCookie(null, COOKIE_NAMES.audio);
+      destroyCookie(null, COOKIE_NAMES.shiritori_audio);
       pokeAudio && pokeAudio.pause();
     }
   };

@@ -9,13 +9,13 @@ export default function getNewestPoke(
 ): Poke | undefined {
   let lastestId = -1;
   let newestPoke: Poke | undefined = void 0;
-  const pokeList = Object.values(pokeMap).filter((poke) => {
+  const myList = Object.values(pokeMap).filter((poke) => {
     if (isMine == true) {
       return poke.status?.owner == "me";
     }
     return poke.status?.owner == "enermy";
   });
-  for (const poke of pokeList) {
+  for (const poke of myList) {
     if (poke.status && lastestId < poke.status.order) {
       newestPoke = poke;
       lastestId = poke.status.order;

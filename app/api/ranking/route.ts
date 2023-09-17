@@ -14,8 +14,9 @@ export async function GET(): Promise<NextResponse> {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   // キャッシュを使わせないためcookieを使用
   const nickname =
-    cookies().get(COOKIE_NAMES.nickname)?.value || CONFIG.score.defaultNickname;
-  const score = cookies().get(COOKIE_NAMES.score)?.value;
+    cookies().get(COOKIE_NAMES.shiritori_nickname)?.value ||
+    CONFIG.score.defaultNickname;
+  const score = cookies().get(COOKIE_NAMES.shiritori_score)?.value;
 
   if (
     !score ||
