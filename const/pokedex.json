@@ -10091,5 +10091,77 @@
     "name": { "japanese": "ミライドン" },
     "base": { "h": 100, "a": 85, "b": 100, "c": 135, "d": 115, "s": 135 },
     "type": ["Electric", "Dragon"]
+  },
+  {
+    "id": "1009",
+    "name": { "japanese": "ウネルミナモ" },
+    "base": { "h": 99, "a": 83, "b": 91, "c": 125, "d": 83, "s": 109 },
+    "type": ["Water", "Dragon"]
+  },
+  {
+    "id": "1010",
+    "name": { "japanese": "テツノイサハ" },
+    "base": { "h": 90, "a": 130, "b": 88, "c": 70, "d": 108, "s": 104 },
+    "type": ["Grass", "Psychic"]
+  },
+  {
+    "id": "1011",
+    "name": { "japanese": "カミッチュ" },
+    "base": { "h": 80, "a": 80, "b": 110, "c": 95, "d": 80, "s": 40 },
+    "type": ["Grass", "Dragon"]
+  },
+  {
+    "id": "1012",
+    "name": { "japanese": "チャデス" },
+    "base": { "h": 40, "a": 45, "b": 45, "c": 74, "d": 54, "s": 50 },
+    "type": ["Grass", "Ghost"]
+  },
+  {
+    "id": "1013",
+    "name": { "japanese": "ヤバソチャ" },
+    "base": { "h": 71, "a": 60, "b": 106, "c": 121, "d": 80, "s": 70 },
+    "type": ["Grass", "Ghost"]
+  },
+  {
+    "id": "1014",
+    "name": { "japanese": "イイネイヌ" },
+    "base": { "h": 88, "a": 128, "b": 115, "c": 58, "d": 86, "s": 80 },
+    "type": ["Poison", "Fighting"]
+  },
+  {
+    "id": "1015",
+    "name": { "japanese": "マシマシラ" },
+    "base": { "h": 88, "a": 75, "b": 66, "c": 130, "d": 90, "s": 106 },
+    "type": ["Poison", "Psychic"]
+  },
+  {
+    "id": "1016",
+    "name": { "japanese": "キチキギス" },
+    "base": { "h": 88, "a": 91, "b": 82, "c": 70, "d": 125, "s": 99 },
+    "type": ["Poison", "Fairy"]
+  },
+  {
+    "id": "1017",
+    "name": { "japanese": "オーガポン" },
+    "base": { "h": 80, "a": 120, "b": 84, "c": 60, "d": 96, "s": 110 },
+    "type": ["Grass"]
+  },
+  {
+    "id": "-1",
+    "name": { "japanese": "ブリジュラス" },
+    "base": { "h": -1, "a": -1, "b": -1, "c": -1, "d": -1, "s": -1 },
+    "type": ["Steel", "Dragon"]
+  },
+  {
+    "id": "-1",
+    "name": { "japanese": "タケルライコ" },
+    "base": { "h": -1, "a": -1, "b": -1, "c": -1, "d": -1, "s": -1 },
+    "type": ["Electric", "Dragon"]
+  },
+  {
+    "id": "-1",
+    "name": { "japanese": "テツノカシラ" },
+    "base": { "h": -1, "a": -1, "b": -1, "c": -1, "d": -1, "s": -1 },
+    "type": ["Steel", "Psychic"]
   }
 ]
