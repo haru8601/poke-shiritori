@@ -28,4 +28,9 @@ export const HISTORIES: History[] = [
     createdAt: "20230709",
     rankReset: true,
   },
+  {
+    version: "2.0.1",
+    content: "SV碧の仮面ポケモン対応",
+    createdAt: "20230918",
+  },
 ];
