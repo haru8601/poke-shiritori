@@ -57,7 +57,7 @@ export default function PokeHeaderPresenter({
         </div>
         <div className="d-flex">
           <Button
-            className={`mx-1 text-nowrap ${styles.clickBtn} ${
+            className={`mx-1 text-nowrap bg-gradient ${styles.clickBtn} ${
               innerWidth < CONFIG.pcMinWidth ? "align-self-center p-1" : ""
             } ${gameStatus == GAME_STATUS.beforeStart && styles.grayOut}`}
             variant="dark"

@@ -9475,691 +9475,691 @@
     "type": ["Fairy", "Flying"]
   },
   {
-    "id": "906",
+    "id": 906,
     "name": { "japanese": "ニャオハ" },
     "base": { "h": 40, "a": 61, "b": 54, "c": 45, "d": 45, "s": 65 },
     "type": ["Grass"]
   },
   {
-    "id": "907",
+    "id": 907,
     "name": { "japanese": "ニャローテ" },
     "base": { "h": 61, "a": 80, "b": 63, "c": 60, "d": 63, "s": 83 },
     "type": ["Grass"]
   },
   {
-    "id": "908",
+    "id": 908,
     "name": { "japanese": "マスカーニャ" },
     "base": { "h": 76, "a": 110, "b": 70, "c": 81, "d": 70, "s": 123 },
     "type": ["Grass", "Dark"]
   },
   {
-    "id": "909",
+    "id": 909,
     "name": { "japanese": "ホゲータ" },
     "base": { "h": 67, "a": 45, "b": 59, "c": 63, "d": 40, "s": 36 },
     "type": ["Fire"]
   },
   {
-    "id": "910",
+    "id": 910,
     "name": { "japanese": "アチゲータ" },
     "base": { "h": 81, "a": 55, "b": 78, "c": 90, "d": 58, "s": 49 },
     "type": ["Fire"]
   },
   {
-    "id": "911",
+    "id": 911,
     "name": { "japanese": "ラウドボーン" },
     "base": { "h": 104, "a": 75, "b": 100, "c": 110, "d": 75, "s": 66 },
     "type": ["Fire", "Ghost"]
   },
   {
-    "id": "912",
+    "id": 912,
     "name": { "japanese": "クワッス" },
     "base": { "h": 55, "a": 65, "b": 45, "c": 50, "d": 45, "s": 50 },
     "type": ["Water"]
   },
   {
-    "id": "913",
+    "id": 913,
     "name": { "japanese": "ウェルカモ" },
     "base": { "h": 70, "a": 85, "b": 65, "c": 65, "d": 60, "s": 65 },
     "type": ["Water"]
   },
   {
-    "id": "914",
+    "id": 914,
     "name": { "japanese": "ウェーニバル" },
     "base": { "h": 85, "a": 120, "b": 80, "c": 85, "d": 75, "s": 85 },
     "type": ["Water", "Fighting"]
   },
   {
-    "id": "915",
+    "id": 915,
     "name": { "japanese": "グルトン" },
     "base": { "h": 54, "a": 45, "b": 40, "c": 35, "d": 45, "s": 35 },
     "type": ["Normal"]
   },
   {
-    "id": "916",
+    "id": 916,
     "name": { "japanese": "パフュートン" },
     "base": { "h": 115, "a": 90, "b": 70, "c": 59, "d": 90, "s": 65 },
     "type": ["Normal"]
   },
   {
-    "id": "917",
+    "id": 917,
     "name": { "japanese": "タマンチュラ" },
     "base": { "h": 35, "a": 41, "b": 45, "c": 29, "d": 40, "s": 20 },
     "type": ["Bug"]
   },
   {
-    "id": "918",
+    "id": 918,
     "name": { "japanese": "ワナイダー" },
     "base": { "h": 60, "a": 79, "b": 92, "c": 52, "d": 86, "s": 35 },
     "type": ["Bug"]
   },
   {
-    "id": "919",
+    "id": 919,
     "name": { "japanese": "マメバッタ" },
     "base": { "h": 33, "a": 46, "b": 40, "c": 21, "d": 25, "s": 45 },
     "type": ["Bug"]
   },
   {
-    "id": "920",
+    "id": 920,
     "name": { "japanese": "エクスレッグ" },
     "base": { "h": 71, "a": 102, "b": 78, "c": 52, "d": 55, "s": 92 },
     "type": ["Bug", "Dark"]
   },
   {
-    "id": "921",
+    "id": 921,
     "name": { "japanese": "パモ" },
     "base": { "h": 45, "a": 50, "b": 20, "c": 40, "d": 25, "s": 60 },
     "type": ["Electric"]
   },
   {
-    "id": "922",
+    "id": 922,
     "name": { "japanese": "パモット" },
     "base": { "h": 60, "a": 75, "b": 40, "c": 50, "d": 40, "s": 85 },
     "type": ["Electric", "Fighting"]
   },
   {
-    "id": "923",
+    "id": 923,
     "name": { "japanese": "パーモット" },
     "base": { "h": 70, "a": 115, "b": 70, "c": 70, "d": 60, "s": 105 },
     "type": ["Electric", "Fighting"]
   },
   {
-    "id": "924",
+    "id": 924,
     "name": { "japanese": "ワッカネズミ" },
     "base": { "h": 50, "a": 50, "b": 45, "c": 40, "d": 45, "s": 75 },
     "type": ["Normal"]
   },
   {
-    "id": "925",
+    "id": 925,
     "name": { "japanese": "イッカネズミ" },
     "base": { "h": 74, "a": 75, "b": 70, "c": 65, "d": 75, "s": 111 },
     "type": ["Normal"]
   },
   {
-    "id": "926",
+    "id": 926,
     "name": { "japanese": "パピモッチ" },
     "base": { "h": 37, "a": 55, "b": 70, "c": 30, "d": 55, "s": 65 },
     "type": ["Fairy"]
   },
   {
-    "id": "927",
+    "id": 927,
     "name": { "japanese": "バウッツェル" },
     "base": { "h": 57, "a": 80, "b": 115, "c": 50, "d": 80, "s": 95 },
     "type": ["Fairy"]
   },
   {
-    "id": "928",
+    "id": 928,
     "name": { "japanese": "ミニーブ" },
     "base": { "h": 41, "a": 35, "b": 45, "c": 58, "d": 51, "s": 30 },
     "type": ["Grass", "Normal"]
   },
   {
-    "id": "929",
+    "id": 929,
     "name": { "japanese": "オリーニョ" },
     "base": { "h": 52, "a": 53, "b": 60, "c": 78, "d": 78, "s": 33 },
     "type": ["Grass", "Normal"]
   },
   {
-    "id": "930",
+    "id": 930,
     "name": { "japanese": "オリーヴァ" },
     "base": { "h": 78, "a": 69, "b": 90, "c": 125, "d": 109, "s": 39 },
     "type": ["Grass", "Normal"]
   },
   {
-    "id": "931",
+    "id": 931,
     "name": { "japanese": "イキリンコ" },
     "base": { "h": 82, "a": 96, "b": 51, "c": 45, "d": 51, "s": 92 },
     "type": ["Normal", "Flying"]
   },
   {
-    "id": "932",
+    "id": 932,
     "name": { "japanese": "コジオ" },
     "base": { "h": 55, "a": 55, "b": 75, "c": 35, "d": 35, "s": 25 },
     "type": ["Rock"]
   },
   {
-    "id": "933",
+    "id": 933,
     "name": { "japanese": "ジオヅム" },
     "base": { "h": 60, "a": 60, "b": 100, "c": 35, "d": 65, "s": 35 },
     "type": ["Rock"]
   },
   {
-    "id": "934",
+    "id": 934,
     "name": { "japanese": "キョジオーン" },
     "base": { "h": 100, "a": 100, "b": 130, "c": 45, "d": 90, "s": 35 },
     "type": ["Rock"]
   },
   {
-    "id": "935",
+    "id": 935,
     "name": { "japanese": "カルボウ" },
     "base": { "h": 40, "a": 50, "b": 40, "c": 50, "d": 40, "s": 35 },
     "type": ["Fire"]
   },
   {
-    "id": "936",
+    "id": 936,
     "name": { "japanese": "グレンアルマ" },
     "base": { "h": 85, "a": 60, "b": 100, "c": 125, "d": 80, "s": 75 },
     "type": ["Fire", "Psychic"]
   },
   {
-    "id": "937",
+    "id": 937,
     "name": { "japanese": "ソウブレイズ" },
     "base": { "h": 75, "a": 125, "b": 80, "c": 60, "d": 100, "s": 85 },
     "type": ["Fire", "Ghost"]
   },
   {
-    "id": "938",
+    "id": 938,
     "name": { "japanese": "ズピカ" },
     "base": { "h": 61, "a": 31, "b": 41, "c": 59, "d": 35, "s": 45 },
     "type": ["Electric"]
   },
   {
-    "id": "939",
+    "id": 939,
     "name": { "japanese": "ハラバリー" },
     "base": { "h": 109, "a": 64, "b": 91, "c": 103, "d": 83, "s": 45 },
     "type": ["Electric"]
   },
   {
-    "id": "940",
+    "id": 940,
     "name": { "japanese": "カイデン" },
     "base": { "h": 40, "a": 40, "b": 35, "c": 55, "d": 40, "s": 70 },
     "type": ["Electric", "Flying"]
   },
   {
-    "id": "941",
+    "id": 941,
     "name": { "japanese": "タイカイデン" },
     "base": { "h": 70, "a": 70, "b": 60, "c": 105, "d": 60, "s": 125 },
     "type": ["Electric", "Flying"]
   },
   {
-    "id": "942",
+    "id": 942,
     "name": { "japanese": "オラチフ" },
     "base": { "h": 60, "a": 78, "b": 60, "c": 40, "d": 51, "s": 51 },
     "type": ["Dark"]
   },
   {
-    "id": "943",
+    "id": 943,
     "name": { "japanese": "マフィティフ" },
     "base": { "h": 80, "a": 120, "b": 90, "c": 60, "d": 70, "s": 85 },
     "type": ["Dark"]
   },
   {
-    "id": "944",
+    "id": 944,
     "name": { "japanese": "シルシュルー" },
     "base": { "h": 40, "a": 65, "b": 35, "c": 40, "d": 35, "s": 75 },
     "type": ["Poison", "Normal"]
   },
   {
-    "id": "945",
+    "id": 945,
     "name": { "japanese": "タギングル" },
     "base": { "h": 63, "a": 95, "b": 65, "c": 80, "d": 72, "s": 110 },
     "type": ["Poison", "Normal"]
   },
   {
-    "id": "946",
+    "id": 946,
     "name": { "japanese": "アノクサ" },
     "base": { "h": 40, "a": 65, "b": 30, "c": 45, "d": 35, "s": 60 },
     "type": ["Grass", "Ghost"]
   },
   {
-    "id": "947",
+    "id": 947,
     "name": { "japanese": "アノホラグサ" },
     "base": { "h": 55, "a": 115, "b": 70, "c": 80, "d": 70, "s": 90 },
     "type": ["Grass", "Ghost"]
   },
   {
-    "id": "948",
+    "id": 948,
     "name": { "japanese": "ノノクラゲ" },
     "base": { "h": 40, "a": 40, "b": 35, "c": 50, "d": 100, "s": 70 },
     "type": ["Ground", "Grass"]
   },
   {
-    "id": "949",
+    "id": 949,
     "name": { "japanese": "リククラゲ" },
     "base": { "h": 80, "a": 70, "b": 65, "c": 80, "d": 120, "s": 100 },
     "type": ["Ground", "Grass"]
   },
   {
-    "id": "950",
+    "id": 950,
     "name": { "japanese": "ガケガニ" },
     "base": { "h": 70, "a": 100, "b": 115, "c": 35, "d": 55, "s": 75 },
     "type": ["Rock"]
   },
   {
-    "id": "951",
+    "id": 951,
     "name": { "japanese": "カプサイジ" },
     "base": { "h": 50, "a": 62, "b": 40, "c": 62, "d": 40, "s": 50 },
     "type": ["Grass"]
   },
   {
-    "id": "952",
+    "id": 952,
     "name": { "japanese": "スコヴィラン" },
     "base": { "h": 65, "a": 108, "b": 65, "c": 108, "d": 65, "s": 75 },
     "type": ["Grass", "Fire"]
   },
   {
-    "id": "953",
+    "id": 953,
     "name": { "japanese": "シガロコ" },
     "base": { "h": 41, "a": 50, "b": 60, "c": 31, "d": 58, "s": 30 },
     "type": ["Bug"]
   },
   {
-    "id": "954",
+    "id": 954,
     "name": { "japanese": "ベラカス" },
     "base": { "h": 75, "a": 50, "b": 85, "c": 115, "d": 100, "s": 45 },
     "type": ["Bug", "Psychic"]
   },
   {
-    "id": "955",
+    "id": 955,
     "name": { "japanese": "ヒラヒナ" },
     "base": { "h": 30, "a": 35, "b": 30, "c": 55, "d": 30, "s": 75 },
     "type": ["Psychic"]
   },
   {
-    "id": "956",
+    "id": 956,
     "name": { "japanese": "クエスパトラ" },
     "base": { "h": 95, "a": 60, "b": 60, "c": 101, "d": 60, "s": 105 },
     "type": ["Psychic"]
   },
   {
-    "id": "957",
+    "id": 957,
     "name": { "japanese": "カヌチャン" },
     "base": { "h": 50, "a": 45, "b": 45, "c": 35, "d": 64, "s": 58 },
     "type": ["Fairy", "Steel"]
   },
   {
-    "id": "958",
+    "id": 958,
     "name": { "japanese": "ナカヌチャン" },
     "base": { "h": 65, "a": 55, "b": 55, "c": 45, "d": 82, "s": 78 },
     "type": ["Fairy", "Steel"]
   },
   {
-    "id": "959",
+    "id": 959,
     "name": { "japanese": "デカヌチャン" },
     "base": { "h": 85, "a": 75, "b": 77, "c": 70, "d": 105, "s": 94 },
     "type": ["Fairy", "Steel"]
   },
   {
-    "id": "960",
+    "id": 960,
     "name": { "japanese": "ウミディグダ" },
     "base": { "h": 10, "a": 55, "b": 25, "c": 35, "d": 25, "s": 95 },
     "type": ["Water"]
   },
   {
-    "id": "961",
+    "id": 961,
     "name": { "japanese": "ウミトリオ" },
     "base": { "h": 35, "a": 100, "b": 50, "c": 50, "d": 70, "s": 120 },
     "type": ["Water"]
   },
   {
-    "id": "962",
+    "id": 962,
     "name": { "japanese": "オトシドリ" },
     "base": { "h": 70, "a": 103, "b": 85, "c": 60, "d": 85, "s": 82 },
     "type": ["Flying", "Dark"]
   },
   {
-    "id": "963",
+    "id": 963,
     "name": { "japanese": "ナミイルカ" },
     "base": { "h": 70, "a": 45, "b": 40, "c": 45, "d": 40, "s": 75 },
     "type": ["Water"]
   },
   {
-    "id": "964",
+    "id": 964,
     "name": { "japanese": "イルカマン" },
     "base": { "h": 100, "a": 70, "b": 72, "c": 53, "d": 62, "s": 100 },
     "type": ["Water"]
   },
   {
-    "id": "965",
+    "id": 965,
     "name": { "japanese": "ブロロン" },
     "base": { "h": 45, "a": 70, "b": 63, "c": 30, "d": 45, "s": 47 },
     "type": ["Steel", "Poison"]
   },
   {
-    "id": "966",
+    "id": 966,
     "name": { "japanese": "ブロロローム" },
     "base": { "h": 80, "a": 119, "b": 90, "c": 54, "d": 67, "s": 90 },
     "type": ["Steel", "Poison"]
   },
   {
-    "id": "967",
+    "id": 967,
     "name": { "japanese": "モトトカゲ" },
     "base": { "h": 70, "a": 95, "b": 65, "c": 85, "d": 65, "s": 121 },
     "type": ["Dragon", "Normal"]
   },
   {
-    "id": "968",
+    "id": 968,
     "name": { "japanese": "ミミズズ" },
     "base": { "h": 70, "a": 85, "b": 145, "c": 60, "d": 55, "s": 65 },
     "type": ["Steel"]
   },
   {
-    "id": "969",
+    "id": 969,
     "name": { "japanese": "キラーメ" },
     "base": { "h": 48, "a": 35, "b": 42, "c": 105, "d": 60, "s": 60 },
     "type": ["Rock", "Poison"]
   },
   {
-    "id": "970",
+    "id": 970,
     "name": { "japanese": "キラフロル" },
     "base": { "h": 83, "a": 55, "b": 90, "c": 130, "d": 81, "s": 86 },
     "type": ["Rock", "Poison"]
   },
   {
-    "id": "971",
+    "id": 971,
     "name": { "japanese": "ボチ" },
     "base": { "h": 50, "a": 61, "b": 60, "c": 30, "d": 55, "s": 34 },
     "type": ["Ghost"]
   },
   {
-    "id": "972",
+    "id": 972,
     "name": { "japanese": "ハカドッグ" },
     "base": { "h": 72, "a": 101, "b": 100, "c": 50, "d": 97, "s": 68 },
     "type": ["Ghost"]
   },
   {
-    "id": "973",
+    "id": 973,
     "name": { "japanese": "カラミンゴ" },
     "base": { "h": 82, "a": 115, "b": 74, "c": 75, "d": 64, "s": 90 },
     "type": ["Flying", "Fighting"]
   },
   {
-    "id": "974",
+    "id": 974,
     "name": { "japanese": "アルクジラ" },
     "base": { "h": 108, "a": 68, "b": 45, "c": 30, "d": 40, "s": 43 },
     "type": ["Ice"]
   },
   {
-    "id": "975",
+    "id": 975,
     "name": { "japanese": "ハルクジラ" },
     "base": { "h": 170, "a": 113, "b": 65, "c": 45, "d": 55, "s": 73 },
     "type": ["Ice"]
   },
   {
-    "id": "976",
+    "id": 976,
     "name": { "japanese": "ミガルーサ" },
     "base": { "h": 90, "a": 102, "b": 73, "c": 78, "d": 65, "s": 70 },
     "type": ["Water", "Psychic"]
   },
   {
-    "id": "977",
+    "id": 977,
     "name": { "japanese": "ヘイラッシャ" },
     "base": { "h": 150, "a": 100, "b": 115, "c": 65, "d": 65, "s": 35 },
     "type": ["Water"]
   },
   {
-    "id": "978",
+    "id": 978,
     "name": { "japanese": "シャリタツ" },
     "base": { "h": 68, "a": 50, "b": 60, "c": 120, "d": 95, "s": 82 },
     "type": ["Dragon", "Water"]
   },
   {
-    "id": "979",
+    "id": 979,
     "name": { "japanese": "コノヨザル" },
     "base": { "h": 110, "a": 115, "b": 80, "c": 50, "d": 90, "s": 90 },
     "type": ["Fighting", "Ghost"]
   },
   {
-    "id": "980",
+    "id": 980,
     "name": { "japanese": "ドオー" },
     "base": { "h": 130, "a": 75, "b": 60, "c": 45, "d": 100, "s": 20 },
     "type": ["Poison", "Ground"]
   },
   {
-    "id": "981",
+    "id": 981,
     "name": { "japanese": "リキキリン" },
     "base": { "h": 120, "a": 90, "b": 70, "c": 110, "d": 70, "s": 60 },
     "type": ["Normal", "Psychic"]
   },
   {
-    "id": "982",
+    "id": 982,
     "name": { "japanese": "ノココッチ" },
     "base": { "h": 125, "a": 100, "b": 80, "c": 85, "d": 75, "s": 55 },
     "type": ["Normal"]
   },
   {
-    "id": "983",
+    "id": 983,
     "name": { "japanese": "ドドゲザン" },
     "base": { "h": 100, "a": 135, "b": 120, "c": 60, "d": 85, "s": 50 },
     "type": ["Dark", "Steel"]
   },
   {
-    "id": "984",
+    "id": 984,
     "name": { "japanese": "イダイナキバ" },
     "base": { "h": 115, "a": 131, "b": 131, "c": 53, "d": 53, "s": 87 },
     "type": ["Ground", "Fighting"]
   },
   {
-    "id": "985",
+    "id": 985,
     "name": { "japanese": "サケブシッポ" },
     "base": { "h": 115, "a": 65, "b": 99, "c": 65, "d": 115, "s": 111 },
     "type": ["Fairy", "Psychic"]
   },
   {
-    "id": "986",
+    "id": 986,
     "name": { "japanese": "アラブルタケ" },
     "base": { "h": 111, "a": 127, "b": 99, "c": 79, "d": 99, "s": 55 },
     "type": ["Grass", "Dark"]
   },
   {
-    "id": "987",
+    "id": 987,
     "name": { "japanese": "ハバタクカミ" },
     "base": { "h": 55, "a": 55, "b": 55, "c": 135, "d": 135, "s": 135 },
     "type": ["Ghost", "Fairy"]
   },
   {
-    "id": "988",
+    "id": 988,
     "name": { "japanese": "チヲハウハネ" },
     "base": { "h": 85, "a": 135, "b": 79, "c": 85, "d": 105, "s": 81 },
     "type": ["Bug", "Fighting"]
   },
   {
-    "id": "989",
+    "id": 989,
     "name": { "japanese": "スナノケガワ" },
     "base": { "h": 85, "a": 81, "b": 97, "c": 121, "d": 85, "s": 101 },
     "type": ["Electric", "Ground"]
   },
   {
-    "id": "990",
+    "id": 990,
     "name": { "japanese": "テツノワダチ" },
     "base": { "h": 90, "a": 112, "b": 120, "c": 72, "d": 70, "s": 106 },
     "type": ["Ground", "Steel"]
   },
   {
-    "id": "991",
+    "id": 991,
     "name": { "japanese": "テツノツツミ" },
     "base": { "h": 56, "a": 80, "b": 114, "c": 124, "d": 60, "s": 136 },
     "type": ["Ice", "Water"]
   },
   {
-    "id": "992",
+    "id": 992,
     "name": { "japanese": "テツノカイナ" },
     "base": { "h": 154, "a": 140, "b": 108, "c": 50, "d": 68, "s": 50 },
     "type": ["Fighting", "Electric"]
   },
   {
-    "id": "993",
+    "id": 993,
     "name": { "japanese": "テツノコウベ" },
     "base": { "h": 94, "a": 80, "b": 86, "c": 122, "d": 80, "s": 108 },
     "type": ["Dark", "Flying"]
   },
   {
-    "id": "994",
+    "id": 994,
     "name": { "japanese": "テツノドクガ" },
     "base": { "h": 80, "a": 70, "b": 60, "c": 140, "d": 110, "s": 110 },
     "type": ["Fire", "Poison"]
   },
   {
-    "id": "995",
+    "id": 995,
     "name": { "japanese": "テツノイバラ" },
     "base": { "h": 100, "a": 134, "b": 110, "c": 70, "d": 84, "s": 72 },
     "type": ["Rock", "Electric"]
   },
   {
-    "id": "996",
+    "id": 996,
     "name": { "japanese": "セビエ" },
     "base": { "h": 65, "a": 75, "b": 45, "c": 35, "d": 45, "s": 55 },
     "type": ["Dragon", "Ice"]
   },
   {
-    "id": "997",
+    "id": 997,
     "name": { "japanese": "セゴール" },
     "base": { "h": 90, "a": 95, "b": 66, "c": 45, "d": 65, "s": 62 },
     "type": ["Dragon", "Ice"]
   },
   {
-    "id": "998",
+    "id": 998,
     "name": { "japanese": "セグレイブ" },
     "base": { "h": 115, "a": 145, "b": 92, "c": 75, "d": 86, "s": 87 },
     "type": ["Dragon", "Ice"]
   },
   {
-    "id": "999",
+    "id": 999,
     "name": { "japanese": "コレクレー" },
     "base": { "h": 45, "a": 30, "b": 70, "c": 75, "d": 70, "s": 10 },
     "type": ["Ghost"]
   },
   {
-    "id": "1000",
+    "id": 1000,
     "name": { "japanese": "サーフゴー" },
     "base": { "h": 87, "a": 60, "b": 95, "c": 133, "d": 91, "s": 84 },
     "type": ["Steel", "Ghost"]
   },
   {
-    "id": "1001",
+    "id": 1001,
     "name": { "japanese": "チオンジェン" },
     "base": { "h": 85, "a": 85, "b": 100, "c": 95, "d": 135, "s": 70 },
     "type": ["Dark", "Grass"]
   },
   {
-    "id": "1002",
+    "id": 1002,
     "name": { "japanese": "パオジアン" },
     "base": { "h": 80, "a": 120, "b": 80, "c": 90, "d": 65, "s": 135 },
     "type": ["Dark", "Ice"]
   },
   {
-    "id": "1003",
+    "id": 1003,
     "name": { "japanese": "ディンルー" },
     "base": { "h": 155, "a": 110, "b": 125, "c": 55, "d": 80, "s": 45 },
     "type": ["Dark", "Ground"]
   },
   {
-    "id": "1004",
+    "id": 1004,
     "name": { "japanese": "イーユイ" },
     "base": { "h": 55, "a": 80, "b": 80, "c": 135, "d": 120, "s": 100 },
     "type": ["Dark", "Fire"]
   },
   {
-    "id": "1005",
+    "id": 1005,
     "name": { "japanese": "トドロクツキ" },
     "base": { "h": 105, "a": 139, "b": 71, "c": 55, "d": 101, "s": 119 },
     "type": ["Dragon", "Dark"]
   },
   {
-    "id": "1006",
+    "id": 1006,
     "name": { "japanese": "テツノブジン" },
     "base": { "h": 74, "a": 130, "b": 90, "c": 120, "d": 60, "s": 116 },
     "type": ["Fairy", "Fighting"]
   },
   {
-    "id": "1007",
+    "id": 1007,
     "name": { "japanese": "コライドン" },
     "base": { "h": 100, "a": 135, "b": 115, "c": 85, "d": 100, "s": 135 },
     "type": ["Fighting", "Dragon"]
   },
   {
-    "id": "1008",
+    "id": 1008,
     "name": { "japanese": "ミライドン" },
     "base": { "h": 100, "a": 85, "b": 100, "c": 135, "d": 115, "s": 135 },
     "type": ["Electric", "Dragon"]
   },
   {
-    "id": "1009",
+    "id": 1009,
     "name": { "japanese": "ウネルミナモ" },
     "base": { "h": 99, "a": 83, "b": 91, "c": 125, "d": 83, "s": 109 },
     "type": ["Water", "Dragon"]
   },
   {
-    "id": "1010",
+    "id": 1010,
     "name": { "japanese": "テツノイサハ" },
     "base": { "h": 90, "a": 130, "b": 88, "c": 70, "d": 108, "s": 104 },
     "type": ["Grass", "Psychic"]
   },
   {
-    "id": "1011",
+    "id": 1011,
     "name": { "japanese": "カミッチュ" },
     "base": { "h": 80, "a": 80, "b": 110, "c": 95, "d": 80, "s": 40 },
     "type": ["Grass", "Dragon"]
   },
   {
-    "id": "1012",
+    "id": 1012,
     "name": { "japanese": "チャデス" },
     "base": { "h": 40, "a": 45, "b": 45, "c": 74, "d": 54, "s": 50 },
     "type": ["Grass", "Ghost"]
   },
   {
-    "id": "1013",
+    "id": 1013,
     "name": { "japanese": "ヤバソチャ" },
     "base": { "h": 71, "a": 60, "b": 106, "c": 121, "d": 80, "s": 70 },
     "type": ["Grass", "Ghost"]
   },
   {
-    "id": "1014",
+    "id": 1014,
     "name": { "japanese": "イイネイヌ" },
     "base": { "h": 88, "a": 128, "b": 115, "c": 58, "d": 86, "s": 80 },
     "type": ["Poison", "Fighting"]
   },
   {
-    "id": "1015",
+    "id": 1015,
     "name": { "japanese": "マシマシラ" },
     "base": { "h": 88, "a": 75, "b": 66, "c": 130, "d": 90, "s": 106 },
     "type": ["Poison", "Psychic"]
   },
   {
-    "id": "1016",
+    "id": 1016,
     "name": { "japanese": "キチキギス" },
     "base": { "h": 88, "a": 91, "b": 82, "c": 70, "d": 125, "s": 99 },
     "type": ["Poison", "Fairy"]
   },
   {
-    "id": "1017",
+    "id": 1017,
     "name": { "japanese": "オーガポン" },
     "base": { "h": 80, "a": 120, "b": 84, "c": 60, "d": 96, "s": 110 },
     "type": ["Grass"]
   },
   {
-    "id": "-1",
+    "id": -1,
     "name": { "japanese": "ブリジュラス" },
     "base": { "h": -1, "a": -1, "b": -1, "c": -1, "d": -1, "s": -1 },
     "type": ["Steel", "Dragon"]
   },
   {
-    "id": "-2",
+    "id": -2,
     "name": { "japanese": "タケルライコ" },
     "base": { "h": -1, "a": -1, "b": -1, "c": -1, "d": -1, "s": -1 },
     "type": ["Electric", "Dragon"]
   },
   {
-    "id": "-3",
+    "id": -3,
     "name": { "japanese": "テツノカシラ" },
     "base": { "h": -1, "a": -1, "b": -1, "c": -1, "d": -1, "s": -1 },
     "type": ["Steel", "Psychic"]

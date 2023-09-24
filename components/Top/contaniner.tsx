@@ -108,7 +108,6 @@ export default function Top({ initMap, firstPoke }: Props) {
               e.preventDefault();
               inputRef.current?.focus();
             } else if (e.key.match(/^[a-z]{1}$/)) {
-              console.log(e.key);
               setHintShow(true);
               setTimeout(() => {
                 setHintShow(false);

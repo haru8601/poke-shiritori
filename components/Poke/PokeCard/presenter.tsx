@@ -29,7 +29,7 @@ export default function PokeCardPresenter({
         height={small ? imgBase : imgBase * 1.2}
         width={small ? imgBase : imgBase * 1.2}
         src={pokeImg}
-        alt="ポケモンの画像です。"
+        alt={pokeName}
         style={{ zIndex: zIndex }}
         onClick={onEnterPokeImg}
         onMouseEnter={onEnterPokeImg}

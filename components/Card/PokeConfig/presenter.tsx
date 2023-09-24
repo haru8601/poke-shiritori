@@ -80,7 +80,7 @@ export default function PokeConfigPresenter({
                 <Tabs defaultActiveKey="month-rank" className="mb-3" justify>
                   <Tab eventKey="month-rank" title="月間">
                     <Table hover striped>
-                      <thead className="position-sticky top-0 bg-success">
+                      <thead className="position-sticky top-0 bg-success bg-gradient">
                         <tr>
                           <th>順位</th>
                           <th>ユーザー</th>
@@ -92,7 +92,7 @@ export default function PokeConfigPresenter({
                   </Tab>
                   <Tab eventKey="total-rank" title="総合">
                     <Table hover striped>
-                      <thead className="position-sticky top-0 bg-success">
+                      <thead className="position-sticky top-0 bg-success bg-gradient">
                         <tr>
                           <th>順位</th>
                           <th>ユーザー</th>
@@ -104,7 +104,7 @@ export default function PokeConfigPresenter({
                   </Tab>
                   <Tab eventKey="v1-rank" title="v1">
                     <Table hover striped>
-                      <thead className="position-sticky top-0 bg-success">
+                      <thead className="position-sticky top-0 bg-success bg-gradient">
                         <tr>
                           <th>順位</th>
                           <th>ユーザー</th>
@@ -176,7 +176,7 @@ export default function PokeConfigPresenter({
             </Tab>
             <Tab eventKey="history" title="変更履歴">
               <Table hover striped>
-                <thead className="position-sticky top-0 bg-success">
+                <thead className="position-sticky top-0 bg-success bg-gradient">
                   <tr>
                     <th className={styles.fontSm}>バージョン</th>
                     <th className={styles.fontMd}>変更内容</th>

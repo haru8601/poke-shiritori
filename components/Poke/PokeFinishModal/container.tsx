@@ -10,23 +10,38 @@ import styles from "@/app/styles/Top.module.css";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
+import { GAME_STATUS } from "@/const/gameStatus";
+import { usePokeApi } from "@/hook/usePokeApi";
+import { PokeMap } from "@/types/Poke";
 import { Score } from "@/types/Score";
 import { findResetDate } from "@/utils/findResetHistory";
 import { getLatestScoreAll } from "@/utils/getLatestScoreAll";
 import { getMonthScoreAll } from "@/utils/getMonthScoreAll";
 import { getMyIndex } from "@/utils/getMyIndex";
+import { getShiritoriWord } from "@/utils/getShiritoriWord";
 import { getSortedHistories } from "@/utils/getSortedHistories";
+import getTargetPoke from "@/utils/poke/getTargetPoke";
+import getCandidates from "@/utils/shiritori/getCandidates";
 import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "gameStatus" | "score" | "scoreAll"
+  | "pokeMap"
+  | "firstPoke"
+  | "gameStatus"
+  | "score"
+  | "scoreAll"
+  | "os"
+  | "innerWidth"
 >;
 
 export default function PokeFinishModal({
+  pokeMap,
+  firstPoke,
   gameStatus,
   score,
   scoreAll,
+  os,
 }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   // cookieが空の場合はnull表記
@@ -39,6 +54,8 @@ export default function PokeFinishModal({
   const [monthRankRowAll, setMonthRankRowAll] = useState<ReactNode>();
   const [myIndex, setMyIndex] = useState<number>(-1);
   const [myMonthIndex, setMyMonthIndex] = useState<number>(-1);
+  const [candidateMap, setCandidateMap] = useState<PokeMap>({});
+  const { setPokeImg } = usePokeApi();
 
   useEffect(() => {
     if (!scoreAll.length) {
@@ -91,6 +108,37 @@ export default function PokeFinishModal({
       );
     }
 
+    // 回答の候補を調査
+    if (gameStatus == GAME_STATUS.endLose) {
+      const targetPoke = getTargetPoke(pokeMap, firstPoke);
+      // ンで終えた場合はそのポケモンの頭文字
+      let lastWord = targetPoke.name.japanese.charAt(0);
+      if (!targetPoke.name.japanese.endsWith("ン")) {
+        // 答えてない場合は現在のポケモンの最後の文字
+        lastWord = getShiritoriWord(targetPoke.name.japanese);
+      }
+      const tmpCandidates = getCandidates(pokeMap, lastWord);
+      if (
+        !tmpCandidates.length ||
+        tmpCandidates[0].name.japanese.endsWith("ン")
+      ) {
+        // 候補がなかった場合
+      } else {
+        // 候補は最大n件
+        while (
+          Object.keys(candidateMap).length < 3 &&
+          tmpCandidates.length > 0
+        ) {
+          const randomNum = Math.floor(Math.random() * tmpCandidates.length);
+          const poke = tmpCandidates[randomNum];
+          candidateMap[poke.id] = poke;
+          setCandidateMap(JSON.parse(JSON.stringify(candidateMap)));
+          setPokeImg(poke, setCandidateMap);
+          tmpCandidates.splice(randomNum, 1);
+        }
+      }
+    }
+
     // キーボードショートカット
     const onKeydown = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Enter") {
@@ -116,7 +164,7 @@ export default function PokeFinishModal({
   }, [gameStatus]);
 
   const handleCloseModal = () => {
-    location.reload();
+    setShowModal(true);
   };
 
   const handleChangeNickname = (event: ChangeEvent<HTMLInputElement>) => {
@@ -179,12 +227,15 @@ export default function PokeFinishModal({
     <PokeFinishModalPresenter
       monthRankRowAll={monthRankRowAll}
       score={score}
+      candidateMap={candidateMap}
       showModal={showModal}
       nickname={nickname}
       nicknameErr={nicknameErr}
       myIndex={myIndex}
       myMonthIndex={myMonthIndex}
       isLoading={isLoading}
+      os={os}
+      innerWidth={innerWidth}
       onCloseModal={handleCloseModal}
       onChangeNickname={handleChangeNickname}
       onSubmitNickname={handleSubmitNickname}

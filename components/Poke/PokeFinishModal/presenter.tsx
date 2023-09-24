@@ -1,15 +1,21 @@
 import { ChangeEvent, ComponentProps, ReactNode } from "react";
-import { Badge, Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
+import { Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import Tweet from "@/components/Card/Tweet/container";
 import { CONFIG } from "@/const/config";
-import { TEXT } from "@/const/text";
+import { OS_KEY } from "@/const/os";
+import { PokeMap } from "@/types/Poke";
 import { getRankText } from "@/utils/getMyRank";
 import PokeFinishModal from "./container";
+import PokeCard from "../PokeCard/container";
 
-type Props = Pick<ComponentProps<typeof PokeFinishModal>, "score"> & {
+type Props = Pick<
+  ComponentProps<typeof PokeFinishModal>,
+  "score" | "os" | "innerWidth"
+> & {
   monthRankRowAll: ReactNode;
   showModal: boolean;
+  candidateMap: PokeMap;
   nickname: string | null;
   nicknameErr: string;
   isLoading: boolean;
@@ -23,12 +29,15 @@ type Props = Pick<ComponentProps<typeof PokeFinishModal>, "score"> & {
 export default function PokeFinishModalPresenter({
   monthRankRowAll,
   score,
+  candidateMap,
   showModal,
   nickname,
   nicknameErr,
   myIndex,
   myMonthIndex,
   isLoading,
+  os,
+  innerWidth,
   onCloseModal,
   onChangeNickname,
   onSubmitNickname,
@@ -40,7 +49,7 @@ export default function PokeFinishModalPresenter({
       className={`${styles.finishModal} overflow-hidden`}
       backdrop="static"
     >
-      <Modal.Header closeButton style={{ height: "15vh" }}>
+      <Modal.Header closeButton style={{ height: "10vh" }}>
         <Modal.Title
           className="text-primary flex-grow-1 text-center"
           style={{ fontSize: "2rem" }}
@@ -51,45 +60,30 @@ export default function PokeFinishModalPresenter({
             getRankText(score)}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body className="d-flex flex-column" style={{ maxHeight: "80vh" }}>
-        <Tweet
-          score={score}
-          myIndex={myIndex}
-          myMonthIndex={myMonthIndex}
-          className="mx-5 mb-4"
-        />
-        <Badge bg="secondary" className="mb-1 align-self-start">
-          ニックネーム
-        </Badge>
-        <InputGroup
-          className={`mx-auto justify-content-center ${styles.pointer}`}
-        >
-          <Form.Control
-            placeholder={CONFIG.score.defaultNickname}
-            value={nickname ?? ""}
-            onChange={onChangeNickname}
-            className={styles.pokeInput}
-            isInvalid={nicknameErr !== ""}
-          />
+      <Modal.Body className="d-flex flex-column" style={{ maxHeight: "90vh" }}>
+        <div className="d-flex justify-content-around">
+          <Tweet score={score} myIndex={myIndex} myMonthIndex={myMonthIndex} />
           <Button
             variant="primary"
-            className={`rounded-end ${styles.submitBtn}`}
-            type="submit"
             onClick={!isLoading ? onSubmitNickname : void 0}
             disabled={isLoading}
           >
-            {(isLoading && TEXT.loading) || "登録"}
+            <i className="bi bi-forward-fill fs-5"></i>
+            {`${
+              (innerWidth >= CONFIG.pcMinWidth && `(${OS_KEY[os]}+Enter)`) || ""
+            }`}
           </Button>
-          {nicknameErr && (
-            <Form.Control.Feedback type="invalid">
-              {nicknameErr}
-            </Form.Control.Feedback>
-          )}
-        </InputGroup>
+        </div>
+        <h4>候補</h4>
+        <div className="d-flex">
+          {Object.values(candidateMap).map((poke, index) => (
+            <PokeCard key={index} targetPoke={poke}></PokeCard>
+          ))}
+        </div>
         <h4 className="mt-3">月間ランキング</h4>
         <div style={{ height: "auto", overflowY: "scroll" }}>
           <Table hover striped>
-            <thead className="position-sticky top-0 bg-success">
+            <thead className="position-sticky top-0 bg-success bg-gradient">
               <tr>
                 <th>順位</th>
                 <th>ユーザー</th>
@@ -106,7 +100,28 @@ export default function PokeFinishModalPresenter({
                 </tr>
                 <tr className={styles.myScore}>
                   <td>{myMonthIndex + 1}</td>
-                  <td>{nickname || CONFIG.score.defaultNickname}</td>
+                  <td>
+                    {" "}
+                    <InputGroup
+                      className={`${styles.pointer}`}
+                      style={{ width: "80%" }}
+                    >
+                      <Form.Control
+                        placeholder={CONFIG.score.defaultNickname}
+                        value={nickname ?? ""}
+                        onChange={onChangeNickname}
+                        className={styles.pokeInput}
+                        isInvalid={nicknameErr !== ""}
+                        /* デフォのpaddingだと大きすぎるので調整 */
+                        style={{ padding: "0.175rem 0.75rem" }}
+                      />
+                      {nicknameErr && (
+                        <Form.Control.Feedback type="invalid">
+                          {nicknameErr}
+                        </Form.Control.Feedback>
+                      )}
+                    </InputGroup>
+                  </td>
                   <td>{score}</td>
                 </tr>
               </tfoot>

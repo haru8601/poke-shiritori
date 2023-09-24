@@ -75,9 +75,13 @@ export default function TopPresenter({
     <>
       {gameStatus.includes("end") && (
         <PokeFinishModal
+          pokeMap={pokeMap}
+          firstPoke={firstPoke}
           gameStatus={gameStatus}
           score={score}
           scoreAll={scoreAll}
+          os={os}
+          innerWidth={innerWidth}
         />
       )}
       {gameStatus == GAME_STATUS.willStart && (

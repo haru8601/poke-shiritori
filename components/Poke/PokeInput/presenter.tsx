@@ -28,7 +28,7 @@ export default function PokeInputPresenter({
         <Button
           variant="primary"
           size="lg"
-          className="rounded-end"
+          className="rounded-end bg-gradient"
           type="submit"
           onClick={onClickStart}
         >
