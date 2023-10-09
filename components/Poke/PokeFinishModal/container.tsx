@@ -141,6 +141,7 @@ export default function PokeFinishModal({
 
     // キーボードショートカット
     const onKeydown = (e: globalThis.KeyboardEvent) => {
+      if (!showModal) return;
       if (e.key === "Enter") {
         // CtrlまたはCommand(Windowsキー)が押されていたら
         if (e.metaKey || e.ctrlKey) {
@@ -164,7 +165,7 @@ export default function PokeFinishModal({
   }, [gameStatus]);
 
   const handleCloseModal = () => {
-    setShowModal(true);
+    setShowModal(false);
   };
 
   const handleChangeNickname = (event: ChangeEvent<HTMLInputElement>) => {

@@ -113,7 +113,7 @@ export default function PokeFinishModalPresenter({
           <Tab eventKey="candidates" title="候補">
             <div className="d-flex flex-column">
               {Object.values(candidateMap).map((poke, index) => (
-                <div key={index}>
+                <div key={index} className="mb-2">
                   <PokeCard targetPoke={poke}></PokeCard>
                 </div>
               ))}
