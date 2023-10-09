@@ -112,6 +112,8 @@ export default function PokeFinishModalPresenter({
         <Tabs defaultActiveKey="candidates" className="mb-3">
           <Tab eventKey="candidates" title="候補">
             <div className="d-flex flex-column">
+              {Object.keys(candidateMap).length == 0 &&
+                `候補: ${Object.keys(candidateMap).length}匹`}
               {Object.values(candidateMap).map((poke, index) => (
                 <div key={index} className="mb-2">
                   <PokeCard targetPoke={poke}></PokeCard>

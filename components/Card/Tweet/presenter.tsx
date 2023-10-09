@@ -15,7 +15,7 @@ export default function TweetPresenter({ text, style, className }: Props) {
       rel="noreferrer"
       target="_blank"
       style={style}
-      className={className}
+      className={`${className} bg-gradient`}
     >
       <i className="bi bi-twitter-x pe-1"></i>ポスト
     </Button>

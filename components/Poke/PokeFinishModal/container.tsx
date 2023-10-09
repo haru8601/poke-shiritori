@@ -4,6 +4,7 @@ import {
   ComponentProps,
   ReactNode,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import styles from "@/app/styles/Top.module.css";
@@ -43,7 +44,10 @@ export default function PokeFinishModal({
   scoreAll,
   os,
 }: Props) {
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(true);
+  // リスナーで使用
+  const showRef = useRef<boolean>(true);
+  showRef.current = showModal;
   // cookieが空の場合はnull表記
   const [nickname, setNickname] = useState<string | null>(
     // キーをcookieのキー名としている
@@ -141,7 +145,7 @@ export default function PokeFinishModal({
 
     // キーボードショートカット
     const onKeydown = (e: globalThis.KeyboardEvent) => {
-      if (!showModal) return;
+      if (!showRef.current) return;
       if (e.key === "Enter") {
         // CtrlまたはCommand(Windowsキー)が押されていたら
         if (e.metaKey || e.ctrlKey) {
@@ -158,11 +162,6 @@ export default function PokeFinishModal({
     // 初回のみ実行
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  /* gameStatusが切り替わったらmodalを表示 */
-  useEffect(() => {
-    setShowModal(gameStatus.includes("end"));
-  }, [gameStatus]);
 
   const handleCloseModal = () => {
     setShowModal(false);
