@@ -17,7 +17,7 @@ export default function TweetPresenter({ text, style, className }: Props) {
       style={style}
       className={className}
     >
-      <i className="bi bi-twitter"></i>
+      <i className="bi bi-twitter pe-1"></i>ポスト
     </Button>
   );
 }
