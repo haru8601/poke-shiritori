@@ -185,13 +185,13 @@ export default function PokeFinishModal({
     }
 
     setLoading(true);
-    /* cookieに名前保存(unownにするのはDBに送信する時のみ) */
-    setCookie(
-      null,
-      COOKIE_NAMES.shiritori_nickname,
-      nickname ?? "",
-      CONFIG.cookie
-    );
+    // cookieに名前保存(unownにするのはDBに送信する時のみ)
+    // 既存ニックネームが空文字だとなぜかsetできないので除外
+    if (nickname && nickname != "") {
+      setCookie(null, COOKIE_NAMES.shiritori_nickname, nickname, CONFIG.cookie);
+    } else {
+      destroyCookie(null, COOKIE_NAMES.shiritori_nickname);
+    }
     /* cookieにスコア保存 */
     setCookie(
       null,
