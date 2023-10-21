@@ -53,6 +53,8 @@ export default function PokeFinishModal({
     // キーをcookieのキー名としている
     (parseCookies() as typeof COOKIE_NAMES).shiritori_nickname
   );
+  const nicknameRef = useRef<string | null>(null);
+  nicknameRef.current = nickname;
   const [nicknameErr, setNicknameErr] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const [monthRankRowAll, setMonthRankRowAll] = useState<ReactNode>();
@@ -144,12 +146,13 @@ export default function PokeFinishModal({
     }
 
     // キーボードショートカット
-    const onKeydown = (e: globalThis.KeyboardEvent) => {
+    /* 中の変数を動的にするようuseRefを用いる */
+    const onKeydown = async (e: globalThis.KeyboardEvent) => {
       if (!showRef.current) return;
       if (e.key === "Enter") {
         // CtrlまたはCommand(Windowsキー)が押されていたら
         if (e.metaKey || e.ctrlKey) {
-          handleSubmitNickname();
+          await handleSubmitNickname();
         }
       }
     };
@@ -187,8 +190,13 @@ export default function PokeFinishModal({
     setLoading(true);
     // cookieに名前保存(unownにするのはDBに送信する時のみ)
     // 既存ニックネームが空文字だとなぜかsetできないので除外
-    if (nickname && nickname != "") {
-      setCookie(null, COOKIE_NAMES.shiritori_nickname, nickname, CONFIG.cookie);
+    if (nicknameRef.current && nicknameRef.current != "") {
+      setCookie(
+        null,
+        COOKIE_NAMES.shiritori_nickname,
+        nicknameRef.current,
+        CONFIG.cookie
+      );
     } else {
       destroyCookie(null, COOKIE_NAMES.shiritori_nickname);
     }

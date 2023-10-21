@@ -38,4 +38,9 @@ export const HISTORIES: History[] = [
     content: "終了時に候補表示",
     createdAt: "20231009",
   },
+  {
+    version: "2.1.1",
+    content: "ランキング保存時の不具合修正",
+    createdAt: "20231021",
+  },
 ];
