@@ -43,4 +43,9 @@ export const HISTORIES: History[] = [
     content: "ランキング保存時の不具合修正",
     createdAt: "20231021",
   },
+  {
+    version: "2.1.2",
+    content: "SV藍の円盤ポケモン対応",
+    createdAt: "20231221",
+  },
 ];
