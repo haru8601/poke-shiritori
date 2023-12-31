@@ -1,9 +1,9 @@
 import { headers } from "next/headers";
+import TooManyRequest from "@/components/Error/429";
 import Top from "@/components/Top/contaniner";
-import { CONFIG } from "@/const/config";
 import { PATH } from "@/const/path";
 import { getPokeList } from "@/lib/getPokeList";
-import limitChecker from "@/lib/limitChecher";
+import limitChecker from "@/lib/limitChecker";
 import { getPokeImg } from "@/lib/pokeapi/getPokeImg";
 import { Poke, PokeMap } from "@/types/Poke";
 
@@ -33,16 +33,7 @@ export default async function Page() {
     await limitChecker().check(clientIp);
   } catch (err) {
     console.log(err);
-    return {
-      props: {
-        err: {
-          code: 429,
-          message: `Too many requests. Try again after ${
-            CONFIG.requestLimit.expired / 1000
-          } seconds`,
-        },
-      },
-    };
+    return <TooManyRequest />;
   }
 
   /* ポケ一覧取得 */
