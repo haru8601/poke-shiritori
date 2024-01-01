@@ -15,5 +15,8 @@ export const CONFIG = {
     nicknameMaxLen: 10,
     scoreMax: 1000 * 1000,
   },
+  revalidate: {
+    api: 1 * 60 * 60,
+  },
   pcMinWidth: 700,
 } as const;
