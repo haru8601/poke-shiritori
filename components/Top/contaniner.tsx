@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import getRanking from "@/actions/ranking/getRanking";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
@@ -64,12 +65,13 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
-    /* 更新時はキャッシュを使わない */
+    // 更新時はキャッシュを使わない
     fetchScoreAll(
       parseCookies(null)[COOKIE_NAMES.update_flg] != COOKIE_VALUES.on
     );
-    /* next/headersのcookiesがreadonlyなためCSR側で削除 */
-    destroyCookie(null, COOKIE_NAMES.shiritori_score);
+
+    // next/headersのcookiesがreadonlyなためCSR側で削除
+    // https://nextjs.org/docs/app/api-reference/functions/cookies#deleting-cookies
     destroyCookie(null, COOKIE_NAMES.update_flg);
     destroyCookie(null, COOKIE_NAMES.shiritori_audio);
 
@@ -372,22 +374,14 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   const fetchScoreAll = (useCache: boolean) => {
     /* ランキング取得はawaitしなくていい */
-    fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
-      cache: useCache ? "force-cache" : "no-store",
-    })
+    // fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
+    //   cache: useCache ? "force-cache" : "no-store",
+    // })
+    getRanking()
       .then((response) => {
-        if (!response.ok) {
-          console.log("response status from ranking is NOT ok.");
-          return [];
-        }
         (async () => {
           // fetchが完了したら変数保存
-          const res: Score[] = await (response.json().catch((err) => {
-            console.log("err while parsing scoreAll.");
-            console.log(err);
-            return [];
-          }) as Promise<Score[]>);
-          setScoreAll(res);
+          setScoreAll(response);
         })();
       })
       .catch((err: Error) => {

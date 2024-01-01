@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import setRanking from "@/actions/ranking/setRanking";
 import styles from "@/app/styles/Top.module.css";
 import TopPresenter from "@/components/Top/presenter";
 import { CONFIG } from "@/const/config";
@@ -200,29 +201,12 @@ export default function PokeFinishModal({
     } else {
       destroyCookie(null, COOKIE_NAMES.shiritori_nickname);
     }
-    /* cookieにスコア保存 */
-    setCookie(
-      null,
-      COOKIE_NAMES.shiritori_score,
-      score.toString(),
-      CONFIG.cookie
-    );
 
-    /* ランキング更新 */
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
-      method: "POST",
-      cache: "no-store",
-    }).catch((err: Error) => {
-      console.log("error while updating ranking.");
-      console.log(err);
-    });
+    const ok = await setRanking(nicknameRef.current || undefined, score);
 
-    if (res && !res.ok) {
-      console.log("response status from ranking is NOT ok.");
+    if (!ok) {
+      console.error("store db failed.");
     }
-
-    /* スコア削除 */
-    destroyCookie(null, COOKIE_NAMES.shiritori_score);
 
     /* ランキングの変更を記録 */
     setCookie(null, COOKIE_NAMES.update_flg, COOKIE_VALUES.on, CONFIG.cookie);
