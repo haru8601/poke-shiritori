@@ -8,6 +8,9 @@ import { getPokeImg } from "@/lib/pokeapi/getPokeImg";
 import { Poke, PokeMap } from "@/types/Poke";
 
 export const metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL || ""
+  ),
   title: "ポケモンしりとり by haroot",
   description: "harootが作成したポケモンしりとり用サイトです。",
   icons: {
@@ -18,7 +21,7 @@ export const metadata = {
     card: "summary",
     title: "ポケモンしりとり",
     description: "harootが作成したポケモンの名前でしりとりが出来るサイトです。",
-    images: [`${process.env.NEXT_PUBLIC_SITE_URL}${PATH.defaultImg}`],
+    images: [PATH.defaultImg],
     siteId: "1370600922418536449",
     creator: "@haroot_net",
     creatorId: "1370600922418536449",
