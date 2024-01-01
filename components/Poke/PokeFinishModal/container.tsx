@@ -111,13 +111,10 @@ export default function PokeFinishModal({
 
     // 回答の候補を調査
     if (gameStatus == GAME_STATUS.endLose) {
-      const targetPoke = getTargetPoke(pokeMap, firstPoke);
-      // ンで終えた場合はそのポケモンの頭文字
-      let lastWord = targetPoke.name.japanese.charAt(0);
-      if (!targetPoke.name.japanese.endsWith("ン")) {
-        // 答えてない場合は現在のポケモンの最後の文字
-        lastWord = getShiritoriWord(targetPoke.name.japanese);
-      }
+      // 相手の最後のポケモンを取得
+      const targetPoke = getTargetPoke(pokeMap, firstPoke, true);
+      // 相手のポケモンの最後の文字
+      const lastWord = getShiritoriWord(targetPoke.name.japanese);
       const tmpCandidates = getCandidates(pokeMap, lastWord);
       if (
         !tmpCandidates.length ||

@@ -223,7 +223,7 @@ export default function Top({ initMap, firstPoke }: Props) {
   /* CPUの回答 */
   useEffect(() => {
     if (gameStatus != GAME_STATUS.playingEnermy) return;
-    const targetPoke = getTargetPoke(pokeMap, firstPoke);
+    const targetPoke = getTargetPoke(pokeMap, firstPoke, false);
 
     const lastWord = getShiritoriWord(targetPoke.name.japanese);
     /* ポケ一覧からアンサーの候補を取得 */
@@ -277,7 +277,7 @@ export default function Top({ initMap, firstPoke }: Props) {
   };
 
   const handleSubmitPoke = async () => {
-    const enermyTarget = getTargetPoke(pokeMap, firstPoke);
+    const enermyTarget = getTargetPoke(pokeMap, firstPoke, true);
     /* カタカナに変換後、特殊記号変換 */
     const kataPokeName = replaceSpecial(hira2kata(sentPokeName));
 
