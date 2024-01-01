@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import getRanking from "@/actions/ranking/getRanking";
+import { getRanking } from "@/actions/ranking/getRanking";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
@@ -56,7 +56,6 @@ export default function Top({ initMap, firstPoke }: Props) {
   const { setPokeImg } = usePokeApi();
 
   const [pokeAudio, setPokeAudio] = useState<HTMLAudioElement>();
-  /* 取得するまでは空配列 */
   const [scoreAll, setScoreAll] = useState<Score[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   /* リスナーで使用 */
@@ -65,9 +64,9 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
-    // 更新時はキャッシュを使わない
+    // 更新時はDBから再取得
     fetchScoreAll(
-      parseCookies(null)[COOKIE_NAMES.update_flg] != COOKIE_VALUES.on
+      parseCookies(null)[COOKIE_NAMES.update_flg] == COOKIE_VALUES.on
     );
 
     // next/headersのcookiesがreadonlyなためCSR側で削除
@@ -369,15 +368,12 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   const handleScoreReset = async () => {
     /* リロード時はキャッシュを使わない */
-    fetchScoreAll(false);
+    fetchScoreAll(true);
   };
 
-  const fetchScoreAll = (useCache: boolean) => {
-    /* ランキング取得はawaitしなくていい */
-    // fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ranking`, {
-    //   cache: useCache ? "force-cache" : "no-store",
-    // })
-    getRanking()
+  const fetchScoreAll = (forceFetch: boolean) => {
+    // ランキング取得はawaitしなくていい
+    getRanking(forceFetch)
       .then((response) => {
         (async () => {
           // fetchが完了したら変数保存

@@ -9,7 +9,6 @@ export default async function setRanking(
   score: number
 ): Promise<boolean> {
   if (
-    !score ||
     nickname.length > CONFIG.score.nicknameMaxLen ||
     isNaN(score) ||
     score > CONFIG.score.scoreMax
