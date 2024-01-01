@@ -14,6 +14,7 @@ type Props = Pick<
   | "onClickStart"
   | "onChangePoke"
   | "onSubmitPoke"
+  | "onSkip"
 >;
 
 export default function PokeInput({
@@ -27,6 +28,7 @@ export default function PokeInput({
   onClickStart,
   onChangePoke,
   onSubmitPoke,
+  onSkip,
 }: Props) {
   return (
     <PokeInputPresenter
@@ -40,6 +42,7 @@ export default function PokeInput({
       onClickStart={onClickStart}
       onChangePoke={onChangePoke}
       onSubmitPoke={onSubmitPoke}
+      onSkip={onSkip}
     />
   );
 }

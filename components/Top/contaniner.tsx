@@ -387,6 +387,25 @@ export default function Top({ initMap, firstPoke }: Props) {
       });
   };
 
+  const handleSkip = () => {
+    // ランダムに回答取得
+    let tmpTarget = getAnswer(pokeMap, "");
+
+    // TODO: 回答出来ない場合は変更しない
+    if (!tmpTarget) {
+      /* 有効な解答無し */
+      return;
+    } else {
+      const newestEnermy = getNewestPoke(pokeMap, false);
+      pokeMap[tmpTarget.id].status = {
+        owner: "enermy",
+        order: newestEnermy?.status?.order ? newestEnermy.status.order + 1 : 1,
+      };
+    }
+    changePokeMap(pokeMap, setPokeMap);
+    setPokeImg(tmpTarget, setPokeMap);
+  };
+
   return (
     <TopPresenter
       pokeMap={pokeMap}
@@ -411,6 +430,7 @@ export default function Top({ initMap, firstPoke }: Props) {
       onClickStart={handleClickStart}
       onPlayAudio={handlePlayAudio}
       onReloadRanking={handleScoreReset}
+      onSkip={handleSkip}
     />
   );
 }

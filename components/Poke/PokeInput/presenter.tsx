@@ -5,6 +5,7 @@ import { CONFIG } from "@/const/config";
 import { GAME_STATUS } from "@/const/gameStatus";
 import { OS_KEY } from "@/const/os";
 import PokeInput from "./container";
+import PokeSkip from "../PokeSkip/container";
 
 type Props = ComponentProps<typeof PokeInput>;
 
@@ -19,6 +20,7 @@ export default function PokeInputPresenter({
   onClickStart,
   onChangePoke,
   onSubmitPoke,
+  onSkip,
 }: Props) {
   return (
     <InputGroup
@@ -37,7 +39,7 @@ export default function PokeInputPresenter({
           }`}
         </Button>
       )) || (
-        <>
+        <div className="d-flex">
           <Form.Control
             style={{ maxWidth: "300px" }}
             className={styles.pokeInput}
@@ -62,7 +64,9 @@ export default function PokeInputPresenter({
           >
             送信
           </Button>
-        </>
+          {/* TODO:エラーテキストが見えない等レイアウト修正, firstPokeの際にスキップ禁止 */}
+          <PokeSkip gameStatus={gameStatus} onSkip={onSkip} />
+        </div>
       )}
       <Form.Control.Feedback type="invalid" tooltip>
         {pokeErr}

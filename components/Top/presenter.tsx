@@ -45,6 +45,7 @@ type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
   onClickStart: () => void;
   onPlayAudio: (e: MouseEvent<HTMLInputElement>) => void;
   onReloadRanking: () => void;
+  onSkip: () => void;
 };
 
 export default function TopPresenter({
@@ -70,6 +71,7 @@ export default function TopPresenter({
   onClickStart,
   onPlayAudio,
   onReloadRanking,
+  onSkip,
 }: Props) {
   return (
     <>
@@ -156,6 +158,7 @@ export default function TopPresenter({
           onClickStart={onClickStart}
           onChangePoke={onChangePoke}
           onSubmitPoke={onSubmitPoke}
+          onSkip={onSkip}
         />
         <Thinking gameStatus={gameStatus} toolTarget={toolTarget} />
         <PokeHistoryList
