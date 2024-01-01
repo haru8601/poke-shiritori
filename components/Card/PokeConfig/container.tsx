@@ -1,13 +1,10 @@
 import { ComponentProps, ReactNode, useEffect, useState } from "react";
+import { getOldRanking } from "@/actions/ranking/getOldRanking";
 import { TEXT } from "@/const/text";
 import { Score } from "@/types/Score";
 import { addDummy } from "@/utils/addDummy";
 import { convertToRankNode } from "@/utils/convertToRankNode";
-import { findResetDate } from "@/utils/findResetHistory";
-import { getLatestScoreAll } from "@/utils/getLatestScoreAll";
 import { getMonthScoreAll } from "@/utils/getMonthScoreAll";
-import { getOldScoreAll } from "@/utils/getOldScoreAll";
-import { getSortedHistories } from "@/utils/getSortedHistories";
 import PokeConfigPresenter from "./presenter";
 import PokeHeaderPresenter from "../PokeHeader/presenter";
 
@@ -29,25 +26,26 @@ export default function PokeConfig({
   );
   const [oldRankRowAll, setOldRankRowAll] = useState<ReactNode>(TEXT.loading);
 
-  /* スコアが変わるたびにランキングを更新 */
+  // スコアが変わるたびにランキングを更新
   useEffect(() => {
-    /* scoreが取得されてなければランキングも表示しない */
+    // scoreが取得されてなければランキングも表示しない
     if (scoreAll.length) {
-      const resetDate = findResetDate(getSortedHistories());
-      // ランキングリセット後のみのスコア
-      const latestScoreAll = getLatestScoreAll(scoreAll, resetDate);
-
-      const tmpScoreAll = addDummy(latestScoreAll);
+      const tmpScoreAll = addDummy(scoreAll);
+      // 総合ランキング
       setRankRowAll(convertToRankNode(tmpScoreAll, true));
 
-      const monthScoreAll: Score[] = getMonthScoreAll(latestScoreAll);
+      const monthScoreAll: Score[] = getMonthScoreAll(scoreAll);
 
       const tmpMonthScoreAll = addDummy(monthScoreAll);
+      // 月間ランキング
       setMonthRankRowAll(convertToRankNode(tmpMonthScoreAll, true));
 
-      setOldRankRowAll(
-        convertToRankNode(getOldScoreAll(scoreAll, resetDate), false)
-      );
+      (async () => {
+        // (キャッシュがなければ)DBから取得
+        const oldRanking = await getOldRanking();
+        // 旧バージョンランキング
+        setOldRankRowAll(convertToRankNode(oldRanking, false));
+      })();
     }
   }, [scoreAll]);
 

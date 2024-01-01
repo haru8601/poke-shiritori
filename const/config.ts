@@ -5,7 +5,8 @@ export const CONFIG = {
     requestCount: 1000, // per {expired}
     maxUserCount: 1000, // per {expired}
   },
-  rankLimit: 5,
+  topRankLimit: 5,
+  rankLimit: 500,
   cookie: {
     maxAge: 60 * 60 * 24,
   },

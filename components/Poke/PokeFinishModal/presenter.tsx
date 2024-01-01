@@ -65,7 +65,7 @@ export default function PokeFinishModalPresenter({
           style={{ fontSize: "2rem" }}
         >
           {(myMonthIndex >= 0 &&
-            myMonthIndex < CONFIG.rankLimit &&
+            myMonthIndex < CONFIG.topRankLimit &&
             `月間${myMonthIndex + 1}位！`) ||
             getRankText(score)}
         </Modal.Title>
@@ -132,7 +132,7 @@ export default function PokeFinishModalPresenter({
                   </tr>
                 </thead>
                 <tbody>{monthRankRowAll}</tbody>
-                {myMonthIndex >= CONFIG.rankLimit && (
+                {myMonthIndex >= CONFIG.topRankLimit && (
                   <tfoot style={{ borderTop: "3px double black" }}>
                     <tr>
                       <td>...</td>

@@ -19,9 +19,9 @@ export default function Tweet({
   className,
 }: Props) {
   let text: string = "ポケモンしりとりに挑戦中！";
-  const rankedInFlg: boolean = myIndex >= 0 && myIndex < CONFIG.rankLimit;
+  const rankedInFlg: boolean = myIndex >= 0 && myIndex < CONFIG.topRankLimit;
   const monthRankedInFlg: boolean =
-    myMonthIndex >= 0 && myMonthIndex < CONFIG.rankLimit;
+    myMonthIndex >= 0 && myMonthIndex < CONFIG.topRankLimit;
   if (score != 0) {
     text = `ポケモンしりとりで ${score} 点(${getRankText(score)})を出し${
       monthRankedInFlg

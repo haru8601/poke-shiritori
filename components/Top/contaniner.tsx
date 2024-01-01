@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { getRanking } from "@/actions/ranking/getRanking";
+import { getNowRanking } from "@/actions/ranking/getNowRanking";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
@@ -373,7 +373,7 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   const fetchScoreAll = (forceFetch: boolean) => {
     // ランキング取得はawaitしなくていい
-    getRanking(forceFetch)
+    getNowRanking(forceFetch)
       .then((response) => {
         (async () => {
           // fetchが完了したら変数保存

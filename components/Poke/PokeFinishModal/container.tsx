@@ -16,12 +16,9 @@ import { GAME_STATUS } from "@/const/gameStatus";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { PokeMap } from "@/types/Poke";
 import { Score } from "@/types/Score";
-import { findResetDate } from "@/utils/findResetHistory";
-import { getLatestScoreAll } from "@/utils/getLatestScoreAll";
 import { getMonthScoreAll } from "@/utils/getMonthScoreAll";
 import { getMyIndex } from "@/utils/getMyIndex";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
-import { getSortedHistories } from "@/utils/getSortedHistories";
 import getTargetPoke from "@/utils/poke/getTargetPoke";
 import getCandidates from "@/utils/shiritori/getCandidates";
 import PokeFinishModalPresenter from "./presenter";
@@ -69,14 +66,11 @@ export default function PokeFinishModal({
       /* ランキングが取得できてなければ順位計算しない */
       setMonthRankRowAll("ランキングを取得できませんでした");
     } else {
-      const resetDate = findResetDate(getSortedHistories());
-      const latestScoreAll = getLatestScoreAll(scoreAll, resetDate);
-
       // 順位計算
-      setMyIndex(getMyIndex(score, latestScoreAll));
+      setMyIndex(getMyIndex(score, scoreAll));
 
       // 月間順位
-      const monthScoreAll = getMonthScoreAll(latestScoreAll);
+      const monthScoreAll = getMonthScoreAll(scoreAll);
       setMyMonthIndex(getMyIndex(score, monthScoreAll));
 
       // 表示するランキング生成
@@ -99,7 +93,7 @@ export default function PokeFinishModal({
             }
             return scoreDiff;
           })
-          .slice(0, CONFIG.rankLimit)
+          .slice(0, CONFIG.topRankLimit)
           .map((score: Score, index) => {
             return (
               <tr
