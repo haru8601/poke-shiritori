@@ -1,6 +1,5 @@
 import "server-only";
 import { Dayjs } from "dayjs";
-import { CONFIG } from "@/const/config";
 import execQuery from "@/lib/mysql/execQuery";
 import { Score } from "@/types/Score";
 
@@ -25,7 +24,7 @@ export default async function fetchDbScoreAll(
     `select * from score_all
     ${beforeText}
     ${afterText}
-    order by score desc, update_date desc limit ${CONFIG.rankLimit}`
+    order by score desc, update_date desc`
   ).catch((err: Error) => {
     console.log("select error");
     console.log(err);
