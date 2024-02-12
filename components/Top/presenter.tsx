@@ -8,6 +8,7 @@ import {
 } from "react";
 import { Alert, Badge, Stack } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
+import { CONFIG } from "@/const/config";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
 import { OS } from "@/const/os";
 import { PokeMap } from "@/types/Poke";
@@ -38,6 +39,7 @@ type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
   inputRef: RefObject<HTMLInputElement>;
   os: OS;
   hintShow: boolean;
+  skipLeft: number;
   innerWidth: number;
   onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -64,6 +66,7 @@ export default function TopPresenter({
   inputRef,
   os,
   hintShow,
+  skipLeft,
   innerWidth,
   onChangePoke,
   onKeydown,
@@ -153,6 +156,9 @@ export default function TopPresenter({
           gameStatus={gameStatus}
           inputRef={inputRef}
           os={os}
+          // TODO: 画像取れてるか確認
+          skipPoke={pokeMap[CONFIG.skipPokeId]} // エアームド
+          skipLeft={skipLeft}
           innerWidth={innerWidth}
           onKeydown={onKeydown}
           onClickStart={onClickStart}

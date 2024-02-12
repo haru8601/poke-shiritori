@@ -19,4 +19,5 @@ export const CONFIG = {
     api: 1 * 60 * 60,
   },
   pcMinWidth: 700,
+  skipPokeId: 227,
 } as const;

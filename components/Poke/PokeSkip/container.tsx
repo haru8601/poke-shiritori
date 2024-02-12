@@ -4,9 +4,21 @@ import PokeInputPresenter from "../PokeInput/presenter";
 
 type Props = Pick<
   ComponentProps<typeof PokeInputPresenter>,
-  "gameStatus" | "onSkip"
+  "skipPoke" | "skipLeft" | "gameStatus" | "onSkip"
 >;
 
-export default function PokeSkip({ gameStatus, onSkip }: Props) {
-  return <PokeSkipPresenter gameStatus={gameStatus} onSkip={onSkip} />;
+export default function PokeSkip({
+  skipPoke,
+  skipLeft,
+  gameStatus,
+  onSkip,
+}: Props) {
+  return (
+    <PokeSkipPresenter
+      skipPoke={skipPoke}
+      skipLeft={skipLeft}
+      gameStatus={gameStatus}
+      onSkip={onSkip}
+    />
+  );
 }

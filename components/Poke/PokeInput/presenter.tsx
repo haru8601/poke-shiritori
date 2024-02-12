@@ -15,6 +15,8 @@ export default function PokeInputPresenter({
   gameStatus,
   inputRef,
   os,
+  skipPoke,
+  skipLeft,
   innerWidth,
   onKeydown,
   onClickStart,
@@ -65,7 +67,14 @@ export default function PokeInputPresenter({
             送信
           </Button>
           {/* TODO:エラーテキストが見えない等レイアウト修正, firstPokeの際にスキップ禁止 */}
-          <PokeSkip gameStatus={gameStatus} onSkip={onSkip} />
+          <div className="ms-3">
+            <PokeSkip
+              skipPoke={skipPoke}
+              skipLeft={skipLeft}
+              gameStatus={gameStatus}
+              onSkip={onSkip}
+            />
+          </div>
         </div>
       )}
       <Form.Control.Feedback type="invalid" tooltip>

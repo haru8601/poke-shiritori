@@ -57,6 +57,9 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   const [pokeAudio, setPokeAudio] = useState<HTMLAudioElement>();
   const [scoreAll, setScoreAll] = useState<Score[]>([]);
+
+  const [skipLeft, setSkipLeft] = useState<number>(3);
+
   const inputRef = useRef<HTMLInputElement>(null);
   /* リスナーで使用 */
   const statusRef = useRef<GameStatus>(GAME_STATUS.beforeStart);
@@ -78,6 +81,9 @@ export default function Top({ initMap, firstPoke }: Props) {
     tmpPokeAudio.volume = 0.2;
     tmpPokeAudio.loop = true;
     setPokeAudio(tmpPokeAudio);
+
+    // ふきとばしポケ画像登録
+    setPokeImg(pokeMap[CONFIG.skipPokeId], setPokeMap);
 
     const ua = window.navigator.userAgent.toLowerCase();
 
@@ -404,6 +410,8 @@ export default function Top({ initMap, firstPoke }: Props) {
     }
     changePokeMap(pokeMap, setPokeMap);
     setPokeImg(tmpTarget, setPokeMap);
+    setSkipLeft((val) => val--);
+    // TODO: スキップされたポケモンをグレーアウト
   };
 
   return (
@@ -423,6 +431,7 @@ export default function Top({ initMap, firstPoke }: Props) {
       inputRef={inputRef}
       os={os}
       hintShow={hintShow}
+      skipLeft={skipLeft}
       innerWidth={innerWidth}
       onChangePoke={handleChangePoke}
       onKeydown={handleKeydown}
