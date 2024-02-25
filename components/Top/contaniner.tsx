@@ -394,6 +394,8 @@ export default function Top({ initMap, firstPoke }: Props) {
   };
 
   const handleSkip = () => {
+    inputRef.current?.focus();
+
     if (skipLeft <= 0) {
       setPokeErr(`スキップ回数が上限(${CONFIG.skipMax}回)に達しました`);
       return;
