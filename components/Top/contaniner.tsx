@@ -395,6 +395,7 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   const handleSkip = () => {
     if (skipLeft <= 0) {
+      setPokeErr(`スキップ回数が上限(${CONFIG.skipMax}回)に達しました`);
       return;
     }
 
@@ -403,6 +404,7 @@ export default function Top({ initMap, firstPoke }: Props) {
 
     // firstPokeの場合スキップ不可
     if (!newestEnermy) {
+      setPokeErr("最初のポケモンはスキップできません");
       return;
     }
 

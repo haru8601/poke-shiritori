@@ -41,7 +41,7 @@ export default function PokeInputPresenter({
           }`}
         </Button>
       )) || (
-        <div className="d-flex">
+        <>
           <Form.Control
             style={{ maxWidth: "300px" }}
             className={styles.pokeInput}
@@ -75,7 +75,7 @@ export default function PokeInputPresenter({
               onSkip={onSkip}
             />
           </div>
-        </div>
+        </>
       )}
       <Form.Control.Feedback type="invalid" tooltip>
         {pokeErr}
