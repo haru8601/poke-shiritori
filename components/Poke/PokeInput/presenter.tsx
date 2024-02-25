@@ -66,8 +66,7 @@ export default function PokeInputPresenter({
           >
             送信
           </Button>
-          {/* TODO:エラーテキストが見えない等レイアウト修正 */}
-          <div className="ms-3">
+          <div className="ms-5">
             <PokeSkip
               skipPoke={skipPoke}
               skipLeft={skipLeft}

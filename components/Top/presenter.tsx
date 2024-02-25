@@ -156,7 +156,6 @@ export default function TopPresenter({
           gameStatus={gameStatus}
           inputRef={inputRef}
           os={os}
-          // TODO: 画像取れてるか確認
           skipPoke={pokeMap[CONFIG.skipPokeId]} // エアームド
           skipLeft={skipLeft}
           innerWidth={innerWidth}

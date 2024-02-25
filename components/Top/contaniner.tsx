@@ -411,9 +411,9 @@ export default function Top({ initMap, firstPoke }: Props) {
     // ランダムに回答取得
     let tmpTarget = getAnswer(pokeMap, "");
 
-    // TODO: 回答出来ない場合は変更しない
     if (!tmpTarget) {
       /* 有効な解答無し */
+      setPokeErr("スキップ候補が見つかりませんでした");
       return;
     } else {
       // 最後の相手ポケモン取得

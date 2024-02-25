@@ -5,13 +5,20 @@ import { CONFIG } from "@/const/config";
 import { GAME_STATUS } from "@/const/gameStatus";
 import PokeSkip from "./container";
 
-type Props = ComponentProps<typeof PokeSkip>;
+type Props = ComponentProps<typeof PokeSkip> & {
+  entered: boolean;
+  onEnterSkip: () => void;
+  onLeaveSkip: () => void;
+};
 
 export default function PokeSkipPresenter({
   skipPoke,
   gameStatus,
   skipLeft,
+  entered,
   onSkip,
+  onEnterSkip,
+  onLeaveSkip,
 }: Props) {
   return (
     <div
@@ -23,7 +30,6 @@ export default function PokeSkipPresenter({
       className="position-relative"
     >
       <Button
-        onClick={onSkip}
         disabled={gameStatus != GAME_STATUS.playingMyturn}
         style={{
           width: "100%",
@@ -31,6 +37,9 @@ export default function PokeSkipPresenter({
         }}
         className="p-0 border-0"
         variant="" // primaryをつけない
+        onClick={onSkip}
+        onMouseEnter={onEnterSkip}
+        onMouseLeave={onLeaveSkip}
       >
         <Container fluid className="p-0 m-0">
           {Array(CONFIG.skipMax)
@@ -44,7 +53,11 @@ export default function PokeSkipPresenter({
                     opacity: 0.8,
                     height: (CONFIG.spaceBasis * 1.5) / CONFIG.skipMax,
                     backgroundColor: `${
-                      CONFIG.skipMax - skipLeft <= index ? "limegreen" : ""
+                      CONFIG.skipMax - skipLeft <= index
+                        ? entered
+                          ? "forestgreen"
+                          : "limegreen"
+                        : ""
                     }`,
                   }}
                   className={`border-dark border-1 border
