@@ -58,7 +58,7 @@ export default function Top({ initMap, firstPoke }: Props) {
   const [pokeAudio, setPokeAudio] = useState<HTMLAudioElement>();
   const [scoreAll, setScoreAll] = useState<Score[]>([]);
 
-  const [skipLeft, setSkipLeft] = useState<number>(3);
+  const [skipLeft, setSkipLeft] = useState<number>(CONFIG.skipMax);
 
   const inputRef = useRef<HTMLInputElement>(null);
   /* リスナーで使用 */
@@ -394,6 +394,11 @@ export default function Top({ initMap, firstPoke }: Props) {
   };
 
   const handleSkip = () => {
+    if (skipLeft <= 0) {
+      return;
+    }
+    // TODO:firstPokeはスキップ不可
+
     // ランダムに回答取得
     let tmpTarget = getAnswer(pokeMap, "");
 
@@ -402,16 +407,20 @@ export default function Top({ initMap, firstPoke }: Props) {
       /* 有効な解答無し */
       return;
     } else {
+      // 最後の相手ポケモン取得
       const newestEnermy = getNewestPoke(pokeMap, false);
+      if (newestEnermy) {
+        pokeMap[newestEnermy.id].skip = true;
+      }
       pokeMap[tmpTarget.id].status = {
         owner: "enermy",
         order: newestEnermy?.status?.order ? newestEnermy.status.order + 1 : 1,
       };
+      changePokeMap(pokeMap, setPokeMap);
+      setPokeImg(tmpTarget, setPokeMap);
+      setSkipLeft((val) => --val);
+      // TODO: スキップされたポケモンをグレーアウト
     }
-    changePokeMap(pokeMap, setPokeMap);
-    setPokeImg(tmpTarget, setPokeMap);
-    setSkipLeft((val) => val--);
-    // TODO: スキップされたポケモンをグレーアウト
   };
 
   return (

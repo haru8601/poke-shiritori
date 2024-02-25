@@ -20,4 +20,5 @@ export const CONFIG = {
   },
   pcMinWidth: 700,
   skipPokeId: 227,
+  skipMax: 3,
 } as const;

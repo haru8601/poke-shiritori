@@ -10,22 +10,28 @@ type Props = ComponentProps<typeof PokeSkip>;
 export default function PokeSkipPresenter({
   skipPoke,
   gameStatus,
+  skipLeft,
   onSkip,
 }: Props) {
   return (
     <Button
       onClick={onSkip}
       disabled={gameStatus != GAME_STATUS.playingMyturn}
-      className="position-relative p-0"
+      className="position-relative p-0 border border-dark border-1"
+      variant="" // primaryをつけない
     >
       <Container fluid className="p-0" style={{ width: CONFIG.spaceBasis }}>
-        {Array(3)
+        {Array(CONFIG.skipMax)
           .fill(1) // 疎配列にしない
           .map((val, index) => {
             return (
-              // TODO: skipLeftによってグレーアウト
-              <Col key={index} className="border-black border-1 border-bottom">
-                3
+              <Col
+                key={index}
+                className={`border-dark border-1 border-bottom ${
+                  CONFIG.skipMax - skipLeft <= index ? "text-bg-primary" : ""
+                }`}
+              >
+                {index}
               </Col>
             );
           })}
@@ -35,7 +41,7 @@ export default function PokeSkipPresenter({
         width={CONFIG.spaceBasis}
         src={skipPoke.imgPath}
         alt={skipPoke.name.japanese}
-        style={{ zIndex: -100 }}
+        style={{ zIndex: 100, opacity: 0.9 }}
         className="position-absolute top-0 start-0"
       />
     </Button>

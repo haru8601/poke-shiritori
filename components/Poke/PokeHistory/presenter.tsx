@@ -29,6 +29,8 @@ export default function PokeHistoryPresenter({
                 style={{
                   height: `${CONFIG.spaceBasis}px`,
                   backgroundColor: myPoke.type && pokeColorMap[myPoke.type[0]],
+                  filter: (myPoke.skip && "grayscale(100%)}") || "initial",
+                  opacity: (myPoke.skip && 0.5) || "initial",
                 }}
               >
                 <PokeCard targetPoke={myPoke} zIndex={index + 100}></PokeCard>

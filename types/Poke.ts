@@ -50,6 +50,7 @@ export type Poke = {
   base: PokeBase;
   imgPath: string;
   status?: PokeStatus;
+  skip: boolean;
 };
 
 export type PokeMap = { [key: number]: Poke };

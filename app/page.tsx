@@ -52,6 +52,7 @@ export default async function Page() {
   const pokeMap: PokeMap = {};
   /* ポケモンMapの初期化 */
   for (const poke of pokeList) {
+    poke.skip = false;
     pokeMap[poke.id] = poke;
   }
   /* 最初のポケモンを登録 */
