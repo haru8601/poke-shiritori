@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   ChangeEvent,
   ComponentProps,
@@ -102,6 +103,27 @@ export default function TopPresenter({
           <div className="position-absolute top-50 start-50 translate-middle">
             {countDown}
           </div>
+        </div>
+      )}
+      {gameStatus == GAME_STATUS.skip && (
+        <div
+          className="position-fixed top-50 start-0 translate-middle-y bg-dark d-flex justify-content-center"
+          style={{
+            width: "100vw",
+            height: CONFIG.spaceBasis * 2,
+            zIndex: 101,
+          }}
+        >
+          <Image
+            height={CONFIG.spaceBasis * 2}
+            width={CONFIG.spaceBasis * 2}
+            src={pokeMap[CONFIG.skipPokeId].imgPath}
+            alt={pokeMap[CONFIG.skipPokeId].name.japanese}
+            className={GAME_STATUS.skip ? styles.skipImg : ""}
+            style={{
+              zIndex: 102,
+            }}
+          />
         </div>
       )}
       <Alert

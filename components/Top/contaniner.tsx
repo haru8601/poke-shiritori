@@ -424,9 +424,13 @@ export default function Top({ initMap, firstPoke }: Props) {
         owner: "enermy",
         order: newestEnermy?.status?.order ? newestEnermy.status.order + 1 : 1,
       };
-      changePokeMap(pokeMap, setPokeMap);
       setPokeImg(tmpTarget, setPokeMap);
       setSkipLeft((val) => --val);
+      setGameStatus(GAME_STATUS.skip);
+      setTimeout(() => {
+        changePokeMap(pokeMap, setPokeMap);
+        setGameStatus(GAME_STATUS.playingMyturn);
+      }, 1000);
     }
   };
 

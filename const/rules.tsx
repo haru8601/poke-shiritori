@@ -1,3 +1,5 @@
+import { CONFIG } from "./config";
+
 type Rule = { title: string; body?: JSX.Element };
 
 export const RULES: readonly Rule[] = [
@@ -51,5 +53,8 @@ export const RULES: readonly Rule[] = [
   {
     title:
       "CPUが出せるポケモン無くなった場合、ボーナスとして10000点加算されます",
+  },
+  {
+    title: `${CONFIG.skipMax}回までスキップして相手のポケモンをランダムに変更することができます`,
   },
 ] as const;

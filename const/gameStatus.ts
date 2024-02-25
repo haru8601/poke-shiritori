@@ -6,6 +6,7 @@ export const GAME_STATUS = {
   playingEnermy: "playing_enermy",
   endWin: "end_win",
   endLose: "end_lose",
+  skip: "skip",
 } as const;
 
 export type GameStatus = (typeof GAME_STATUS)[keyof typeof GAME_STATUS];

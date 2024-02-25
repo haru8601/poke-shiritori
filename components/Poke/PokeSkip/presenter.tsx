@@ -25,7 +25,6 @@ export default function PokeSkipPresenter({
       style={{
         width: CONFIG.spaceBasis * 2,
         height: CONFIG.spaceBasis * 1.5,
-        zIndex: 200,
       }}
       className="position-relative"
     >

@@ -15,6 +15,9 @@ export default function PokeTarget({ pokeMap, firstPoke, gameStatus }: Props) {
   const imgBase = CONFIG.spaceBasis;
   const [targetPoke, setTargetPoke] = useState<Poke>(firstPoke);
   useEffect(() => {
+    if (gameStatus == GAME_STATUS.skip) {
+      return;
+    }
     setTargetPoke(
       getTargetPoke(pokeMap, firstPoke, gameStatus == GAME_STATUS.playingMyturn)
     );
