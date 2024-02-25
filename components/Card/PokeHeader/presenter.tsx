@@ -35,7 +35,7 @@ export default function PokeHeaderPresenter({
             className="d-inline-block align-self-center text-dark fw-bold"
             style={{ fontSize: "30px" }}
           >
-            ポケモンしりとりSV(β版)
+            ポケモンしりとりSV
           </h1>
           {innerWidth >= CONFIG.pcMinWidth && (
             <>

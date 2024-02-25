@@ -23,8 +23,8 @@ export default function PokeSkipPresenter({
   return (
     <div
       style={{
-        width: CONFIG.spaceBasis * 2,
-        height: CONFIG.spaceBasis * 1.5,
+        width: CONFIG.spaceBasis * 1.5,
+        height: CONFIG.spaceBasis * 1.2,
       }}
       className="position-relative"
     >
@@ -50,7 +50,7 @@ export default function PokeSkipPresenter({
                   key={index}
                   style={{
                     opacity: 0.8,
-                    height: (CONFIG.spaceBasis * 1.5) / CONFIG.skipMax,
+                    height: (CONFIG.spaceBasis * 1.2) / CONFIG.skipMax,
                     backgroundColor: `${
                       CONFIG.skipMax - skipLeft <= index
                         ? entered
@@ -73,8 +73,8 @@ export default function PokeSkipPresenter({
             })}
         </Container>
         <Image
-          height={CONFIG.spaceBasis * 1.5}
-          width={CONFIG.spaceBasis * 1.5}
+          height={CONFIG.spaceBasis * 1.2}
+          width={CONFIG.spaceBasis * 1.2}
           src={skipPoke.imgPath}
           alt={skipPoke.name.japanese}
           style={{ zIndex: 100 }}

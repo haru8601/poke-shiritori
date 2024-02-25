@@ -66,7 +66,9 @@ export default function PokeInputPresenter({
           >
             送信
           </Button>
-          <div className="ms-5">
+          <div
+            className={(innerWidth >= CONFIG.pcMinWidth && `ms-5`) || "ms-2"}
+          >
             <PokeSkip
               skipPoke={skipPoke}
               skipLeft={skipLeft}
