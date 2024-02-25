@@ -397,7 +397,14 @@ export default function Top({ initMap, firstPoke }: Props) {
     if (skipLeft <= 0) {
       return;
     }
-    // TODO:firstPokeはスキップ不可
+
+    // 最後の相手ポケモン取得
+    const newestEnermy = getNewestPoke(pokeMap, false);
+
+    // firstPokeの場合スキップ不可
+    if (!newestEnermy) {
+      return;
+    }
 
     // ランダムに回答取得
     let tmpTarget = getAnswer(pokeMap, "");
@@ -408,7 +415,6 @@ export default function Top({ initMap, firstPoke }: Props) {
       return;
     } else {
       // 最後の相手ポケモン取得
-      const newestEnermy = getNewestPoke(pokeMap, false);
       if (newestEnermy) {
         pokeMap[newestEnermy.id].skip = true;
       }
@@ -419,7 +425,6 @@ export default function Top({ initMap, firstPoke }: Props) {
       changePokeMap(pokeMap, setPokeMap);
       setPokeImg(tmpTarget, setPokeMap);
       setSkipLeft((val) => --val);
-      // TODO: スキップされたポケモンをグレーアウト
     }
   };
 

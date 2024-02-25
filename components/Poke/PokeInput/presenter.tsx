@@ -66,7 +66,7 @@ export default function PokeInputPresenter({
           >
             送信
           </Button>
-          {/* TODO:エラーテキストが見えない等レイアウト修正, firstPokeの際にスキップ禁止 */}
+          {/* TODO:エラーテキストが見えない等レイアウト修正 */}
           <div className="ms-3">
             <PokeSkip
               skipPoke={skipPoke}
