@@ -9,17 +9,19 @@ export default async function fetchDbScoreAll(
 ): Promise<Score[]> {
   const format = "YYYY-MM-DD 00:00:00";
 
-  // where create_date < 2023-01-01 00:00:00
+  // ex) where update_date < 2023-01-01 00:00:00
   const beforeText = beforeDate
-    ? ` where create_date < "${beforeDate.format(format)}" `
+    ? ` where update_date < "${beforeDate.format(format)}" `
     : " ";
 
   const operator = beforeDate ? " and " : " where ";
-  // and create_date < 2023-01-01 00:00:00
+  // ex) and update_date < 2023-01-01 00:00:00
   const afterText = afterDate
-    ? `${operator}create_date >= "${afterDate.format(format)}" `
+    ? `${operator}update_date >= "${afterDate.format(format)}" `
     : " ";
 
+  // TODO:monthと総合もクエリを分けてlimitかけれるようにする
+  // TODO: where, orderのカラムに複合indexを貼って試す
   return await execQuery(
     `select * from score_all
     ${beforeText}

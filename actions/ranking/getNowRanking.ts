@@ -17,7 +17,7 @@ let rankCache: Score[] = [];
 export const getNowRanking = async (forceFetch: boolean) => {
   if (forceFetch || rankCache.length == 0) {
     const resetDate = findResetDate(getSortedHistories());
-    rankCache = await fetchDbScoreAll(undefined, resetDate);
+    rankCache = (await fetchDbScoreAll(undefined, resetDate)) ?? [];
   }
   return rankCache;
 };
