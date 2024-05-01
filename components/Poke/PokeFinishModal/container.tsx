@@ -19,8 +19,8 @@ import { Score } from "@/types/Score";
 import { getMonthScoreAll } from "@/utils/getMonthScoreAll";
 import { getMyIndex } from "@/utils/getMyIndex";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
-import getTargetPoke from "@/utils/poke/getTargetPoke";
 import getCandidates from "@/utils/shiritori/getCandidates";
+import getNewestPoke from "@/utils/shiritori/getNewestPoke";
 import PokeFinishModalPresenter from "./presenter";
 
 type Props = Pick<
@@ -121,7 +121,8 @@ export default function PokeFinishModal({
     // 回答の候補を調査
     if (gameStatus == GAME_STATUS.endLose) {
       // 相手の最後のポケモンを取得
-      const targetPoke = getTargetPoke(pokeMap, firstPoke, true);
+      // getTargetPokeだとfirstPokeで負けた時の挙動が正しくない
+      const targetPoke = getNewestPoke(pokeMap, false) || firstPoke;
       // 相手のポケモンの最後の文字
       const lastWord = getShiritoriWord(targetPoke.name.japanese);
       const tmpCandidates = getCandidates(pokeMap, lastWord);

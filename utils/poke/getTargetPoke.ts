@@ -1,6 +1,7 @@
 import { Poke, PokeMap } from "@/types/Poke";
 import getNewestPoke from "../shiritori/getNewestPoke";
 
+// 直前に出されたポケモンを抽出する
 export default function getTargetPoke(
   pokeMap: PokeMap,
   firstPoke: Poke,
