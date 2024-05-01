@@ -4,6 +4,7 @@ import {
   ChangeEvent,
   KeyboardEvent,
   MouseEvent,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -121,6 +122,7 @@ export default function Top({ initMap, firstPoke }: Props) {
         case GAME_STATUS.playingMyturn:
         case GAME_STATUS.playingEnermy:
         case GAME_STATUS.playingWillEnermy:
+          // ヒント表示
           if (document.activeElement != inputRef.current) {
             if (e.key === "/") {
               e.preventDefault();
@@ -404,7 +406,7 @@ export default function Top({ initMap, firstPoke }: Props) {
       });
   };
 
-  const handleSkip = () => {
+  const handleSkip = useCallback(() => {
     inputRef.current?.focus();
 
     if (skipLeft <= 0) {
@@ -445,7 +447,24 @@ export default function Top({ initMap, firstPoke }: Props) {
         setGameStatus(GAME_STATUS.playingMyturn);
       }, 1000);
     }
-  };
+  }, [pokeMap, setPokeImg, skipLeft]);
+
+  useEffect(() => {
+    // キーボードショートカット
+    const onKeydown = (e: globalThis.KeyboardEvent) => {
+      // スキップ
+      if (gameStatus === GAME_STATUS.playingMyturn) {
+        if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+          handleSkip();
+        }
+      }
+    };
+    window.addEventListener("keydown", onKeydown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeydown);
+    };
+  }, [gameStatus, handleSkip]);
 
   return (
     <TopPresenter

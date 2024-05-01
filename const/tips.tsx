@@ -1,4 +1,5 @@
 import { Button } from "react-bootstrap";
+import { OS_KEY } from "./os";
 
 type Tip = {
   title: string;
@@ -14,6 +15,23 @@ export const TIPS: readonly Tip[] = [
         <p>
           ちなみに、例えば「ニドラン♂」を入力したければ「にどらんおす」でも通ります。
         </p>
+      </div>
+    ),
+  },
+  {
+    title: "ショートカット一覧",
+    body: (
+      <div>
+        <code>
+          {OS_KEY.mac}/{OS_KEY.windows}+Enter
+        </code>
+        <p>ゲームスタート/回答送信/ランキング保存</p>
+        <code>/</code>
+        <p>入力ボックスへカーソルを合わせる</p>
+        <code>
+          {OS_KEY.mac}/{OS_KEY.windows}+K
+        </code>
+        <p>回答スキップ</p>
       </div>
     ),
   },
