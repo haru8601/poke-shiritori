@@ -50,7 +50,7 @@ export type Poke = {
   base: PokeBase;
   imgPath: string;
   status?: PokeStatus;
-  skip: boolean;
+  skip: boolean; // スキップされた対象か
 };
 
 export type PokeMap = { [key: number]: Poke };

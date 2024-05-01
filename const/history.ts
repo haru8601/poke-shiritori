@@ -48,4 +48,11 @@ export const HISTORIES: History[] = [
     content: "SV藍の円盤ポケモン対応",
     createdAt: "20231221",
   },
+  {
+    version: "3.0.0",
+    content: "スキップ追加",
+    // 本当は0501だがスコアを一部残すため
+    createdAt: "20240401",
+    rankReset: true,
+  },
 ];

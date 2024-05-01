@@ -11,4 +11,5 @@ export const NOT_FOUND_POKE: Poke = {
     owner: "enermy",
     order: 99999,
   },
+  skip: false,
 };

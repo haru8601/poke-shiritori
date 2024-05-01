@@ -1,5 +1,7 @@
+import Script from "next/script";
 import { ComponentProps } from "react";
 import { Button } from "react-bootstrap";
+import { ADS } from "@/const/ads";
 import { CONFIG } from "@/const/config";
 import { PATH } from "@/const/path";
 import PokeFooter from "./container";
@@ -15,6 +17,18 @@ export default function PokeFooterPresenter({ innerWidth }: Props) {
         "justify-content-center"
       }`}
     >
+      {/* <!-- admax --> */}
+      <div
+        className="admax-switch"
+        data-admax-id={ADS.admax_id}
+        style={{ display: "inline-block" }}
+      ></div>
+      <Script
+        type="text/javascript"
+        src="https://adm.shinobi.jp/st/t.js"
+        async
+      ></Script>
+      {/* <!-- admax --> */}
       <Button href={PATH.homePage} variant="link" target="blank">
         <i className="bi bi-box-arrow-up-right">作者のHP</i>
       </Button>

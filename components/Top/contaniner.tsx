@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { getNowRanking } from "@/actions/ranking/getNowRanking";
+import { ADS } from "@/const/ads";
 import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { GAME_STATUS, GameStatus } from "@/const/gameStatus";
@@ -16,6 +17,7 @@ import { NOT_FOUND_POKE } from "@/const/notFoundPoke";
 import { OS, OS_LIST } from "@/const/os";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { useTimer } from "@/hook/useTimer";
+import { AdmaxAdType } from "@/types/Admax";
 import { Poke, PokeMap } from "@/types/Poke";
 import { Score } from "@/types/Score";
 import { getAudioRandomPath } from "@/utils/getAudioRandomPath";
@@ -67,6 +69,15 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
+    // admax
+    const admaxads: AdmaxAdType[] = window.admaxads || [];
+    if (!admaxads.some((ad) => ad.admax_id === ADS.admax_id))
+      admaxads.push({
+        admax_id: ADS.admax_id,
+        type: "switch",
+      });
+    // admax
+
     // 更新時はDBから再取得
     fetchScoreAll(
       parseCookies(null)[COOKIE_NAMES.update_flg] == COOKIE_VALUES.on

@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { ChangeEvent, ComponentProps, ReactNode } from "react";
 import {
   Badge,
@@ -11,6 +12,7 @@ import {
 } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import Tweet from "@/components/Card/Tweet/container";
+import { ADS } from "@/const/ads";
 import { CONFIG } from "@/const/config";
 import { OS_KEY } from "@/const/os";
 import { TEXT } from "@/const/text";
@@ -150,6 +152,18 @@ export default function PokeFinishModalPresenter({
             </div>
           </Tab>
         </Tabs>
+        {/* <!-- admax --> */}
+        <div
+          className="admax-switch"
+          data-admax-id={ADS.admax_id}
+          style={{ display: "inline-block" }}
+        ></div>
+        <Script
+          type="text/javascript"
+          src="https://adm.shinobi.jp/st/t.js"
+          async
+        ></Script>
+        {/* <!-- admax --> */}
       </Modal.Body>
     </Modal>
   );

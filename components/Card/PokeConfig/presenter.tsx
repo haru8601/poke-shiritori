@@ -102,7 +102,7 @@ export default function PokeConfigPresenter({
                       <tbody>{rankRowAll}</tbody>
                     </Table>
                   </Tab>
-                  <Tab eventKey="v1-rank" title="v1">
+                  <Tab eventKey="old-rank" title="旧ver.">
                     <Table hover striped>
                       <thead className="position-sticky top-0 bg-success bg-gradient">
                         <tr>

@@ -16,7 +16,7 @@ let rankCache: Score[] = [];
  */
 export const getOldRanking = async () => {
   if (rankCache.length == 0) {
-    // FIXME: 特定バージョンの日にちの取得方法検討
+    // TODO: 特定バージョンの日にちの取得方法検討
     const resetDate = findResetDate(getSortedHistories());
     rankCache = await fetchDbScoreAll(resetDate, undefined);
   }
