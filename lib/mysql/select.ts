@@ -5,7 +5,8 @@ import { Score } from "@/types/Score";
 
 export default async function fetchDbScoreAll(
   beforeDate?: Dayjs,
-  afterDate?: Dayjs
+  afterDate?: Dayjs,
+  limit?: number
 ): Promise<Score[]> {
   const format = "YYYY-MM-DD 00:00:00";
 
@@ -20,13 +21,17 @@ export default async function fetchDbScoreAll(
     ? `${operator}update_date >= "${afterDate.format(format)}" `
     : " ";
 
+  const limitText = limit ? ` limit ${limit}` : "";
+
   // TODO:monthと総合もクエリを分けてlimitかけれるようにする
   // TODO: where, orderのカラムに複合indexを貼って試す
   return await execQuery(
     `select * from score_all
     ${beforeText}
     ${afterText}
-    order by score desc, update_date desc`
+    order by score desc, update_date desc
+    ${limitText}
+    `
   ).catch((err: Error) => {
     console.log("select error");
     console.log(err);

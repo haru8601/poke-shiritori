@@ -18,7 +18,7 @@ export const getOldRanking = async () => {
   if (rankCache.length == 0) {
     // TODO: 特定バージョンの日にちの取得方法検討
     const resetDate = findResetDate(getSortedHistories());
-    rankCache = await fetchDbScoreAll(resetDate, undefined);
+    rankCache = await fetchDbScoreAll(resetDate, undefined, 1000);
   }
   return rankCache;
 };
