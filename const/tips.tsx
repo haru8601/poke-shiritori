@@ -29,7 +29,7 @@ export const TIPS: readonly Tip[] = [
         <code>/</code>
         <p>入力ボックスへカーソルを合わせる</p>
         <code>
-          {OS_KEY.mac}/{OS_KEY.windows}+K
+          {OS_KEY.mac}/{OS_KEY.windows}+I
         </code>
         <p>回答スキップ</p>
       </div>

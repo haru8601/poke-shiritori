@@ -127,7 +127,9 @@ export default function Top({ initMap, firstPoke }: Props) {
             if (e.key === "/") {
               e.preventDefault();
               inputRef.current?.focus();
-            } else if (e.key.match(/^[a-z]{1}$/)) {
+            } else if (e.key.match(/^[a-z]{1}$/) && !(e.metaKey || e.ctrlKey)) {
+              // 間違えて入力欄外で打ち始めた状況を想定
+              // metaKeyやctrlKeyの使用時は他のショートカットと衝突する可能性があるのでヒント表示しない
               setHintShow(true);
               setTimeout(() => {
                 setHintShow(false);
@@ -454,7 +456,7 @@ export default function Top({ initMap, firstPoke }: Props) {
     const onKeydown = (e: globalThis.KeyboardEvent) => {
       // スキップ
       if (gameStatus === GAME_STATUS.playingMyturn) {
-        if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        if (e.key === "i" && (e.metaKey || e.ctrlKey)) {
           handleSkip();
         }
       }
