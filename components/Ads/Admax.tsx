@@ -1,17 +1,21 @@
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import { AdmaxAdType } from "@/types/Admax";
 
+type Props = {
+  id: string;
+};
+
 // PC/SP切替広告のReactコンポーネント
-export const Admax: FC<{ id: string }> = (props) => {
+export default function Admax({ id }: Props) {
   useEffect(() => {
     // windowオブジェクトの広告リストを初期化
     if (!window["admaxads"]) window["admaxads"] = [];
     // 広告リストを取得
     const admaxads: AdmaxAdType[] = window["admaxads"];
     // 広告リストになかったら追加
-    if (!admaxads.some((ad) => ad.admax_id === props.id))
+    if (!admaxads.some((ad) => ad.admax_id === id))
       admaxads.push({
-        admax_id: props.id,
+        admax_id: id,
         type: "switch",
       });
     // 外部JSを読み込んで広告リストを実際に表示
@@ -23,7 +27,7 @@ export const Admax: FC<{ id: string }> = (props) => {
     return () => {
       document.body.removeChild(tag);
       admaxads.splice(
-        admaxads.findIndex((ad) => ad.admax_id === props.id),
+        admaxads.findIndex((ad) => ad.admax_id === id),
         1
       );
       window["__admax_tag__"] = undefined;
@@ -34,8 +38,8 @@ export const Admax: FC<{ id: string }> = (props) => {
   return (
     <div
       className="admax-switch"
-      data-admax-id={props.id}
+      data-admax-id={id}
       style={{ display: "inline-block" }}
     />
   );
-};
+}

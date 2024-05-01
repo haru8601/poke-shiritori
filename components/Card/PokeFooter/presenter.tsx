@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import { Admax } from "@/components/Ads/Admax";
+import Admax from "@/components/Ads/Admax";
 import { ADS } from "@/const/ads";
 import { PATH } from "@/const/path";
 import Tweet from "../Tweet/container";

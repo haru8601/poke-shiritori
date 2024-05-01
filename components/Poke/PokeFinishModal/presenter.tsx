@@ -10,7 +10,7 @@ import {
   Tabs,
 } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
-import { Admax } from "@/components/Ads/Admax";
+import Admax from "@/components/Ads/Admax";
 import Tweet from "@/components/Card/Tweet/container";
 import { ADS } from "@/const/ads";
 import { CONFIG } from "@/const/config";
@@ -80,7 +80,7 @@ export default function PokeFinishModalPresenter({
             {
               <p>
                 {(isBestScore &&
-                  `自己ベスト更新！ {previousBestScore}→{score}`) ||
+                  `自己ベスト更新！ ${previousBestScore}→${score}`) ||
                   `スコア ${score}(自己ベスト ${previousBestScore})`}
               </p>
             }
