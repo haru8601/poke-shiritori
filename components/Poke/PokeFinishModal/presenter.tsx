@@ -1,4 +1,3 @@
-import Script from "next/script";
 import { ChangeEvent, ComponentProps, ReactNode } from "react";
 import {
   Badge,
@@ -11,6 +10,7 @@ import {
   Tabs,
 } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
+import { Admax } from "@/components/Ads/Admax";
 import Tweet from "@/components/Card/Tweet/container";
 import { ADS } from "@/const/ads";
 import { CONFIG } from "@/const/config";
@@ -77,11 +77,13 @@ export default function PokeFinishModalPresenter({
             `月間${myMonthIndex + 1}位！`) ||
             getRankText(score)}
           <span style={{ fontSize: "1rem" }}>
-            {isBestScore && (
+            {
               <p>
-                自己ベスト更新！ {previousBestScore}→{score}
+                {(isBestScore &&
+                  `自己ベスト更新！ {previousBestScore}→{score}`) ||
+                  `スコア ${score}(自己ベスト ${previousBestScore})`}
               </p>
-            )}
+            }
           </span>
         </Modal.Title>
       </Modal.Header>
@@ -165,18 +167,7 @@ export default function PokeFinishModalPresenter({
             </div>
           </Tab>
         </Tabs>
-        {/* <!-- admax --> */}
-        <div
-          className="admax-switch"
-          data-admax-id={ADS.admax_id}
-          style={{ display: "inline-block" }}
-        ></div>
-        <Script
-          type="text/javascript"
-          src="https://adm.shinobi.jp/st/t.js"
-          async
-        ></Script>
-        {/* <!-- admax --> */}
+        <Admax id={ADS.admax_id} />
       </Modal.Body>
     </Modal>
   );

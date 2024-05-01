@@ -193,7 +193,7 @@ export default function TopPresenter({
           gameStatus={gameStatus}
           toolTarget={toolTarget}
         />
-        <PokeFooter innerWidth={innerWidth} />
+        <PokeFooter />
       </Stack>
     </>
   );
