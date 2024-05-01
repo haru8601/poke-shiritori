@@ -167,7 +167,7 @@ export default function PokeFinishModalPresenter({
             </div>
           </Tab>
         </Tabs>
-        <Admax id={ADS.admax_id} />
+        <Admax id={ADS.admax_id_finish} />
       </Modal.Body>
     </Modal>
   );

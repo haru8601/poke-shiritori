@@ -8,7 +8,7 @@ export default function PokeFooterPresenter() {
   return (
     <footer className={`m-2 d-flex align-items-center flex-column`}>
       <div className="my-3">
-        <Admax id={ADS.admax_id} />
+        <Admax id={ADS.admax_id_footer} />
       </div>
       <div className="d-flex flex-row">
         <Button
