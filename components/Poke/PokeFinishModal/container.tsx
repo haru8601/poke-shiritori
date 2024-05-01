@@ -59,9 +59,18 @@ export default function PokeFinishModal({
   const [myIndex, setMyIndex] = useState<number>(-1);
   const [myMonthIndex, setMyMonthIndex] = useState<number>(-1);
   const [candidateMap, setCandidateMap] = useState<PokeMap>({});
+  const [previousBestScore, _] = useState<number>(
+    parseInt(parseCookies(null)[COOKIE_NAMES.score_best]) || 0
+  );
+  const [isBestScore, setIsBestScore] = useState<boolean>(false);
   const { setPokeImg } = usePokeApi();
 
   useEffect(() => {
+    if (!previousBestScore || previousBestScore <= score) {
+      setCookie(null, COOKIE_NAMES.score_best, score.toString(), CONFIG.cookie);
+      setIsBestScore(true);
+    }
+
     if (!scoreAll.length) {
       /* ランキングが取得できてなければ順位計算しない */
       setMonthRankRowAll("ランキングを取得できませんでした");
@@ -122,7 +131,7 @@ export default function PokeFinishModal({
       ) {
         // 候補がなかった場合
       } else {
-        // 候補は最大n件
+        // 候補がいるならループ
         while (
           Object.keys(candidateMap).length < 3 &&
           tmpCandidates.length > 0
@@ -130,8 +139,11 @@ export default function PokeFinishModal({
           const randomNum = Math.floor(Math.random() * tmpCandidates.length);
           const poke = tmpCandidates[randomNum];
           candidateMap[poke.id] = poke;
+          // 候補をマップに追加
           setCandidateMap(JSON.parse(JSON.stringify(candidateMap)));
           setPokeImg(poke, setCandidateMap);
+
+          // 候補から追加したものを削除
           tmpCandidates.splice(randomNum, 1);
         }
       }
@@ -217,6 +229,8 @@ export default function PokeFinishModal({
       myIndex={myIndex}
       myMonthIndex={myMonthIndex}
       isLoading={isLoading}
+      previousBestScore={previousBestScore}
+      isBestScore={isBestScore}
       os={os}
       innerWidth={innerWidth}
       onCloseModal={handleCloseModal}

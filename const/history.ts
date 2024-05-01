@@ -50,7 +50,7 @@ export const HISTORIES: History[] = [
   },
   {
     version: "3.0.0",
-    content: "スキップ追加",
+    content: "スキップ機能追加",
     // 本当は0501だがスコアを一部残すため
     createdAt: "20240401",
     rankReset: true,

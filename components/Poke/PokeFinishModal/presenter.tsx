@@ -33,6 +33,8 @@ type Props = Pick<
   isLoading: boolean;
   myIndex: number;
   myMonthIndex: number;
+  previousBestScore: number;
+  isBestScore: boolean;
   onCloseModal: () => void;
   onChangeNickname: (event: ChangeEvent<HTMLInputElement>) => void;
   onSubmitNickname: () => void;
@@ -48,6 +50,8 @@ export default function PokeFinishModalPresenter({
   myIndex,
   myMonthIndex,
   isLoading,
+  previousBestScore,
+  isBestScore,
   os,
   innerWidth,
   onCloseModal,
@@ -70,6 +74,13 @@ export default function PokeFinishModalPresenter({
             myMonthIndex < CONFIG.topRankLimit &&
             `月間${myMonthIndex + 1}位！`) ||
             getRankText(score)}
+          <span style={{ fontSize: "1rem" }}>
+            {isBestScore && (
+              <p>
+                自己ベスト更新！ {previousBestScore}→{score}
+              </p>
+            )}
+          </span>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex flex-column">
