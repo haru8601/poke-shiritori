@@ -62,7 +62,9 @@ export default function PokeFinishModalPresenter({
     <Modal
       show={showModal}
       onHide={onCloseModal}
-      className={`${styles.finishModal} overflow-hidden`}
+      // TODO: スクロール対象はテーブル内に限定する
+      className={`${styles.finishModal} overflow-scroll`}
+      style={{ maxHeight: "95%" }}
       backdrop="static"
     >
       <Modal.Header closeButton>
