@@ -10,15 +10,15 @@ export default async function fetchDbScoreAll(
 ): Promise<Score[]> {
   const format = "YYYY-MM-DD 00:00:00";
 
-  // ex) where update_date < 2023-01-01 00:00:00
+  // ex) where create_date < 2023-01-01 00:00:00
   const beforeText = beforeDate
-    ? ` where update_date < "${beforeDate.format(format)}" `
+    ? ` where create_date < "${beforeDate.format(format)}" `
     : " ";
 
   const operator = beforeDate ? " and " : " where ";
-  // ex) and update_date < 2023-01-01 00:00:00
+  // ex) and create_date < 2023-01-01 00:00:00
   const afterText = afterDate
-    ? `${operator}update_date >= "${afterDate.format(format)}" `
+    ? `${operator}create_date >= "${afterDate.format(format)}" `
     : " ";
 
   const limitText = limit ? ` limit ${limit}` : "";
@@ -29,7 +29,7 @@ export default async function fetchDbScoreAll(
     `select * from score_all
     ${beforeText}
     ${afterText}
-    order by score desc, update_date desc
+    order by score desc, create_date desc
     ${limitText}
     `
   ).catch((err: Error) => {

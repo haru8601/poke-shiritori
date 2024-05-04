@@ -18,10 +18,10 @@ export const addDummy = (scoreAll: Score[]) => {
       return -1 * scoreDiff;
     }
     // 更新日時はundefinedではない想定
-    if (a.update_date && b.update_date) {
+    if (a.create_date && b.create_date) {
       // booleanをnumberに変換
       // 降順
-      return Number(a.update_date < b.update_date);
+      return Number(a.create_date < b.create_date);
     }
     return -1;
   });
