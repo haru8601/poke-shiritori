@@ -2,7 +2,7 @@
 
 import { Score } from "@/types/Score";
 import { findResetDate } from "@/utils/findResetHistory";
-import { getSortedHistories } from "@/utils/getSortedHistories";
+import { getDescHistories } from "@/utils/getDescHistories";
 import fetchDbScoreAll from "../../lib/mysql/select";
 
 // リロードで再取得されないよう手動でサーバー側にキャッシュを作成
@@ -16,7 +16,7 @@ let rankCache: Score[] = [];
  */
 export const getNowRanking = async (forceFetch: boolean) => {
   if (forceFetch || rankCache.length == 0) {
-    const resetDate = findResetDate(getSortedHistories());
+    const resetDate = findResetDate(getDescHistories());
     rankCache = (await fetchDbScoreAll(undefined, resetDate)) ?? [];
   }
   return rankCache;

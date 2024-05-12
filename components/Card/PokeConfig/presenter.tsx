@@ -15,7 +15,7 @@ import { CONFIG } from "@/const/config";
 import { COOKIE_NAMES, COOKIE_VALUES } from "@/const/cookie";
 import { RULES } from "@/const/rules";
 import { TIPS } from "@/const/tips";
-import { getSortedHistories } from "@/utils/getSortedHistories";
+import { getDescHistories } from "@/utils/getDescHistories";
 import PokeConfig from "./container";
 
 type Props = Pick<
@@ -184,7 +184,7 @@ export default function PokeConfigPresenter({
                   </tr>
                 </thead>
                 <tbody>
-                  {getSortedHistories().map((history, index) => {
+                  {getDescHistories().map((history, index) => {
                     return (
                       <tr key={index}>
                         <td className={styles.fontSm}>{history.version}</td>

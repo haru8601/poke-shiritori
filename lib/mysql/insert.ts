@@ -7,11 +7,13 @@ import execQuery from "@/lib/mysql/execQuery";
  * @param nickname ニックネーム
  * @param score スコア
  * @param clientIp クライアントIP
+ * @param version バージョン
  */
 export default async function storeDbScore(
   nickname: string,
   score: number,
-  clientIp: string
+  clientIp: string,
+  version: string
 ): Promise<ResultSetHeader | void> {
   if (nickname.length > CONFIG.score.nicknameMaxLen) {
     console.log("too long nickname.");
@@ -22,8 +24,8 @@ export default async function storeDbScore(
     return;
   }
   return await execQuery(
-    "insert into score_all(user, score, ip) values(?, ?, ?)",
-    [nickname, score, clientIp]
+    "insert into score_all(user, score, ip, version) values(?, ?, ?, ?)",
+    [nickname, score, clientIp, version]
   ).catch((err: Error) => {
     console.log("insert error");
     console.log(err);
