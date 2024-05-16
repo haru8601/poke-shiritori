@@ -1,10 +1,17 @@
-import { ComponentProps, ReactNode, useEffect, useState } from "react";
+import {
+  ComponentProps,
+  ReactNode,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import { getOldRanking } from "@/actions/ranking/getOldRanking";
 import { TEXT } from "@/const/text";
 import { Score } from "@/types/Score";
 import { addDummy } from "@/utils/addDummy";
 import { convertToRankNode } from "@/utils/convertToRankNode";
 import { getMonthScoreAll } from "@/utils/getMonthScoreAll";
+import { getLatestMajorVersion } from "@/utils/version/getLatestMajorVersion";
 import PokeConfigPresenter from "./presenter";
 import PokeHeaderPresenter from "../PokeHeader/presenter";
 
@@ -26,6 +33,23 @@ export default function PokeConfig({
   );
   const [oldRankRowAll, setOldRankRowAll] = useState<ReactNode>(TEXT.loading);
 
+  const [oldVersion, setOldVersion] = useState<number>(1);
+
+  const [versionList, setVersionList] = useState<number[]>([]);
+
+  useEffect(() => {
+    const latestVersion = getLatestMajorVersion();
+
+    const initOldVersion = latestVersion - 1;
+
+    setOldVersion(initOldVersion);
+
+    // 最新バージョン以外の数字
+    // ex. 最新が3.1.0なら[1,2]
+    const indexList = [...Array(initOldVersion)].map((_, index) => index + 1);
+    setVersionList(indexList);
+  }, []);
+
   // スコアが変わるたびにランキングを更新
   useEffect(() => {
     // scoreが取得されてなければランキングも表示しない
@@ -42,12 +66,14 @@ export default function PokeConfig({
 
       (async () => {
         // (キャッシュがなければ)DBから取得
-        const oldRanking = await getOldRanking();
+        const oldRanking = await getOldRanking(
+          versionList[versionList.length - 1].toString()
+        );
         // 旧バージョンランキング
         setOldRankRowAll(convertToRankNode(oldRanking, false));
       })();
     }
-  }, [scoreAll]);
+  }, [scoreAll, versionList]);
 
   const handleOpenSide = () => {
     setShowSide(true);
@@ -64,17 +90,31 @@ export default function PokeConfig({
     onReloadRanking();
   };
 
+  const handleSwitchVersion = async (
+    eventKey: string | null,
+    _: SyntheticEvent<unknown>
+  ) => {
+    setOldVersion(parseInt(eventKey ?? ""));
+    // (キャッシュがなければ)DBから取得
+    const oldRanking = await getOldRanking(eventKey ?? "");
+    // 旧バージョンランキング
+    setOldRankRowAll(convertToRankNode(oldRanking, false));
+  };
+
   return (
     <PokeConfigPresenter
       showSide={showSide}
       rankRowAll={rankRowAll}
       monthRankRowAll={monthRankRowAll}
       oldRankRowAll={oldRankRowAll}
+      version={oldVersion}
+      versionList={versionList}
       innerWidth={innerWidth}
       onOpenSide={handleOpenSide}
       onCloseSide={handleCloseSide}
       onPlayAudio={onPlayAudio}
       onReloadRanking={handleReloadRanking}
+      onSwitchVersion={handleSwitchVersion}
     />
   );
 }

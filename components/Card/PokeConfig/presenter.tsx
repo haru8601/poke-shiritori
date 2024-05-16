@@ -1,8 +1,9 @@
 import { parseCookies } from "nookies";
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps, ReactNode, SyntheticEvent } from "react";
 import {
   Accordion,
   Button,
+  Dropdown,
   Form,
   ListGroup,
   Offcanvas,
@@ -26,8 +27,14 @@ type Props = Pick<
   monthRankRowAll: ReactNode;
   oldRankRowAll: ReactNode;
   showSide: boolean;
+  version: number;
+  versionList: number[];
   onOpenSide: () => void;
   onCloseSide: () => void;
+  onSwitchVersion: (
+    eventKey: string | null,
+    e: SyntheticEvent<unknown>
+  ) => void;
 };
 
 export default function PokeConfigPresenter({
@@ -35,11 +42,14 @@ export default function PokeConfigPresenter({
   rankRowAll,
   monthRankRowAll,
   oldRankRowAll,
+  version,
+  versionList,
   innerWidth,
   onOpenSide,
   onCloseSide,
   onPlayAudio,
   onReloadRanking,
+  onSwitchVersion,
 }: Props) {
   return (
     <>
@@ -103,6 +113,19 @@ export default function PokeConfigPresenter({
                     </Table>
                   </Tab>
                   <Tab eventKey="old-rank" title="旧ver.">
+                    <Dropdown onSelect={onSwitchVersion}>
+                      <Dropdown.Toggle variant="primary" id="test">
+                        ver. {version}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        {versionList.map((version, index) => (
+                          <Dropdown.Item key={index} eventKey={version}>
+                            ver. {version}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    <br></br>
                     <Table hover striped>
                       <thead className="position-sticky top-0 bg-success bg-gradient">
                         <tr>

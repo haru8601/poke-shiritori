@@ -6,7 +6,8 @@ import { Score } from "@/types/Score";
 export default async function fetchDbScoreAll(
   beforeDate?: Dayjs,
   afterDate?: Dayjs,
-  limit?: number
+  limit?: number,
+  majorVersion?: string
 ): Promise<Score[]> {
   const format = "YYYY-MM-DD 00:00:00";
 
@@ -21,6 +22,12 @@ export default async function fetchDbScoreAll(
     ? `${operator}create_date >= "${afterDate.format(format)}" `
     : " ";
 
+  const versionOperator = beforeDate || afterDate ? " and " : " where ";
+
+  const versionText = majorVersion
+    ? `${versionOperator}version like "${majorVersion}.%.%"`
+    : " ";
+
   const limitText = limit ? ` limit ${limit}` : "";
 
   // TODO:monthと総合もクエリを分けてlimitかけれるようにする
@@ -29,6 +36,7 @@ export default async function fetchDbScoreAll(
     `select * from score_all
     ${beforeText}
     ${afterText}
+    ${versionText}
     order by score desc, create_date desc
     ${limitText}
     `
