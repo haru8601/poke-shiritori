@@ -54,4 +54,9 @@ export const HISTORIES: History[] = [
     createdAt: "20240501",
     rankReset: true,
   },
+  {
+    version: "3.0.1",
+    content: "旧ランキングをバージョンごとに分けて表示",
+    createdAt: "20240517",
+  },
 ];
