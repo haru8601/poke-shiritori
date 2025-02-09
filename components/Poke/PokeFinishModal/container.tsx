@@ -46,6 +46,9 @@ export default function PokeFinishModal({
   // リスナーで使用
   const showRef = useRef<boolean>(true);
   showRef.current = showModal;
+  const [preventAutoSubmit, setPreventAutoSubmit] = useState<boolean>(false);
+  const autoSubmitRef = useRef<boolean>(false);
+  autoSubmitRef.current = preventAutoSubmit;
   // cookieが空の場合はnull表記
   const [nickname, setNickname] = useState<string | null>(
     // キーをcookieのキー名としている
@@ -153,7 +156,8 @@ export default function PokeFinishModal({
     // キーボードショートカット
     /* 中の変数を動的にするようuseRefを用いる */
     const onKeydown = async (e: globalThis.KeyboardEvent) => {
-      if (!showRef.current) return;
+      // モーダルが出ていない || 前の画面からEnter押しっぱなしの場合は早期リターン
+      if (!showRef.current || !autoSubmitRef.current) return;
       if (e.key === "Enter") {
         // CtrlまたはCommand(Windowsキー)が押されていたら
         if (e.metaKey || e.ctrlKey) {
@@ -161,10 +165,17 @@ export default function PokeFinishModal({
         }
       }
     };
+    // 終了画面表示前からEnterを押しっぱなしにしてた場合に、
+    // そのままランキング保存まで移行するのを防ぐための設定
+    const onKeyUp = async () => {
+      setPreventAutoSubmit(true);
+    };
     window.addEventListener("keydown", onKeydown);
+    window.addEventListener("keyup", onKeyUp);
 
     return () => {
       window.removeEventListener("keydown", onKeydown);
+      window.removeEventListener("keyup", onKeyUp);
     };
 
     // 初回のみ実行
@@ -176,15 +187,21 @@ export default function PokeFinishModal({
   };
 
   const handleChangeNickname = (event: ChangeEvent<HTMLInputElement>) => {
-    const tmpName = event.target.value;
-    setNickname(tmpName);
+    setNickname(event.target.value);
+  };
 
+  const handleSubmitNickname = async () => {
     // 文字数チェック
-    if (tmpName.length > CONFIG.score.nicknameMaxLen) {
+    if (
+      nicknameRef.current &&
+      nicknameRef.current.length > CONFIG.score.nicknameMaxLen
+    ) {
       setNicknameErr(
         `ニックネームは${CONFIG.score.nicknameMaxLen}文字以下にしてください`
       );
-      return;
+      return await Promise.reject(
+        `ニックネームは${CONFIG.score.nicknameMaxLen}文字以下にしてください`
+      );
     }
 
     // ワードチェック
@@ -359,27 +376,21 @@ export default function PokeFinishModal({
       "e\u{4e09}",
       "\u{5f15}\u{9000}\u{30aa}\u{30e1}",
     ];
-    const inputKatakana = tmpName.replace(/[\u3041-\u3096]/g, (match) =>
-      String.fromCharCode(match.charCodeAt(0) + 0x60)
-    );
+    const inputKatakana =
+      nicknameRef.current &&
+      nicknameRef.current.replace(/[\u3041-\u3096]/g, (match) =>
+        String.fromCharCode(match.charCodeAt(0) + 0x60)
+      );
     // 入力値をカタカナかつ小文字に変換して比較
-    const fixedInput = inputKatakana.toLowerCase();
-    if (katakanaLowerWords.some((word) => fixedInput.includes(word))) {
+    const fixedInput = inputKatakana?.toLowerCase();
+    if (katakanaLowerWords.some((word) => fixedInput?.includes(word))) {
       setNicknameErr("このニックネームは使用できません");
-      return;
-    }
-
-    setNicknameErr("");
-  };
-
-  const handleSubmitNickname = async () => {
-    if (nicknameErr !== "") {
-      return;
+      return await Promise.reject("このニックネームは使用できません");
     }
 
     setLoading(true);
-    // cookieに名前保存(unownにするのはDBに送信する時のみ)
-    // 既存ニックネームが空文字だとなぜかsetできないので除外
+    // cookieに名前保存(デフォルト値の場合はCookieに保存しない)
+    // NOTE: 既存ニックネームが空文字だとなぜかsetできないので除外
     if (nicknameRef.current && nicknameRef.current != "") {
       setCookie(
         null,

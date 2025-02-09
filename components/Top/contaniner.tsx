@@ -68,6 +68,9 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
+    // TODO: これで毎回jsonが初期化されるかを確認
+    setPokeMap(initMap);
+
     // 更新時はDBから再取得
     fetchScoreAll(
       parseCookies(null)[COOKIE_NAMES.update_flg] == COOKIE_VALUES.on
