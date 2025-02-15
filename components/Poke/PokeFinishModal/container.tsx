@@ -170,8 +170,8 @@ export default function PokeFinishModal({
       if (e.key === "Enter") {
         // CtrlまたはCommand(Windowsキー)が押されていたら
         if (e.metaKey || e.ctrlKey) {
-          setShowModal(false); // NOTE: 複数回送信が叩かれないようにする
-          await handleSubmitNickname();
+          // 送信に成功したら複数回送信を禁止する
+          await handleSubmitNickname().then(() => setAllowSubmit(false));
         }
       }
     };
