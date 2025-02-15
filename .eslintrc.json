@@ -29,11 +29,7 @@
         "args": "after-used",
         "argsIgnorePattern": "^_"
       }
-    ]
-  },
-  "settings": {
-    "next": {
-      "rootDir": "app/"
-    }
+    ],
+    "@next/next/no-html-link-for-pages": "off"
   }
 }
