@@ -33,7 +33,7 @@
   },
   "settings": {
     "next": {
-      "rootDir": "app/*/"
+      "rootDir": "app/"
     }
   }
 }
