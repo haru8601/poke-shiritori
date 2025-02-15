@@ -2,7 +2,6 @@
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import {
   ChangeEvent,
-  KeyboardEvent,
   MouseEvent,
   useCallback,
   useEffect,
@@ -68,7 +67,6 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   /* strictModeで2回レンダリングされることに注意 */
   useEffect(() => {
-    // TODO: これで毎回jsonが初期化されるかを確認
     setPokeMap(initMap);
 
     // 更新時はDBから再取得
@@ -274,17 +272,6 @@ export default function Top({ initMap, firstPoke }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameStatus]);
 
-  const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key != "Enter") {
-      return;
-    }
-    // IMEの入力中のEnterは弾きたい
-    /* keyCodeは非推奨だが代替案があまりない(isComposing等は挙動が微妙)のでこのまま使用 */
-    if (e.keyCode == 13 && gameStatus == GAME_STATUS.playingMyturn) {
-      handleSubmitPoke();
-    }
-  };
-
   const handleChangePoke = (e: ChangeEvent<HTMLInputElement>) => {
     setSentPokeName(e.target.value);
   };
@@ -480,7 +467,6 @@ export default function Top({ initMap, firstPoke }: Props) {
       skipLeft={skipLeft}
       innerWidth={innerWidth}
       onChangePoke={handleChangePoke}
-      onKeydown={handleKeydown}
       onSubmitPoke={handleSubmitPoke}
       onClickStart={handleClickStart}
       onPlayAudio={handlePlayAudio}

@@ -46,9 +46,11 @@ export default function PokeFinishModal({
   // リスナーで使用
   const showRef = useRef<boolean>(true);
   showRef.current = showModal;
-  const [preventAutoSubmit, setPreventAutoSubmit] = useState<boolean>(false);
-  const autoSubmitRef = useRef<boolean>(false);
-  autoSubmitRef.current = preventAutoSubmit;
+
+  // ランキング送信を許可
+  const [allowSubmit, setAllowSubmit] = useState<boolean>(false);
+  const allowSubmitRef = useRef<boolean>(false);
+  allowSubmitRef.current = allowSubmit;
   // cookieが空の場合はnull表記
   const [nickname, setNickname] = useState<string | null>(
     // キーをcookieのキー名としている
@@ -153,22 +155,33 @@ export default function PokeFinishModal({
       }
     }
 
+    // モーダルが見える前にランキング送信されたりするのを防ぐ
+    setTimeout(() => {
+      if (!allowSubmit) {
+        setAllowSubmit(true);
+      }
+    }, 700);
+
     // キーボードショートカット
     /* 中の変数を動的にするようuseRefを用いる */
     const onKeydown = async (e: globalThis.KeyboardEvent) => {
-      // モーダルが出ていない || 前の画面からEnter押しっぱなしの場合は早期リターン
-      if (!showRef.current || !autoSubmitRef.current) return;
+      // モーダルが出ていない || 早すぎるEnter(押しっぱなしとか)の場合は早期リターン
+      if (!showRef.current || !allowSubmitRef.current) return;
       if (e.key === "Enter") {
         // CtrlまたはCommand(Windowsキー)が押されていたら
         if (e.metaKey || e.ctrlKey) {
+          setShowModal(false); // NOTE: 複数回送信が叩かれないようにする
           await handleSubmitNickname();
         }
       }
     };
+
     // 終了画面表示前からEnterを押しっぱなしにしてた場合に、
     // そのままランキング保存まで移行するのを防ぐための設定
     const onKeyUp = async () => {
-      setPreventAutoSubmit(true);
+      if (!allowSubmit) {
+        setAllowSubmit(true);
+      }
     };
     window.addEventListener("keydown", onKeydown);
     window.addEventListener("keyup", onKeyUp);

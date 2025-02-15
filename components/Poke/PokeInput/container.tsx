@@ -1,5 +1,6 @@
-import { ComponentProps } from "react";
+import { ComponentProps, KeyboardEvent } from "react";
 import TopPresenter from "@/components/Top/presenter";
+import { GAME_STATUS } from "@/const/gameStatus";
 import { Poke } from "@/types/Poke";
 import PokeInputPresenter from "./presenter";
 
@@ -12,7 +13,6 @@ type Props = Pick<
   | "os"
   | "skipLeft"
   | "innerWidth"
-  | "onKeydown"
   | "onClickStart"
   | "onChangePoke"
   | "onSubmitPoke"
@@ -30,12 +30,22 @@ export default function PokeInput({
   skipPoke,
   skipLeft,
   innerWidth,
-  onKeydown,
   onClickStart,
   onChangePoke,
   onSubmitPoke,
   onSkip,
 }: Props) {
+  const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key != "Enter") {
+      return;
+    }
+    // IMEの入力中のEnterは弾きたい
+    /* keyCodeは非推奨だが代替案があまりない(isComposing等は挙動が微妙)のでこのまま使用 */
+    if (e.keyCode == 13 && gameStatus == GAME_STATUS.playingMyturn) {
+      onSubmitPoke();
+    }
+  };
+
   return (
     <PokeInputPresenter
       sentPokeName={sentPokeName}
@@ -46,7 +56,7 @@ export default function PokeInput({
       skipPoke={skipPoke}
       skipLeft={skipLeft}
       innerWidth={innerWidth}
-      onKeydown={onKeydown}
+      onKeydown={handleKeydown}
       onClickStart={onClickStart}
       onChangePoke={onChangePoke}
       onSubmitPoke={onSubmitPoke}
