@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ||
       process.env.VERCEL_URL ||
-      "https://www.pikachu-unown.com/"
+      "https://www.pikachu-unown.com/" // NOTE: vercel環境ではhttp://localhostだとエラーになる(特にpreview環境注意)
   ),
   title: "ポケモンしりとり by haroot",
   description: "harootが作成したポケモンしりとり用サイトです。",
