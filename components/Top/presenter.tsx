@@ -2,7 +2,6 @@ import Image from "next/image";
 import {
   ChangeEvent,
   ComponentProps,
-  KeyboardEvent,
   MouseEvent,
   MutableRefObject,
   RefObject,
@@ -42,7 +41,6 @@ type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
   hintShow: boolean;
   skipLeft: number;
   innerWidth: number;
-  onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onChangePoke: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmitPoke: () => void;
   onClickStart: () => void;
@@ -70,7 +68,6 @@ export default function TopPresenter({
   skipLeft,
   innerWidth,
   onChangePoke,
-  onKeydown,
   onSubmitPoke,
   onClickStart,
   onPlayAudio,
@@ -92,6 +89,7 @@ export default function TopPresenter({
       )}
       {gameStatus == GAME_STATUS.willStart && (
         <div
+          // NOTE: warningが出るがborderとborder-5は両方必要そう
           className="position-fixed top-50 start-50 translate-middle border border-dark rounded-circle border-5"
           style={{
             fontSize: "100px",
@@ -181,7 +179,6 @@ export default function TopPresenter({
           skipPoke={pokeMap[CONFIG.skipPokeId]} // エアームド
           skipLeft={skipLeft}
           innerWidth={innerWidth}
-          onKeydown={onKeydown}
           onClickStart={onClickStart}
           onChangePoke={onChangePoke}
           onSubmitPoke={onSubmitPoke}

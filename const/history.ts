@@ -59,4 +59,9 @@ export const HISTORIES: History[] = [
     content: "旧ランキングをバージョンごとに分けて表示",
     createdAt: "20240517",
   },
+  {
+    version: "3.0.2",
+    content: "ショートカット周りの不具合修正",
+    createdAt: "20250215",
+  },
 ];
