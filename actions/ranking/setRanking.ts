@@ -5,13 +5,6 @@ import { CONFIG } from "@/const/config";
 import storeDbScore from "@/lib/mysql/insert";
 import { getCurrentVersion } from "@/utils/getCurrentVersion";
 
-/**
- * ランキング保存
- * ニックネームがundefinedの場合はデフォルト値が使用される
- * @param nickname ニックネーム
- * @param score スコア
- * @returns true: 保存成功, false: 保存失敗
- */
 export default async function setRanking(
   nickname: string = CONFIG.score.defaultNickname,
   score: number

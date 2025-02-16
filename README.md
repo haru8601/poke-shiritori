@@ -81,5 +81,4 @@ npx vercel-submodules --all && npm install
 ```
 
 に変更することで実現。<br>
-vercel-submodules の運用上、(vercel が private リポジトリのサブモジュールを取れるように)<br>
-Vercel のプロジェクト内の`Settings` > `Environment Variables`で、`GITHUB_TOKEN`に github の`Personal access tokens`を入れる必要がある。
+vercel-submodules の運用上、(vercel が private リポジトリのサブモジュールを取れるように)`Environment Variables`で、`GITHUB_TOKEN`に github の`Personal access tokens`を入れる必要がある。
