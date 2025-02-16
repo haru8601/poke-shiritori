@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { headers } from "next/headers";
 import TooManyRequest from "@/components/Error/429";
 import Top from "@/components/Top/contaniner";
@@ -7,9 +8,11 @@ import limitChecker from "@/lib/limitChecker";
 import { getPokeImg } from "@/lib/pokeapi/getPokeImg";
 import { Poke, PokeMap } from "@/types/Poke";
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL || ""
+    process.env.NEXT_PUBLIC_SITE_URL ||
+      process.env.VERCEL_URL ||
+      "http://localhost:3000"
   ),
   title: "ポケモンしりとり by haroot",
   description: "harootが作成したポケモンしりとり用サイトです。",
