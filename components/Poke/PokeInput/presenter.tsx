@@ -1,4 +1,4 @@
-import { ComponentProps } from "react";
+import { ComponentProps, KeyboardEvent } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import styles from "@/app/styles/Top.module.css";
 import { CONFIG } from "@/const/config";
@@ -7,7 +7,9 @@ import { OS_KEY } from "@/const/os";
 import PokeInput from "./container";
 import PokeSkip from "../PokeSkip/container";
 
-type Props = ComponentProps<typeof PokeInput>;
+type Props = ComponentProps<typeof PokeInput> & {
+  onKeydown: (e: KeyboardEvent<HTMLInputElement>) => void;
+};
 
 export default function PokeInputPresenter({
   sentPokeName,
