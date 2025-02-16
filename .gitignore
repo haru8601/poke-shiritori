@@ -39,4 +39,3 @@ next-env.d.ts
 .history
 *_old.tsx
 .vscode
-const/ng.json
