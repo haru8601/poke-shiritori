@@ -28,7 +28,7 @@ export const getNowRanking = async (forceFetch: boolean, isMonth: boolean) => {
   } else {
     if (forceFetch || totalRankCache.length == 0) {
       const startDate = findResetDate(getDescHistories());
-      totalRankCache = (await fetchDbScoreAll(undefined, startDate)) ?? [];
+      totalRankCache = (await fetchDbScoreAll(undefined, startDate, 5000)) ?? [];
     }
     return totalRankCache;
   }
