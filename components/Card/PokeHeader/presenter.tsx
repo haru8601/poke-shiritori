@@ -20,7 +20,8 @@ export default function PokeHeaderPresenter({
   gameStatus,
   innerWidth,
   entered,
-  scoreAll,
+  monthScoreAll,
+  totalScoreAll,
   toolTarget,
   onReload,
   onEnterPokeImg,
@@ -68,7 +69,8 @@ export default function PokeHeaderPresenter({
               "リセット"}
           </Button>
           <PokeConfig
-            scoreAll={scoreAll}
+            monthScoreAll={monthScoreAll}
+            totalScoreAll={totalScoreAll}
             innerWidth={innerWidth}
             onPlayAudio={onPlayAudio}
             onReloadRanking={onReloadRanking}

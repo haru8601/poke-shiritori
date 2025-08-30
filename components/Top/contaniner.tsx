@@ -56,7 +56,8 @@ export default function Top({ initMap, firstPoke }: Props) {
   const { setPokeImg } = usePokeApi();
 
   const [pokeAudio, setPokeAudio] = useState<HTMLAudioElement>();
-  const [scoreAll, setScoreAll] = useState<Score[]>([]);
+  const [monthScoreAll, setMonthScoreAll] = useState<Score[]>([]);
+  const [totalScoreAll, setTotalScoreAll] = useState<Score[]>([]);
 
   const [skipLeft, setSkipLeft] = useState<number>(CONFIG.skipMax);
 
@@ -70,7 +71,10 @@ export default function Top({ initMap, firstPoke }: Props) {
     setPokeMap(initMap);
 
     // 更新時はDBから再取得
-    fetchScoreAll(
+    fetchMonthScoreAll(
+      parseCookies(null)[COOKIE_NAMES.update_flg] == COOKIE_VALUES.on
+    );
+    fetchTotalScoreAll(
       parseCookies(null)[COOKIE_NAMES.update_flg] == COOKIE_VALUES.on
     );
 
@@ -368,16 +372,34 @@ export default function Top({ initMap, firstPoke }: Props) {
 
   const handleScoreReset = async () => {
     /* リロード時はキャッシュを使わない */
-    fetchScoreAll(true);
+    fetchMonthScoreAll(true);
+    fetchTotalScoreAll(true);
   };
 
-  const fetchScoreAll = (forceFetch: boolean) => {
+  const fetchMonthScoreAll = (forceFetch: boolean) => {
     // ランキング取得はawaitしなくていい
-    getNowRanking(forceFetch)
+    getNowRanking(forceFetch, true)
       .then((response) => {
         (async () => {
           // fetchが完了したら変数保存
-          setScoreAll(response);
+          setMonthScoreAll(response);
+        })();
+      })
+      .catch((err: Error) => {
+        console.log("error while fetching ranking.");
+        console.log(err);
+        return [];
+      });
+  };
+
+  const fetchTotalScoreAll = (forceFetch: boolean) => {
+    // ランキング取得はawaitしなくていい
+    // FIXME: 月間と総合で取得クエリを分ける
+    getNowRanking(forceFetch, false)
+      .then((response) => {
+        (async () => {
+          // fetchが完了したら変数保存
+          setTotalScoreAll(response);
         })();
       })
       .catch((err: Error) => {
@@ -455,7 +477,8 @@ export default function Top({ initMap, firstPoke }: Props) {
       pokeErr={pokeErr}
       gameStatus={gameStatus}
       score={score}
-      scoreAll={scoreAll}
+      monthScoreAll={monthScoreAll}
+      totalScoreAll={totalScoreAll}
       leftPercent={(leftMillS / CONFIG.timeLimitMillS) * 100}
       countDown={countDown}
       bonus={bonus}
