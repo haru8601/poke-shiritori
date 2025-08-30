@@ -64,4 +64,9 @@ export const HISTORIES: History[] = [
     content: "ショートカット周りの不具合修正",
     createdAt: "20250215",
   },
+  {
+    version: "3.0.3",
+    content: "年間ランキングを最大5000件に限定",
+    createdAt: "20250830",
+  },
 ];
