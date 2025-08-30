@@ -16,7 +16,6 @@ import { GAME_STATUS } from "@/const/gameStatus";
 import { usePokeApi } from "@/hook/usePokeApi";
 import { PokeMap } from "@/types/Poke";
 import { Score } from "@/types/Score";
-import { getMonthScoreAll } from "@/utils/getMonthScoreAll";
 import { getMyIndex } from "@/utils/getMyIndex";
 import { getShiritoriWord } from "@/utils/getShiritoriWord";
 import getCandidates from "@/utils/shiritori/getCandidates";
@@ -29,7 +28,7 @@ type Props = Pick<
   | "firstPoke"
   | "gameStatus"
   | "score"
-  | "scoreAll"
+  | "monthScoreAll"
   | "os"
   | "innerWidth"
 >;
@@ -39,7 +38,7 @@ export default function PokeFinishModal({
   firstPoke,
   gameStatus,
   score,
-  scoreAll,
+  monthScoreAll,
   os,
 }: Props) {
   const [showModal, setShowModal] = useState<boolean>(true);
@@ -76,15 +75,15 @@ export default function PokeFinishModal({
       setIsBestScore(true);
     }
 
-    if (!scoreAll.length) {
+    if (!monthScoreAll.length) {
       /* ランキングが取得できてなければ順位計算しない */
       setMonthRankRowAll("ランキングを取得できませんでした");
     } else {
       // 順位計算
-      setMyIndex(getMyIndex(score, scoreAll));
+      setMyIndex(getMyIndex(score, monthScoreAll));
 
       // 月間順位
-      const monthScoreAll = getMonthScoreAll(scoreAll);
+      // const monthScoreAll = getMonthScoreAll(scoreAll);
       setMyMonthIndex(getMyIndex(score, monthScoreAll));
 
       // 表示するランキング生成

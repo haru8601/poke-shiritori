@@ -30,7 +30,8 @@ type Props = Pick<ComponentProps<typeof Top>, "firstPoke"> & {
   pokeErr: string;
   gameStatus: GameStatus;
   score: number;
-  scoreAll: Score[];
+  monthScoreAll: Score[];
+  totalScoreAll: Score[];
   leftPercent: number;
   countDown: number;
   bonus: number;
@@ -56,7 +57,8 @@ export default function TopPresenter({
   pokeErr,
   gameStatus,
   score,
-  scoreAll,
+  monthScoreAll,
+  totalScoreAll,
   leftPercent,
   countDown,
   bonus,
@@ -82,7 +84,7 @@ export default function TopPresenter({
           firstPoke={firstPoke}
           gameStatus={gameStatus}
           score={score}
-          scoreAll={scoreAll}
+          monthScoreAll={monthScoreAll}
           os={os}
           innerWidth={innerWidth}
         />
@@ -142,7 +144,8 @@ export default function TopPresenter({
       >
         <PokeHeader
           gameStatus={gameStatus}
-          scoreAll={scoreAll}
+          monthScoreAll={monthScoreAll}
+          totalScoreAll={totalScoreAll}
           innerWidth={innerWidth}
           onPlayAudio={onPlayAudio}
           onReloadRanking={onReloadRanking}

@@ -7,21 +7,24 @@ import {
 } from "react";
 import { getOldRanking } from "@/actions/ranking/getOldRanking";
 import { TEXT } from "@/const/text";
-import { Score } from "@/types/Score";
 import { addDummy } from "@/utils/addDummy";
 import { convertToRankNode } from "@/utils/convertToRankNode";
-import { getMonthScoreAll } from "@/utils/getMonthScoreAll";
 import { getLatestMajorVersion } from "@/utils/version/getLatestMajorVersion";
 import PokeConfigPresenter from "./presenter";
 import PokeHeaderPresenter from "../PokeHeader/presenter";
 
 type Props = Pick<
   ComponentProps<typeof PokeHeaderPresenter>,
-  "scoreAll" | "innerWidth" | "onPlayAudio" | "onReloadRanking"
+  | "monthScoreAll"
+  | "totalScoreAll"
+  | "innerWidth"
+  | "onPlayAudio"
+  | "onReloadRanking"
 >;
 
 export default function PokeConfig({
-  scoreAll,
+  monthScoreAll,
+  totalScoreAll,
   innerWidth,
   onPlayAudio,
   onReloadRanking,
@@ -53,12 +56,10 @@ export default function PokeConfig({
   // スコアが変わるたびにランキングを更新
   useEffect(() => {
     // scoreが取得されてなければランキングも表示しない
-    if (scoreAll.length) {
-      const tmpScoreAll = addDummy(scoreAll);
+    if (totalScoreAll.length) {
+      const tmpScoreAll = addDummy(totalScoreAll);
       // 総合ランキング
       setRankRowAll(convertToRankNode(tmpScoreAll, true));
-
-      const monthScoreAll: Score[] = getMonthScoreAll(scoreAll);
 
       const tmpMonthScoreAll = addDummy(monthScoreAll);
       // 月間ランキング
@@ -73,7 +74,7 @@ export default function PokeConfig({
         setOldRankRowAll(convertToRankNode(oldRanking, false));
       })();
     }
-  }, [scoreAll, versionList]);
+  }, [monthScoreAll, versionList, totalScoreAll]);
 
   const handleOpenSide = () => {
     setShowSide(true);

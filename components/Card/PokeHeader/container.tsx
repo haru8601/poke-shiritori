@@ -4,12 +4,18 @@ import PokeHeaderPresenter from "./presenter";
 
 type Props = Pick<
   ComponentProps<typeof TopPresenter>,
-  "gameStatus" | "scoreAll" | "innerWidth" | "onPlayAudio" | "onReloadRanking"
+  | "gameStatus"
+  | "monthScoreAll"
+  | "totalScoreAll"
+  | "innerWidth"
+  | "onPlayAudio"
+  | "onReloadRanking"
 >;
 
 export default function PokeHeader({
   gameStatus,
-  scoreAll,
+  monthScoreAll,
+  totalScoreAll,
   innerWidth,
   onPlayAudio,
   onReloadRanking,
@@ -31,7 +37,8 @@ export default function PokeHeader({
       gameStatus={gameStatus}
       innerWidth={innerWidth}
       entered={entered}
-      scoreAll={scoreAll}
+      monthScoreAll={monthScoreAll}
+      totalScoreAll={totalScoreAll}
       toolTarget={toolTarget}
       onReload={handleReload}
       onEnterPokeImg={handlEnterPokeImg}

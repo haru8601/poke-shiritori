@@ -10,3 +10,10 @@ export const parseDayjs = (
 ): Dayjs => {
   return dayjs(date);
 };
+
+/**
+ * 指定月分減算した日にち
+ * @param num 指定月数
+ * @returns 減算された日にち
+ */
+export const getPastMonthDate = (num: number) => dayjs().subtract(num, "month");
